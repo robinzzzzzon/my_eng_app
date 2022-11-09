@@ -18,7 +18,25 @@ export function renderLookThroughPage(name) {
     initDictionary = dictionary.filter(item => item.wordType === speechPart)
 
     if (!currentDictionary.length) {
+        
         currentDictionary = utils.getNewPartOfDictionary(speechPart, dictionary, indexPart)
+
+        let studyArray = JSON.parse(localStorage.getItem(speechPart))
+
+        if (studyArray) {
+
+            studyArray = studyArray.map(item => item.word)
+
+            currentDictionary = currentDictionary.filter(item => !studyArray.includes(item.word))
+
+            if (!currentDictionary.length) {
+                // рабочий вариант, но нужно модифицировать функцию getNewPartOfDictionary()
+                do {
+                    indexPart++
+                    currentDictionary = utils.getNewPartOfDictionary(speechPart, dictionary, indexPart)
+                } while (!currentDictionary.length);
+            }
+        }
     }
 
     contentRoot.innerHTML = `
@@ -89,7 +107,6 @@ function renderEmptyDictionary(isFinished) {
     `
 
         if (!JSON.parse(localStorage.getItem(speechPart))) {
-            console.log('Зашел')
             const studyBtn = document.querySelector('.studyBtn')
             studyBtn.disabled = true
         } else {
