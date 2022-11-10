@@ -1,18 +1,18 @@
 .trainList {
-    display: grid; 
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: 300px;
-    /* grid-gap: 5px; */
-    height: 300px;
-    width: 900px;
-    background: #ffdbff;
-    border-radius: 5px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 300px;
+  /* grid-gap: 5px; */
+  height: 300px;
+  width: 900px;
+  background: #ffdbff;
+  border-radius: 5px;
 }
 
 .trainList > div {
-    margin: 5px;
-    border: 3px solid rgb(14, 13, 13);
-    border-radius: 5px;
-    text-align: center; 
-    line-height: 300px;
+  margin: 5px;
+  border: 3px solid rgb(14, 13, 13);
+  border-radius: 5px;
+  text-align: center;
+  line-height: 300px;
 }

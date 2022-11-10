@@ -3,8 +3,7 @@ const LookThroughPage = require('./LookThroughPage')
 const content = document.querySelector('.content')
 
 export function renderNewDictionaryPage() {
-
-    content.innerHTML = `
+  content.innerHTML = `
         <div class="dictionaryRoot">
             <div class="dictionary" data-name="verbs">VERBS</div>
             <div class="dictionary" data-name="illegal verbs">ILLEGAL VERBS</div>
@@ -19,17 +18,17 @@ export function renderNewDictionaryPage() {
         </div>
     `
 
-    const dictionaryRoot = document.querySelector('.dictionaryRoot')
+  const dictionaryRoot = document.querySelector('.dictionaryRoot')
 
-    dictionaryRoot.addEventListener('click', (event) => {
-        event.preventDefault()
-    
-        if (!event.target.dataset.name) {
-            return
-        }
-    
-        const name = event.target.dataset.name
-        
-        LookThroughPage.renderLookThroughPage(name)
-    })
+  dictionaryRoot.addEventListener('click', (event) => {
+    event.preventDefault()
+
+    if (!event.target.dataset.name) {
+      return
+    }
+
+    const name = event.target.dataset.name
+
+    LookThroughPage.renderLookThroughPage(name)
+  })
 }

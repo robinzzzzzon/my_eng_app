@@ -1,36 +1,36 @@
-.cardRoot { 
-    display: flex; 
-    justify-content: center; 
-    flex-wrap: wrap; 
-    height: 400px; 
-    width: 450px; 
-    background: lightblue; 
-    border: 1px solid lightslategray; 
-    border-radius: 7px;
+.cardRoot {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  height: 400px;
+  width: 450px;
+  background: lightblue;
+  border: 1px solid lightslategray;
+  border-radius: 7px;
 }
 
-.cardWordArea { 
-    height: 300px; 
-    width: 350px; 
-    margin-top: 15px; 
-    background: #F0FFFF; 
-    border: 1px solid lightslategray; 
-    border-radius: 7px;
+.cardWordArea {
+  height: 300px;
+  width: 350px;
+  margin-top: 15px;
+  background: #f0ffff;
+  border: 1px solid lightslategray;
+  border-radius: 7px;
 }
 
-#wordArea{ 
-    text-align: center; 
-    line-height: 150px;
+#wordArea {
+  text-align: center;
+  line-height: 150px;
 }
 
 #knowBtn {
-    background: #75ff75;
+  background: #75ff75;
 }
 
-.goOnBtn { 
-    background: #ffff94;
+.goOnBtn {
+  background: #ffff94;
 }
 
-.studyBtn { 
-    background: #9cffff;
+.studyBtn {
+  background: #9cffff;
 }

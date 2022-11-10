@@ -7,8 +7,7 @@ const WritePage = require('./WriteTrainPage')
 const content = document.querySelector('.content')
 
 export function renderTrainListPage(speechPart) {
-    
-    content.innerHTML = `
+  content.innerHTML = `
     <div class="trainList">
         <div id="enterCard">
             <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-keyboard-fill" viewBox="0 0 16 16">
@@ -28,10 +27,10 @@ export function renderTrainListPage(speechPart) {
     </div>
     `
 
-    const chooseCard = document.querySelector('#chooseCard')
-    chooseCard.addEventListener('click', () => ChoosePage.renderChoosePage(speechPart))
-    const spellCard = document.querySelector('#spellCard')
-    spellCard.addEventListener('click', () => SpellPage.renderSpellPage(speechPart))
-    const enterCard = document.querySelector('#enterCard')
-    enterCard.addEventListener('click', () => WritePage.renderWritePage(speechPart))
+  const chooseCard = document.querySelector('#chooseCard')
+  chooseCard.addEventListener('click', () => ChoosePage.renderChoosePage(speechPart))
+  const spellCard = document.querySelector('#spellCard')
+  spellCard.addEventListener('click', () => SpellPage.renderSpellPage(speechPart))
+  const enterCard = document.querySelector('#enterCard')
+  enterCard.addEventListener('click', () => WritePage.renderWritePage(speechPart))
 }
