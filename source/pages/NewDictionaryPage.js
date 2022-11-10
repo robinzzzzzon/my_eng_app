@@ -23,9 +23,7 @@ export function renderNewDictionaryPage() {
   dictionaryRoot.addEventListener('click', (event) => {
     event.preventDefault()
 
-    if (!event.target.dataset.name) {
-      return
-    }
+    if (!event.target.dataset.name) return
 
     const name = event.target.dataset.name
 
