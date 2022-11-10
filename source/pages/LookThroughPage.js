@@ -27,7 +27,6 @@ export function renderLookThroughPage(name) {
       currentDictionary = currentDictionary.filter((item) => !studyArray.includes(item.word))
 
       if (!currentDictionary.length) {
-        // рабочий вариант, но нужно модифицировать функцию getNewPartOfDictionary()
         do {
           indexPart++
           currentDictionary = utils.getNewPartOfDictionary(speechPart, dictionary, indexPart)
@@ -77,9 +76,9 @@ export function showNewWord(event) {
 function studyThisWord(event) {
   event.preventDefault()
 
-  currentDictionary[0].studyLevel = 0
   utils.addWordToStorage(currentDictionary[0], `${speechPart}`)
   utils.addWordToStorage(currentDictionary[0], `all-study-words`)
+
   showNewWord(event)
 }
 
@@ -88,6 +87,16 @@ function startShowNewPart(event) {
 
   indexPart++
   renderLookThroughPage(speechPart)
+}
+
+function checkTrainAvailable(selector) {
+  if (!JSON.parse(localStorage.getItem(speechPart))) {
+    const studyBtn = document.querySelector(selector)
+    studyBtn.disabled = true
+  } else {
+    const studyBtn = document.querySelector(selector)
+    studyBtn.addEventListener('click', () => TrainListPage.renderTrainListPage(speechPart))
+  }
 }
 
 function renderEmptyDictionary(isFinished) {
@@ -102,26 +111,20 @@ function renderEmptyDictionary(isFinished) {
         <button type="submit" class="btn studyBtn">Начать учить</button>
     `
 
-    if (!JSON.parse(localStorage.getItem(speechPart))) {
-      const studyBtn = document.querySelector('.studyBtn')
-      studyBtn.disabled = true
-    } else {
-      const studyBtn = document.querySelector('.studyBtn')
-      studyBtn.addEventListener('click', () => TrainListPage.renderTrainListPage(speechPart))
-    }
-
     const findNewBtn = document.querySelector('#findNewBtn')
     findNewBtn.addEventListener('click', NewDictionaryPage.renderNewDictionaryPage)
+
+    checkTrainAvailable('.studyBtn')
   } else {
     wordArea.innerHTML = '<p>Слова просмотрены!<br>Как на счет новых?</p>'
     cardBtnDiv.innerHTML = `
         <button type="submit" class="btn goOnBtn">Хочу еще</button>
         <button type="submit" class="btn studyBtn">Начать учить</button>
     `
+
     const goOnBtn = document.querySelector('.goOnBtn')
     goOnBtn.addEventListener('click', startShowNewPart)
 
-    const studyBtn = document.querySelector('.studyBtn')
-    studyBtn.addEventListener('click', () => TrainListPage.renderTrainListPage(speechPart))
+    checkTrainAvailable('.studyBtn')
   }
 }

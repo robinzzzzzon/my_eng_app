@@ -2,6 +2,7 @@ export function addWordToStorage(getWord, storageName) {
   let studyWords = this.getWordsFromStorage(storageName)
   const nameList = studyWords.map((el) => el.word)
   if (!nameList.includes(getWord.word)) {
+    getWord.studyLevel = 0
     studyWords.push(getWord)
     localStorage.setItem(storageName, JSON.stringify(studyWords))
   }
@@ -11,17 +12,25 @@ export function getWordsFromStorage(itemName) {
   return JSON.parse(localStorage.getItem(itemName) || '[]')
 }
 
-export function getNewPartOfDictionary(speechPart, dictionary, index) {
-  const intervalList = [
-    { begin: 0, end: 10 },
-    { begin: 10, end: 20 },
-    { begin: 20, end: 30 },
-    { begin: 30, end: 40 },
-    { begin: 40, end: 50 },
-  ]
-  let interval = intervalList[index]
+export function getNewPartOfDictionary(speechPart, dictionary, getIndex) {
+  const speechDictionary = dictionary.filter((item) => item.wordType === speechPart)
 
-  return dictionary.filter((item) => item.wordType === speechPart).slice(interval.begin, interval.end)
+  let intervalList = [{ begin: 0, end: 10 }]
+
+  for (let index = 10; speechDictionary.length - index >= 10; index = index + 10) {
+    intervalList.push({ begin: index, end: index + 10 })
+  }
+
+  if (speechDictionary.length > intervalList.slice(-1)[0].end) {
+    intervalList.push({
+      begin: intervalList.slice(-1)[0].end,
+      end: speechDictionary.length,
+    })
+  }
+
+  let interval = intervalList[getIndex]
+
+  return speechDictionary.slice(interval.begin, interval.end)
 }
 
 export function modifyStudyLevel(speechPart, getWord, isRight) {
@@ -68,9 +77,7 @@ export function modifyStudyLevel(speechPart, getWord, isRight) {
       }
     })
   } else {
-    if (currentWord.studyLevel === 0) {
-      return
-    }
+    if (currentWord.studyLevel === 0) return
 
     speechDictionary.forEach((item) => {
       if (item.word === getWord.word) {
