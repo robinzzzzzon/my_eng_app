@@ -1,33 +1,33 @@
 .rootDiv {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 2fr 1fr 1fr;
-    justify-content: center;
-    height: 300px;
-    width: 500px;
-    background-color: #F0FFFF;
-    border: 1px solid gray;
-    border-radius: 5px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 2fr 1fr 1fr;
+  justify-content: center;
+  height: 300px;
+  width: 500px;
+  background-color: #f0ffff;
+  border: 1px solid gray;
+  border-radius: 5px;
 }
 
 .translateDiv {
-    height: 100px;
-    width: auto;
-    background-color: #f0fff0;
-    margin: 10px;
-    border: 1px solid lightgray;
-    border-radius: 10px;
-    text-align: center;
-    font-weight: 600;
-    line-height: 100px;
+  height: 100px;
+  width: auto;
+  background-color: #f0fff0;
+  margin: 10px;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: 600;
+  line-height: 100px;
 }
 
 .writeInput {
-    border: none;
-    height: 50px;
-    width: 450px;
-    outline: 0;
-    margin-left: 5%;
-    font-size: 16px;
-    font-weight: 600;
+  border: none;
+  height: 50px;
+  width: 450px;
+  outline: 0;
+  margin-left: 5%;
+  font-size: 16px;
+  font-weight: 600;
 }

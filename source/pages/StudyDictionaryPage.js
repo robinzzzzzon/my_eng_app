@@ -3,32 +3,31 @@ const TrainListPage = require('./TrainListPage')
 const content = document.querySelector('.content')
 
 export function renderStudyDictionaryPage() {
+  let dictionaryRoot = document.createElement('div')
+  dictionaryRoot.classList.add('dictionaryRoot')
 
-    let dictionaryRoot = document.createElement('div')
-    dictionaryRoot.classList.add('dictionaryRoot')
+  for (let index = 0; index < localStorage.length; index++) {
+    const dictionary = document.createElement('div')
+    dictionary.classList.add('dictionary')
+    dictionary.setAttribute('data-name', `${localStorage.key(index)}`)
+    dictionary.textContent = localStorage.key(index).toUpperCase()
+    dictionaryRoot.append(dictionary)
+  }
 
-    for (let index = 0; index < localStorage.length; index++) {
-        const dictionary = document.createElement('div')
-        dictionary.classList.add('dictionary')
-        dictionary.setAttribute('data-name', `${localStorage.key(index)}`)
-        dictionary.textContent = localStorage.key(index).toUpperCase()
-        dictionaryRoot.append(dictionary)
+  content.innerHTML = ''
+  content.append(dictionaryRoot)
+
+  dictionaryRoot = document.querySelector('.dictionaryRoot')
+
+  dictionaryRoot.addEventListener('click', (event) => {
+    event.preventDefault()
+
+    if (!event.target.dataset.name) {
+      return
     }
 
-    content.innerHTML = ''
-    content.append(dictionaryRoot)
+    const name = event.target.dataset.name
 
-    dictionaryRoot = document.querySelector('.dictionaryRoot')
-
-    dictionaryRoot.addEventListener('click', (event) => {
-        event.preventDefault()
-    
-        if (!event.target.dataset.name) {
-            return
-        }
-    
-        const name = event.target.dataset.name
-        
-        TrainListPage.renderTrainListPage(name)
-    })
+    TrainListPage.renderTrainListPage(name)
+  })
 }

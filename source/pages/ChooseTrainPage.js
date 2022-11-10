@@ -7,19 +7,19 @@ const contentRoot = document.querySelector('.content')
 
 let speechPart
 let currentDictionary = []
-    
+
 export function renderChoosePage(name) {
-    speechPart = name
+  speechPart = name
 
-    if (!localStorage.length) {
-        return
-    } else if (!currentDictionary.length) {
-        currentDictionary = utils.getWordsFromStorage(`${speechPart}`)
-    }
-    
-    const translateArray = getRandomTranslateArray(currentDictionary[0])
+  if (!localStorage.length) {
+    return
+  } else if (!currentDictionary.length) {
+    currentDictionary = utils.getWordsFromStorage(`${speechPart}`)
+  }
 
-    contentRoot.innerHTML = `
+  const translateArray = getRandomTranslateArray(currentDictionary[0])
+
+  contentRoot.innerHTML = `
     <div class="trainArea">
         <div id="wordItem">${currentDictionary[0].word}</div>
         <div class="itemArea">
@@ -31,46 +31,46 @@ export function renderChoosePage(name) {
     </div>
     `
 
-    const itemArea = document.querySelector('.itemArea')
-    itemArea.addEventListener('click', checkChooseWord)
+  const itemArea = document.querySelector('.itemArea')
+  itemArea.addEventListener('click', checkChooseWord)
 }
 
 function getRandomTranslateArray(studyWord) {
-    let translateArray = []
-    const getTranslate = studyWord.translate
-    
-    for (let index = 0; translateArray.length < 3; index++) {
-        const translate = fullDictionary[Math.floor(Math.random()*fullDictionary.length)].translate
-        if((!translateArray.includes(translate)) && (translate !== getTranslate)) {
-            translateArray.push(translate)
-        }
-    }
-    
-    translateArray.push(getTranslate)
+  let translateArray = []
+  const getTranslate = studyWord.translate
 
-    return translateArray.sort(() => Math.random() - 0.5)
+  for (let index = 0; translateArray.length < 3; index++) {
+    const translate = fullDictionary[Math.floor(Math.random() * fullDictionary.length)].translate
+    if (!translateArray.includes(translate) && translate !== getTranslate) {
+      translateArray.push(translate)
+    }
+  }
+
+  translateArray.push(getTranslate)
+
+  return translateArray.sort(() => Math.random() - 0.5)
 }
 
 function checkChooseWord(event) {
-    event.preventDefault()
+  event.preventDefault()
 
-    const chooseWord = event.target
+  const chooseWord = event.target
 
-    if (chooseWord.id !== 'item') {
-        return
-    } else if (chooseWord.textContent !== currentDictionary[0].translate) {
-        chooseWord.style.backgroundColor = '#FF6347';
-        utils.modifyStudyLevel(speechPart, currentDictionary[0])
-    } else {
-        chooseWord.style.backgroundColor = '#90EE90';
-        utils.modifyStudyLevel(speechPart, currentDictionary[0], true)
-    }
+  if (chooseWord.id !== 'item') {
+    return
+  } else if (chooseWord.textContent !== currentDictionary[0].translate) {
+    chooseWord.style.backgroundColor = '#FF6347'
+    utils.modifyStudyLevel(speechPart, currentDictionary[0])
+  } else {
+    chooseWord.style.backgroundColor = '#90EE90'
+    utils.modifyStudyLevel(speechPart, currentDictionary[0], true)
+  }
 
-    currentDictionary.shift();
+  currentDictionary.shift()
 
-    if (!currentDictionary.length) {
-        setTimeout(() => {
-            contentRoot.innerHTML = `
+  if (!currentDictionary.length) {
+    setTimeout(() => {
+      contentRoot.innerHTML = `
             <div class="finishArea">
                 <div id="finishWordArea">Вы хорошо позанимались!</div>
                 <div class="finishBtnArea">
@@ -80,20 +80,20 @@ function checkChooseWord(event) {
             </div>
             `
 
-            const findNewBtn = document.querySelector('#findNewBtn')
-            const retryBtn = document.querySelector('#retryBtn')
+      const findNewBtn = document.querySelector('#findNewBtn')
+      const retryBtn = document.querySelector('#retryBtn')
 
-            if ((!JSON.parse(localStorage.getItem(speechPart)).length)) {
-                retryBtn.disabled = 'true'
-                localStorage.removeItem(speechPart)
-            }
+      if (!JSON.parse(localStorage.getItem(speechPart)).length) {
+        retryBtn.disabled = 'true'
+        localStorage.removeItem(speechPart)
+      }
 
-            findNewBtn.addEventListener('click', NewDictionaryPage.renderNewDictionaryPage)
-            retryBtn.addEventListener('click', () => renderChoosePage(speechPart))
-        }, '300')
-    } else {
-        setTimeout(() => {
-            renderChoosePage(speechPart)
-          }, '300')
-    }
+      findNewBtn.addEventListener('click', NewDictionaryPage.renderNewDictionaryPage)
+      retryBtn.addEventListener('click', () => renderChoosePage(speechPart))
+    }, '300')
+  } else {
+    setTimeout(() => {
+      renderChoosePage(speechPart)
+    }, '300')
+  }
 }

@@ -1,52 +1,52 @@
 @import url(https://fonts.googleapis.com/css2?family=Roboto&display=swap);
 
 * {
-    padding: 0;
-    margin:0;
+  padding: 0;
+  margin: 0;
 }
 
 body {
-    font-family: 'Roboto';
-    font-size: 20px;
+  font-family: 'Roboto';
+  font-size: 20px;
 }
 
 header {
-    height: 100px;
-    width: auto;
-    background: lightcoral;
+  height: 100px;
+  width: auto;
+  background: lightcoral;
 }
 
 a {
-    color: darkslateblue; 
-    text-decoration: none; 
-    font-style: inherit;
-} 
+  color: darkslateblue;
+  text-decoration: none;
+  font-style: inherit;
+}
 
-.content { 
-    display: flex; 
-    justify-content: center;  /* выравнивание по главной оси. По умолчанию ось x */ 
-    align-items: center; /* выравнивание по второстепенной оси. По умолчанию ось y */ 
-    height: 1030px; 
-    width: auto; 
-    background: #FFF8DC;
+.content {
+  display: flex;
+  justify-content: center; /* выравнивание по главной оси. По умолчанию ось x */
+  align-items: center; /* выравнивание по второстепенной оси. По умолчанию ось y */
+  height: 1030px;
+  width: auto;
+  background: #fff8dc;
 }
 
 .actionRoot {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-auto-rows: 150px;
-    align-content: center;
-    grid-gap: 10px;
-    height: 100%;
-    width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: 150px;
+  align-content: center;
+  grid-gap: 10px;
+  height: 100%;
+  width: 100%;
 }
 
 .actionRoot button {
-    font-size: 20px;
+  font-size: 20px;
 }
 
-footer { 
-    height: 150px; 
-    width: auto; 
-    background: lightslategray;
+footer {
+  height: 150px;
+  width: auto;
+  background: lightslategray;
 }

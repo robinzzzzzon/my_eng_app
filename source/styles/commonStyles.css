@@ -1,61 +1,61 @@
 .btn {
-    height: 45px;
-    width: 150px;
-    border-radius: 10px;
-    border: 1px solid rgb(118, 129, 145);
-    margin-top: 15px;
-    margin-left: 5px;
-    margin-right: 5px;
-    font-size: 15px;
-    font-weight: 600;
+  height: 45px;
+  width: 150px;
+  border-radius: 10px;
+  border: 1px solid rgb(118, 129, 145);
+  margin-top: 15px;
+  margin-left: 5px;
+  margin-right: 5px;
+  font-size: 15px;
+  font-weight: 600;
 }
 
 .btn:hover {
-    cursor: pointer;
-    opacity: 0.8;
+  cursor: pointer;
+  opacity: 0.8;
 }
 
 #findNewBtn {
-    background-color: #cc99ff;
+  background-color: #cc99ff;
 }
 
 #retryBtn {
-    background-color: #94FFFF;
+  background-color: #94ffff;
 }
 
 #checkBtn {
-    background-color: #fcb9da;
+  background-color: #fcb9da;
 }
 
 #clearBtn {
-    background-color: #ffff85;
+  background-color: #ffff85;
 }
 
 #suggestBtn {
-    background-color: #bdfce3;
+  background-color: #bdfce3;
 }
 
 .dictionaryRoot {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-auto-rows: 150px;
-    align-content: center;
-    grid-gap: 10px;
-    height: 100%;
-    width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: 150px;
+  align-content: center;
+  grid-gap: 10px;
+  height: 100%;
+  width: 100%;
 }
 
 .dictionary {
-    background-color: #ffdbff;
-    margin-left: 50px;
-    margin-right: 50px;
-    border: 1px solid lightslategray;
-    border-radius: 10px;
-    text-align: center;
-    line-height: 150px;
+  background-color: #ffdbff;
+  margin-left: 50px;
+  margin-right: 50px;
+  border: 1px solid lightslategray;
+  border-radius: 10px;
+  text-align: center;
+  line-height: 150px;
 }
 
 .dictionary:hover {
-    cursor: pointer;
-    opacity: 0.8;
+  cursor: pointer;
+  opacity: 0.8;
 }
