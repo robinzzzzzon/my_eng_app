@@ -56,17 +56,16 @@ function checkChooseWord(event) {
 
   const chooseWord = event.target
 
-  if (chooseWord.id !== 'item') {
-    return
-  } else if (chooseWord.textContent !== currentDictionary[0].translate) {
+  if (chooseWord.id !== 'item') return
+
+  if (chooseWord.textContent !== currentDictionary[0].translate) {
     chooseWord.style.backgroundColor = '#FF6347'
     utils.modifyStudyLevel(speechPart, currentDictionary[0])
   } else {
     chooseWord.style.backgroundColor = '#90EE90'
     utils.modifyStudyLevel(speechPart, currentDictionary[0], true)
+    currentDictionary.shift()
   }
-
-  currentDictionary.shift()
 
   if (!currentDictionary.length) {
     setTimeout(() => {
@@ -88,7 +87,7 @@ function checkChooseWord(event) {
         localStorage.removeItem(speechPart)
       }
 
-      findNewBtn.addEventListener('click', NewDictionaryPage.renderNewDictionaryPage)
+      findNewBtn.addEventListener('click', NewDictionaryPage.renderNewDictionariesPage)
       retryBtn.addEventListener('click', () => renderChoosePage(speechPart))
     }, '300')
   } else {

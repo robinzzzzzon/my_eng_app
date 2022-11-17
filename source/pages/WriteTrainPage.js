@@ -90,7 +90,7 @@ function checkWord(event) {
           localStorage.removeItem(speechPart)
         }
 
-        newBtn.addEventListener('click', NewDictionaryPage.renderNewDictionaryPage)
+        newBtn.addEventListener('click', NewDictionaryPage.renderNewDictionariesPage)
         oneMoreBtn.addEventListener('click', () => renderWritePage(speechPart))
       } else {
         renderWritePage(speechPart)

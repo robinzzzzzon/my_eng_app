@@ -2,7 +2,7 @@ const TrainListPage = require('./TrainListPage')
 
 const content = document.querySelector('.content')
 
-export function renderStudyDictionaryPage() {
+export function renderStudyDictionariesPage() {
   let dictionaryRoot = document.createElement('div')
   dictionaryRoot.classList.add('dictionaryRoot')
 

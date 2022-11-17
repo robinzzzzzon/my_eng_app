@@ -112,7 +112,7 @@ function renderEmptyDictionary(isFinished) {
     `
 
     const findNewBtn = document.querySelector('#findNewBtn')
-    findNewBtn.addEventListener('click', NewDictionaryPage.renderNewDictionaryPage)
+    findNewBtn.addEventListener('click', NewDictionaryPage.renderNewDictionariesPage)
 
     checkTrainAvailable('.studyBtn')
   } else {
