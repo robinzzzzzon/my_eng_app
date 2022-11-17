@@ -157,7 +157,7 @@ function checkEnterWord(event) {
           localStorage.removeItem(speechPart)
         }
 
-        newBtn.addEventListener('click', NewDictionaryPage.renderNewDictionaryPage)
+        newBtn.addEventListener('click', NewDictionaryPage.renderNewDictionariesPage)
         retryBtn.addEventListener('click', () => renderSpellPage(speechPart))
       }, '300')
     } else {

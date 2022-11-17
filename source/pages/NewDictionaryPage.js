@@ -2,7 +2,7 @@ const LookThroughPage = require('./LookThroughPage')
 
 const content = document.querySelector('.content')
 
-export function renderNewDictionaryPage() {
+export function renderNewDictionariesPage() {
   content.innerHTML = `
         <div class="dictionaryRoot">
             <div class="dictionary" data-name="verbs">VERBS</div>
