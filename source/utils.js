@@ -12,25 +12,16 @@ export function getWordsFromStorage(itemName) {
   return JSON.parse(localStorage.getItem(itemName) || '[]')
 }
 
-export function getNewPartOfDictionary(speechPart, dictionary, getIndex) {
-  const speechDictionary = dictionary.filter((item) => item.wordType === speechPart)
+export function filterCurrentDictionary(dictionary, speechPart) {
+  let studyArray = getWordsFromStorage(speechPart)
 
-  let intervalList = [{ begin: 0, end: 10 }]
+  if (studyArray) {
+    studyArray = studyArray.map((item) => item.word)
 
-  for (let index = 10; speechDictionary.length - index >= 10; index = index + 10) {
-    intervalList.push({ begin: index, end: index + 10 })
+    dictionary = dictionary.filter((item) => !studyArray.includes(item.word))
   }
 
-  if (speechDictionary.length > intervalList.slice(-1)[0].end) {
-    intervalList.push({
-      begin: intervalList.slice(-1)[0].end,
-      end: speechDictionary.length,
-    })
-  }
-
-  let interval = intervalList[getIndex]
-
-  return speechDictionary.slice(interval.begin, interval.end)
+  return dictionary
 }
 
 export function modifyStudyLevel(speechPart, getWord, isRight) {

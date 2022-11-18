@@ -7,32 +7,16 @@ const NewDictionaryPage = require('./NewDictionaryPage')
 const contentRoot = document.querySelector('.content')
 
 let speechPart
-let indexPart = 0
-let initDictionary = []
 let currentDictionary = []
 
 export function renderLookThroughPage(name) {
   speechPart = name
 
-  initDictionary = dictionary.filter((item) => item.wordType === speechPart)
-
   if (!currentDictionary.length) {
-    currentDictionary = utils.getNewPartOfDictionary(speechPart, dictionary, indexPart)
+    currentDictionary = dictionary.filter((item) => item.wordType === speechPart)
+    currentDictionary = utils.filterCurrentDictionary(currentDictionary, speechPart)
 
-    let studyArray = JSON.parse(localStorage.getItem(speechPart))
-
-    if (studyArray) {
-      studyArray = studyArray.map((item) => item.word)
-
-      currentDictionary = currentDictionary.filter((item) => !studyArray.includes(item.word))
-
-      if (!currentDictionary.length) {
-        do {
-          indexPart++
-          currentDictionary = utils.getNewPartOfDictionary(speechPart, dictionary, indexPart)
-        } while (!currentDictionary.length)
-      }
-    }
+    if (!currentDictionary.length) renderEmptyDictionary(true)
   }
 
   contentRoot.innerHTML = `
@@ -58,16 +42,10 @@ export function renderLookThroughPage(name) {
 export function showNewWord(event) {
   event.preventDefault()
 
-  let currentWord = currentDictionary.shift()
+  currentDictionary.shift()
 
   if (!currentDictionary.length) {
-    let lastDictionaryWord = initDictionary.at(initDictionary.length - 1)
-
-    if (currentWord.word === lastDictionaryWord.word) {
-      renderEmptyDictionary(true)
-    } else {
-      renderEmptyDictionary()
-    }
+    renderEmptyDictionary()
   } else {
     renderLookThroughPage(speechPart)
   }
@@ -82,13 +60,6 @@ function studyThisWord(event) {
   showNewWord(event)
 }
 
-function startShowNewPart(event) {
-  event.preventDefault()
-
-  indexPart++
-  renderLookThroughPage(speechPart)
-}
-
 function checkTrainAvailable(selector) {
   if (!JSON.parse(localStorage.getItem(speechPart))) {
     const studyBtn = document.querySelector(selector)
@@ -99,32 +70,18 @@ function checkTrainAvailable(selector) {
   }
 }
 
-function renderEmptyDictionary(isFinished) {
+function renderEmptyDictionary() {
   const wordArea = document.querySelector('#wordArea')
   const cardBtnDiv = document.querySelector('.cardBtnDiv')
 
-  if (isFinished) {
-    indexPart = 0
-    wordArea.innerHTML = '<p>Вы посмотрели все слова!<br>Попробуем выучить новое? :)</p>'
-    cardBtnDiv.innerHTML = `
-        <button type="submit" class="btn" id="findNewBtn">Выбрать слова</button>
-        <button type="submit" class="btn studyBtn">Начать учить</button>
+  wordArea.innerHTML = '<p>Вы посмотрели все слова!<br>Попробуем выучить новое? :)</p>'
+  cardBtnDiv.innerHTML = `
+      <button type="submit" class="btn" id="findNewBtn">Выбрать слова</button>
+      <button type="submit" class="btn studyBtn">Начать учить</button>
     `
 
-    const findNewBtn = document.querySelector('#findNewBtn')
-    findNewBtn.addEventListener('click', NewDictionaryPage.renderNewDictionariesPage)
+  const findNewBtn = document.querySelector('#findNewBtn')
+  findNewBtn.addEventListener('click', NewDictionaryPage.renderNewDictionariesPage)
 
-    checkTrainAvailable('.studyBtn')
-  } else {
-    wordArea.innerHTML = '<p>Слова просмотрены!<br>Как на счет новых?</p>'
-    cardBtnDiv.innerHTML = `
-        <button type="submit" class="btn goOnBtn">Хочу еще</button>
-        <button type="submit" class="btn studyBtn">Начать учить</button>
-    `
-
-    const goOnBtn = document.querySelector('.goOnBtn')
-    goOnBtn.addEventListener('click', startShowNewPart)
-
-    checkTrainAvailable('.studyBtn')
-  }
+  checkTrainAvailable('.studyBtn')
 }
