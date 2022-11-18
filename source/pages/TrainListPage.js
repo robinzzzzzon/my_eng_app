@@ -1,7 +1,7 @@
 import '../styles/trainListStyles.css'
 
 const ChoosePage = require('./ChooseTrainPage')
-const SpellPage = require('./SpellTrainPage')
+const PuzzlePage = require('./PuzzleTrainPage')
 const WritePage = require('./WriteTrainPage')
 
 const content = document.querySelector('.content')
@@ -30,7 +30,7 @@ export function renderTrainListPage(speechPart) {
   const chooseCard = document.querySelector('#chooseCard')
   chooseCard.addEventListener('click', () => ChoosePage.renderChoosePage(speechPart))
   const spellCard = document.querySelector('#spellCard')
-  spellCard.addEventListener('click', () => SpellPage.renderSpellPage(speechPart))
+  spellCard.addEventListener('click', () => PuzzlePage.renderPuzzlePage(speechPart))
   const enterCard = document.querySelector('#enterCard')
   enterCard.addEventListener('click', () => WritePage.renderWritePage(speechPart))
 }

@@ -7,7 +7,7 @@ const contentRoot = document.querySelector('.content')
 let speechPart
 let currentDictionary = []
 
-export function renderSpellPage(name) {
+export function renderPuzzlePage(name) {
   speechPart = name
 
   if (!localStorage.length) {
@@ -49,13 +49,6 @@ function genCharacters(getWord) {
     chars = getWord.word.split('').sort(() => Math.random() - 0.5)
   } while (chars.join('') === getWord.word)
 
-  // При такой реализации почему-то некорректно отрабатывает charArea.innerHTML. Спросить почему
-  // if (chars.join('') === getWord.word) {
-  //     console.log('Совпало! Генерим заново')
-  //     charArea.innerHTML = ''
-  //     genCharacters(getWord)
-  // }
-
   const charArea = document.querySelector('#charArea')
   charArea.style.gridTemplateColumns = `repeat(${chars.length}, 1fr)`
 
@@ -90,7 +83,6 @@ function moveCharToWordArea(event) {
   wordDiv.style.gridTemplateColumns = `repeat(${currentDictionary[0].word.length}, 1fr)`
   const charsList = document.querySelectorAll('#charArea > .char')
 
-  // Здесь на нод-листе не работает метод find или filter. Понять почему(
   const arr = []
   charsList.forEach((item) => {
     if (item.textContent === keyChar) {
@@ -109,6 +101,10 @@ function moveCharToWordArea(event) {
     const clearBtn = document.querySelector('#clearBtn')
     checkBtn.disabled = false
     clearBtn.disabled = true
+
+    if (keyChar === 'Enter') {
+      checkBtn.addEventListener('keyDown', checkEnterWord(event))
+    }
   }
 }
 
@@ -158,7 +154,7 @@ function checkEnterWord(event) {
         }
 
         newBtn.addEventListener('click', NewDictionaryPage.renderNewDictionariesPage)
-        retryBtn.addEventListener('click', () => renderSpellPage(speechPart))
+        retryBtn.addEventListener('click', () => renderPuzzlePage(speechPart))
       }, '300')
     } else {
       toggleClassForChar(resultChars)
