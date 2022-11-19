@@ -6,29 +6,22 @@
 }
 
 body {
+  height: 100%;
   font-family: 'Roboto';
   font-size: 20px;
 }
 
 header {
-  height: 100px;
-  width: auto;
-  background: lightcoral;
-}
-
-a {
-  color: darkslateblue;
-  text-decoration: none;
-  font-style: inherit;
+  background-color: #e3f2fd;
 }
 
 .content {
   display: flex;
   justify-content: center; /* выравнивание по главной оси. По умолчанию ось x */
   align-items: center; /* выравнивание по второстепенной оси. По умолчанию ось y */
-  height: 1030px;
+  min-height: calc(100vh - 210px);
   width: auto;
-  background: #fff8dc;
+  background: #ffffe8;
 }
 
 .actionRoot {
@@ -47,5 +40,5 @@ a {
 footer {
   height: 150px;
   width: auto;
-  background: lightslategray;
+  background-color: #e3f2fd;
 }

@@ -59,10 +59,10 @@ function checkChooseWord(event) {
   if (chooseWord.id !== 'item') return
 
   if (chooseWord.textContent !== currentDictionary[0].translate) {
-    chooseWord.style.backgroundColor = '#FF6347'
+    chooseWord.style.backgroundColor = '#ff8c8c'
     utils.modifyStudyLevel(speechPart, currentDictionary[0])
   } else {
-    chooseWord.style.backgroundColor = '#90EE90'
+    chooseWord.style.backgroundColor = '#94ff94'
     utils.modifyStudyLevel(speechPart, currentDictionary[0], true)
     currentDictionary.shift()
   }
@@ -73,8 +73,8 @@ function checkChooseWord(event) {
             <div class="finishArea">
                 <div id="finishWordArea">Вы хорошо позанимались!</div>
                 <div class="finishBtnArea">
-                    <button class="btn" id="findNewBtn">Новые слова</button>
-                    <button class="btn" id="retryBtn">Еще раз</button>
+                    <button type="button" class="myBtn btn-lg" id="findNewBtn">Новые слова</button>
+                    <button type="button" class="myBtn btn-lg" id="retryBtn">Еще раз</button>
                 </div>
             </div>
             `

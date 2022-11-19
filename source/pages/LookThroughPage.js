@@ -23,17 +23,16 @@ export function renderLookThroughPage(name) {
     <div class="cardRoot">
         <div class="cardWordArea" id="wordArea">
             <div><b>${currentDictionary[0].word}</b></div>
-            <hr color=#cff0fe opacity=0.8>
             <div>${currentDictionary[0].translate}</div> 
         </div>
         <div class="cardBtnDiv">
-            <button type="submit" class="btn" id="knowBtn">Уже знаю</button> 
-            <button type="submit" class="btn studyBtn">Изучить</button>
+            <button class="myBtn btn-lg" id="knowBtn">Уже знаю</button> 
+            <button class="myBtn btn-lg" id="studyBtn">Изучить</button>
         </div>
     </div>`
 
   const knowBtn = document.querySelector('#knowBtn')
-  const studyBtn = document.querySelector('.studyBtn')
+  const studyBtn = document.querySelector('#studyBtn')
 
   knowBtn.addEventListener('click', showNewWord)
   studyBtn.addEventListener('click', studyThisWord)
@@ -60,12 +59,12 @@ function studyThisWord(event) {
   showNewWord(event)
 }
 
-function checkTrainAvailable(selector) {
+function checkTrainAvailable() {
   if (!JSON.parse(localStorage.getItem(speechPart))) {
-    const studyBtn = document.querySelector(selector)
+    const studyBtn = document.querySelector('#studyBtn')
     studyBtn.disabled = true
   } else {
-    const studyBtn = document.querySelector(selector)
+    const studyBtn = document.querySelector('#studyBtn')
     studyBtn.addEventListener('click', () => TrainListPage.renderTrainListPage(speechPart))
   }
 }
@@ -76,12 +75,12 @@ function renderEmptyDictionary() {
 
   wordArea.innerHTML = '<p>Вы посмотрели все слова!<br>Попробуем выучить новое? :)</p>'
   cardBtnDiv.innerHTML = `
-      <button type="submit" class="btn" id="findNewBtn">Выбрать слова</button>
-      <button type="submit" class="btn studyBtn">Начать учить</button>
+      <button class="myBtn btn-lg" id="findNewBtn">Выбрать слова</button>
+      <button class="myBtn btn-lg" id="studyBtn">Начать учить</button>
     `
 
   const findNewBtn = document.querySelector('#findNewBtn')
   findNewBtn.addEventListener('click', NewDictionaryPage.renderNewDictionariesPage)
 
-  checkTrainAvailable('.studyBtn')
+  checkTrainAvailable()
 }

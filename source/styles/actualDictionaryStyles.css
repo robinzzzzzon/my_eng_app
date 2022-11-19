@@ -11,12 +11,17 @@
   grid-template-columns: 1fr 2fr 1fr;
   border: 1px solid rgb(118, 129, 145);
   border-radius: 8px;
+  background-color: #f2f2fa;
 }
 
 .actualItem > div {
   line-height: 35px;
   margin-right: 10px;
   margin-left: 10px;
+}
+
+#word {
+  font-weight: 600;
 }
 
 .wordBtnRoot button {

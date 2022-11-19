@@ -12,10 +12,14 @@
 .cardWordArea {
   height: 300px;
   width: 350px;
-  margin-top: 15px;
+  margin-top: 20px;
   background: #f0ffff;
   border: 1px solid lightslategray;
   border-radius: 7px;
+}
+
+.cardWordArea div:nth-child(1) {
+  border-bottom: 1px solid rgb(202, 208, 214);
 }
 
 #wordArea {
@@ -27,10 +31,6 @@
   background: #75ff75;
 }
 
-.goOnBtn {
-  background: #ffff94;
-}
-
-.studyBtn {
+#studyBtn {
   background: #9cffff;
 }

@@ -16,8 +16,8 @@ export function renderActualDictionaryPage() {
       <div id="word">${dictionary[index].word}</div>
       <div id="translate">${dictionary[index].translate}</div>
       <div class="wordBtnRoot">
-        <button id="clearProgress">Reset</button>
-        <button id="removeWord">Delete</button>
+        <button class="btn btn-outline-secondary btn-sm" id="clearProgress">Reset</button>
+        <button class="btn btn-outline-warning btn-sm" id="removeWord">Delete</button>
       </div>
     `
     dictionary[index].word

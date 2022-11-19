@@ -1,4 +1,4 @@
-import '../styles/spellTrainStyles.css'
+import '../styles/puzzleTrainStyles.css'
 const NewDictionaryPage = require('./NewDictionaryPage')
 const utils = require('../utils')
 
@@ -24,8 +24,8 @@ export function renderPuzzlePage(name) {
             </div>
             <div id="charArea" tabindex="0"></div>
             <div class="btnDiv">
-                <button class="btn" id="checkBtn" disabled>Проверить</button>
-                <button class="btn" id="clearBtn">Сбросить</button>
+                <button class="myBtn" id="checkBtn" disabled>Проверить</button>
+                <button class="myBtn" id="clearBtn">Сбросить</button>
             </div>
         </div>
     `
@@ -138,11 +138,11 @@ function checkEnterWord(event) {
         wordDiv.innerHTML = ''
         btnDiv.innerHTML = ''
         const newBtn = document.createElement('button')
-        newBtn.classList.add('btn')
+        newBtn.classList.add('myBtn')
         newBtn.setAttribute('id', 'findNewBtn')
         newBtn.textContent = 'Выбрать слова'
         const retryBtn = document.createElement('button')
-        retryBtn.classList.add('btn')
+        retryBtn.classList.add('myBtn')
         retryBtn.setAttribute('id', 'retryBtn')
         retryBtn.textContent = 'Еще раз'
         btnDiv.append(newBtn)
