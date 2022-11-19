@@ -30,6 +30,11 @@ export function renderWritePage(name) {
 
   const input = document.querySelector('.writeInput')
   input.focus()
+  input.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      checkWord(event)
+    }
+  })
 
   const suggestBtn = document.querySelector('#suggestBtn')
   suggestBtn.addEventListener('click', suggestChar)
