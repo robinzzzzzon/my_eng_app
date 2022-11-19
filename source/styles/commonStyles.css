@@ -1,4 +1,4 @@
-.btn {
+.myBtn {
   height: 45px;
   width: 150px;
   border-radius: 10px;
@@ -10,29 +10,29 @@
   font-weight: 600;
 }
 
-.btn:hover {
+.myBtn:hover {
   cursor: pointer;
   opacity: 0.8;
 }
 
 #findNewBtn {
-  background-color: #cc99ff;
+  background-color: #c3b9ff;
 }
 
 #retryBtn {
-  background-color: #94ffff;
+  background-color: #ffd1a8;
 }
 
 #checkBtn {
-  background-color: #fcb9da;
+  background-color: #98fb98;
 }
 
 #clearBtn {
-  background-color: #ffff85;
+  background-color: #ddfa99;
 }
 
 #suggestBtn {
-  background-color: #bdfce3;
+  background-color: #d1ffff;
 }
 
 .dictionaryRoot {

@@ -1,5 +1,6 @@
 import './styles/indexStyles.css'
 import './styles/commonStyles.css'
+import './bootstrap/btstrp_css/bootstrap.min.css'
 const NewDictionaryPage = require('./pages/NewDictionaryPage')
 const StudyDictionaryPage = require('./pages/StudyDictionaryPage')
 const ActualDictionaryPage = require('./pages/ActualDictionaryPage')

@@ -22,8 +22,8 @@ export function renderWritePage(name) {
         <div class="translateDiv">${currentDictionary[0].translate}</div>
         <input type="text" class="writeInput" placeholder=" Пишите здесь...">
         <div class="btnDiv">
-            <button class="btn" id="suggestBtn">Подсказать</button>
-            <button class="btn" id="checkBtn">Проверить</button>
+            <button class="myBtn" id="suggestBtn">Подсказать</button>
+            <button class="myBtn" id="checkBtn">Проверить</button>
         </div>
     </div>
     `
@@ -80,11 +80,11 @@ function checkWord(event) {
         const btnDiv = document.querySelector('.btnDiv')
         btnDiv.innerHTML = ''
         const newBtn = document.createElement('button')
-        newBtn.classList.add('btn')
+        newBtn.classList.add('myBtn')
         newBtn.setAttribute('id', 'findNewBtn')
         newBtn.textContent = 'Выбрать слова'
         const oneMoreBtn = document.createElement('button')
-        oneMoreBtn.classList.add('btn')
+        oneMoreBtn.classList.add('myBtn')
         oneMoreBtn.setAttribute('id', 'retryBtn')
         oneMoreBtn.textContent = 'Еще раз'
         btnDiv.append(newBtn)
