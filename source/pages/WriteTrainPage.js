@@ -6,6 +6,7 @@ const contentRoot = document.querySelector('.content')
 
 let charIndex = 0
 let speechPart
+let initDictionary = []
 let currentDictionary = []
 
 export function renderWritePage(name) {
@@ -17,16 +18,23 @@ export function renderWritePage(name) {
     currentDictionary = utils.getWordsFromStorage(`${speechPart}`)
   }
 
+  initDictionary = utils.getWordsFromStorage(speechPart)
+
   contentRoot.innerHTML = `
-    <div class="rootDiv">
+    <div class="wrapper">
+      <div class="myProgressBar"></div>
+      <div class="rootDiv">
         <div class="translateDiv">${currentDictionary[0].translate}</div>
         <input type="text" class="writeInput" placeholder=" Пишите здесь...">
         <div class="btnDiv">
             <button class="myBtn" id="suggestBtn">Подсказать</button>
             <button class="myBtn" id="checkBtn">Проверить</button>
         </div>
+      </div>
     </div>
     `
+
+  utils.fillProgressBar(initDictionary, currentDictionary)
 
   const input = document.querySelector('.writeInput')
   input.focus()

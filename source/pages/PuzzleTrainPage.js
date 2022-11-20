@@ -5,6 +5,7 @@ const utils = require('../utils')
 const contentRoot = document.querySelector('.content')
 
 let speechPart
+let initDictionary = []
 let currentDictionary = []
 
 export function renderPuzzlePage(name) {
@@ -13,22 +14,29 @@ export function renderPuzzlePage(name) {
   if (!localStorage.length) {
     return
   } else if (!currentDictionary.length) {
-    currentDictionary = utils.getWordsFromStorage(`${speechPart}`)
+    currentDictionary = utils.getWordsFromStorage(speechPart)
   }
 
+  initDictionary = utils.getWordsFromStorage(speechPart)
+
   contentRoot.innerHTML = `
+      <div class="wrapper">
+        <div class="myProgressBar"></div>
         <div class="rootArea">
-            <div class="spellArea">
-                <div id="translateDiv">${currentDictionary[0].translate}</div>
-                <div id="wordDiv"></div>
+          <div class="spellArea">
+            <div id="translateDiv">${currentDictionary[0].translate}</div>
+              <div id="wordDiv"></div>
             </div>
             <div id="charArea" tabindex="0"></div>
             <div class="btnDiv">
                 <button class="myBtn" id="checkBtn" disabled>Проверить</button>
                 <button class="myBtn" id="clearBtn">Сбросить</button>
             </div>
-        </div>
+          </div>
+      </div>
     `
+
+  utils.fillProgressBar(initDictionary, currentDictionary)
 
   genCharacters(currentDictionary[0])
 
@@ -129,6 +137,8 @@ function checkEnterWord(event) {
     utils.modifyStudyLevel(speechPart, currentDictionary[0], true)
 
     currentDictionary.shift()
+
+    utils.fillProgressBar(initDictionary, currentDictionary)
 
     if (!currentDictionary.length) {
       toggleClassForChar(resultChars)
