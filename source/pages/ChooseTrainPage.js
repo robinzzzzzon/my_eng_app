@@ -11,16 +11,20 @@ let currentDictionary = []
 export function renderChoosePage(name) {
   speechPart = name
 
+  let initDictionary = utils.getWordsFromStorage(speechPart)
+
   if (!localStorage.length) {
     return
   } else if (!currentDictionary.length) {
-    currentDictionary = utils.getWordsFromStorage(`${speechPart}`)
+    currentDictionary = utils.getWordsFromStorage(speechPart)
   }
 
   const translateArray = getRandomTranslateArray(currentDictionary[0])
 
   contentRoot.innerHTML = `
-    <div class="trainArea">
+    <div class="wrapper">
+      <div class="myProgressBar"></div>
+      <div class="trainArea">
         <div id="wordItem">${currentDictionary[0].word}</div>
         <div class="itemArea">
             <div id="item">${translateArray[0]}</div>
@@ -28,8 +32,11 @@ export function renderChoosePage(name) {
             <div id="item">${translateArray[2]}</div>
             <div id="item">${translateArray[3]}</div>
         </div>
+      </div>
     </div>
     `
+
+  utils.fillProgressBar(initDictionary, currentDictionary)
 
   const itemArea = document.querySelector('.itemArea')
   itemArea.addEventListener('click', checkChooseWord)
@@ -58,13 +65,13 @@ function checkChooseWord(event) {
 
   if (chooseWord.id !== 'item') return
 
-  if (chooseWord.textContent !== currentDictionary[0].translate) {
-    chooseWord.style.backgroundColor = '#ff8c8c'
-    utils.modifyStudyLevel(speechPart, currentDictionary[0])
-  } else {
+  if (chooseWord.textContent === currentDictionary[0].translate) {
     chooseWord.style.backgroundColor = '#94ff94'
     utils.modifyStudyLevel(speechPart, currentDictionary[0], true)
     currentDictionary.shift()
+  } else {
+    chooseWord.style.backgroundColor = '#ff8c8c'
+    utils.modifyStudyLevel(speechPart, currentDictionary[0])
   }
 
   if (!currentDictionary.length) {

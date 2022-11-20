@@ -91,3 +91,22 @@ export function modifyStudyLevel(speechPart, getWord, isRight) {
     localStorage.setItem('all-study-words', JSON.stringify(allStudyDictionary))
   }
 }
+
+export function fillProgressBar(initDictionary, currentDictionary, selector = '.myProgressBar') {
+  const progressBar = document.querySelector(selector)
+  progressBar.style.gridTemplateColumns = `repeat(${initDictionary.length}, 1fr)`
+
+  for (let index = 0; index < initDictionary.length; index++) {
+    const item = document.createElement('div')
+    progressBar.append(item)
+  }
+
+  const colorizeLength = initDictionary.length - currentDictionary.length
+
+  let itemList = document.querySelector(selector).childNodes
+  itemList = Array.from(itemList)
+
+  for (let index = 0; index < colorizeLength; index++) {
+    itemList[index].style.backgroundColor = '#98FB98'
+  }
+}
