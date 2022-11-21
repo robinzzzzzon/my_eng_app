@@ -119,7 +119,6 @@ function moveCharToWordArea(event) {
 function checkEnterWord(event) {
   event.preventDefault()
 
-  const rootArea = document.querySelector('.rootArea')
   const translateDiv = document.querySelector('#translateDiv')
   const wordDiv = document.querySelector('#wordDiv')
   const btnDiv = document.querySelector('.btnDiv')
@@ -137,8 +136,6 @@ function checkEnterWord(event) {
     utils.modifyStudyLevel(speechPart, currentDictionary[0], true)
 
     currentDictionary.shift()
-
-    utils.fillProgressBar(initDictionary, currentDictionary)
 
     if (!currentDictionary.length) {
       toggleClassForChar(resultChars)
@@ -170,17 +167,8 @@ function checkEnterWord(event) {
       toggleClassForChar(resultChars)
 
       setTimeout(() => {
-        wordDiv.innerHTML = ''
-        charArea.innerHTML = ''
-        translateDiv.textContent = currentDictionary[0].translate
-        checkBtn.disabled = true
-        clearBtn.disabled = false
-        rootArea.style.height = '400px'
-        checkBtn.style.marginTop = '15px'
-        clearBtn.style.marginTop = '15px'
-
-        genCharacters(currentDictionary[0])
-      }, '300')
+        renderPuzzlePage(speechPart)
+      }, 300)
     }
   } else {
     utils.modifyStudyLevel(speechPart, currentDictionary[0])
