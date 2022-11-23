@@ -1,9 +1,10 @@
 .actualDictionaryRoot {
   display: grid;
-  height: 1000px;
+  min-height: calc(100vh - 250px);
+  min-width: 800px;
+  align-content: start;
   grid-auto-rows: 40px;
-  grid-gap: 5px;
-  overflow: scroll;
+  grid-gap: 8px;
 }
 
 .actualItem {
@@ -12,6 +13,7 @@
   border: 1px solid rgb(118, 129, 145);
   border-radius: 8px;
   background-color: #f2f2fa;
+  min-width: 400px;
 }
 
 .actualItem > div {
@@ -22,6 +24,10 @@
 
 #word {
   font-weight: 600;
+}
+
+.wordBtnRoot {
+  justify-self: end;
 }
 
 .wordBtnRoot button {
