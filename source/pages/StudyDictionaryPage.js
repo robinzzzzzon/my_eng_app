@@ -7,7 +7,7 @@ export function renderStudyDictionariesPage() {
   dictionaryRoot.classList.add('dictionaryRoot')
 
   for (let index = 0; index < localStorage.length; index++) {
-    const dictionary = document.createElement('div')
+    const dictionary = document.createElement('button')
     dictionary.classList.add('dictionary')
     dictionary.setAttribute('data-name', `${localStorage.key(index)}`)
     dictionary.textContent = localStorage.key(index).toUpperCase()

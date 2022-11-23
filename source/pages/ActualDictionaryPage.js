@@ -12,6 +12,7 @@ export function renderActualDictionaryPage() {
   for (let index = 0; index < dictionary.length; index++) {
     const item = document.createElement('div')
     item.classList.add('actualItem')
+    item.classList.add('shadow-sm')
     item.innerHTML = `
       <div id="word">${dictionary[index].word}</div>
       <div id="translate">${dictionary[index].translate}</div>
@@ -24,6 +25,14 @@ export function renderActualDictionaryPage() {
     actualDictinaryRoot.append(item)
     item.addEventListener('click', clearWordProgress)
     item.addEventListener('click', removeWord)
+
+    let windowInnerHeight = window.innerHeight - 250
+    let actualDictionaryRootHeight = getComputedStyle(actualDictinaryRoot).height.substring(0, 4)
+
+    if (windowInnerHeight < +actualDictionaryRootHeight) {
+      actualDictinaryRoot.style.height = `${windowInnerHeight}px`
+      actualDictinaryRoot.style.overflow = 'scroll'
+    }
   }
 }
 
