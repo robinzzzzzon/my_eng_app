@@ -22,8 +22,8 @@ export function renderWritePage(name) {
 
   contentRoot.innerHTML = `
     <div class="wrapper">
-      <div class="myProgressBar"></div>
-      <div class="rootDiv">
+      <div class="myProgressBar shadow"></div>
+      <div class="rootDiv shadow">
         <div class="translateDiv">${currentDictionary[0].translate}</div>
         <input type="text" class="writeInput" placeholder=" Пишите здесь...">
         <div class="btnDiv">

@@ -61,7 +61,7 @@
 
 .dictionary:hover {
   cursor: pointer;
-  opacity: 0.8;
+  background-color: #fcd2fc;
 }
 
 .myProgressBar {
