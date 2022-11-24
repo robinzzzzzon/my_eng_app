@@ -23,8 +23,8 @@ export function renderChoosePage(name) {
 
   contentRoot.innerHTML = `
     <div class="wrapper">
-      <div class="myProgressBar"></div>
-      <div class="trainArea">
+      <div class="myProgressBar shadow"></div>
+      <div class="trainArea shadow">
         <div id="wordItem">${currentDictionary[0].word}</div>
         <div class="itemArea">
             <div id="item">${translateArray[0]}</div>

@@ -20,7 +20,7 @@ export function renderLookThroughPage(name) {
   }
 
   contentRoot.innerHTML = `
-    <div class="cardRoot">
+    <div class="cardRoot shadow">
         <div class="cardWordArea" id="wordArea">
             <div><b>${currentDictionary[0].word}</b></div>
             <div>${currentDictionary[0].translate}</div> 

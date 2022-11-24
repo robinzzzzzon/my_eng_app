@@ -13,6 +13,7 @@ export function renderNewDictionariesPage() {
   for (let index = 0; index < speechList.length; index++) {
     const item = document.createElement('button')
     item.classList.add('dictionary')
+    item.classList.add('shadow-lg')
     item.setAttribute('data-name', speechList[index])
     item.textContent = speechList[index].toUpperCase()
 

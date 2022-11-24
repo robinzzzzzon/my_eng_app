@@ -21,8 +21,8 @@ export function renderPuzzlePage(name) {
 
   contentRoot.innerHTML = `
       <div class="wrapper">
-        <div class="myProgressBar"></div>
-        <div class="rootArea">
+        <div class="myProgressBar shadow"></div>
+        <div class="rootArea shadow">
           <div class="spellArea">
             <div id="translateDiv">${currentDictionary[0].translate}</div>
               <div id="wordDiv"></div>

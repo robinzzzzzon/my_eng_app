@@ -9,6 +9,7 @@ export function renderStudyDictionariesPage() {
   for (let index = 0; index < localStorage.length; index++) {
     const dictionary = document.createElement('button')
     dictionary.classList.add('dictionary')
+    dictionary.classList.add('shadow-lg')
     dictionary.setAttribute('data-name', `${localStorage.key(index)}`)
     dictionary.textContent = localStorage.key(index).toUpperCase()
     dictionaryRoot.append(dictionary)
