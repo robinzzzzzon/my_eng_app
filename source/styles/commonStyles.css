@@ -12,27 +12,46 @@
 
 .myBtn:hover {
   cursor: pointer;
-  opacity: 0.8;
 }
 
 #findNewBtn {
   background-color: #c3b9ff;
 }
 
+#findNewBtn:hover {
+  background-color: #aea0ff;
+}
+
 #retryBtn {
   background-color: #ffd1a8;
 }
 
-#checkBtn {
-  background-color: #98fb98;
+#retryBtn:hover {
+  background-color: #f8b57a;
 }
 
 #clearBtn {
-  background-color: #ddfa99;
+  background-color: #e1fd79;
+}
+
+#clearBtn:hover {
+  background-color: #ecff3e;
+}
+
+#checkBtn {
+  background-color: #8dfc8d;
+}
+
+#checkBtn:hover {
+  background-color: #63f36f;
 }
 
 #suggestBtn {
-  background-color: #d1ffff;
+  background-color: #b2fafa;
+}
+
+#suggestBtn:hover {
+  background-color: #86f7f7;
 }
 
 .dictionaryRoot {
