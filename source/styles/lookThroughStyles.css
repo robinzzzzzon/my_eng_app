@@ -28,9 +28,17 @@
 }
 
 #knowBtn {
-  background: #75ff75;
+  background-color: #87ff87;
+}
+
+#knowBtn:hover {
+  background-color: #5bff5b;
 }
 
 #studyBtn {
   background: #9cffff;
+}
+
+#studyBtn:hover {
+  background-color: #5ef8f8;
 }
