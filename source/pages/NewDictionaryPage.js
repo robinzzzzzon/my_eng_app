@@ -3,7 +3,7 @@ const dictionary = require('../dictionary.json')
 const utils = require('../utils')
 
 const content = document.querySelector('.content')
-const speechList = ['verbs', 'illegal verbs', 'phrazal verbs', 'nouns', 'adjectives', 'adverbs', 'pronouns', 'numerals', 'other parts', 'idioms']
+const speechList = ['verbs', 'phrazal verbs', 'nouns', 'adjectives', 'adverbs', 'pronouns', 'numerals', 'other parts', 'idioms']
 
 export function renderNewDictionariesPage() {
   content.innerHTML = `<div class="dictionaryRoot"></div>`
