@@ -42,3 +42,19 @@
 #studyBtn:hover {
   background-color: #5ef8f8;
 }
+
+#startTrainBtn {
+  background-color: #ffabe3;
+}
+
+#startTrainBtn:hover {
+  background-color: #ff9cde;
+}
+
+#goOnBtn {
+  background: #e0e0d1;
+}
+
+#goOnBtn:hover {
+  background-color: #d6d6c2;
+}
