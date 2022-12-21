@@ -8,6 +8,7 @@ const contentRoot = document.querySelector('.content')
 
 let speechPart
 let currentDictionary = []
+let studyWordCounter = 0
 
 export function renderLookThroughPage(name) {
   speechPart = name
@@ -56,17 +57,11 @@ function studyThisWord(event) {
   utils.addWordToStorage(currentDictionary[0], `${speechPart}`)
   utils.addWordToStorage(currentDictionary[0], `all-study-words`)
 
-  showNewWord(event)
-}
+  studyWordCounter++
 
-function checkTrainAvailable() {
-  if (!JSON.parse(localStorage.getItem(speechPart))) {
-    const studyBtn = document.querySelector('#studyBtn')
-    studyBtn.disabled = true
-  } else {
-    const studyBtn = document.querySelector('#studyBtn')
-    studyBtn.addEventListener('click', () => TrainListPage.renderTrainListPage(speechPart))
-  }
+  showNewWord(event)
+
+  if (studyWordCounter === 10) showTrainSuggest()
 }
 
 function renderEmptyDictionary() {
@@ -83,4 +78,33 @@ function renderEmptyDictionary() {
   findNewBtn.addEventListener('click', NewDictionaryPage.renderNewDictionariesPage)
 
   checkTrainAvailable()
+}
+
+function checkTrainAvailable() {
+  if (!JSON.parse(localStorage.getItem(speechPart))) {
+    const studyBtn = document.querySelector('#studyBtn')
+    studyBtn.disabled = true
+  } else {
+    const studyBtn = document.querySelector('#studyBtn')
+    studyBtn.addEventListener('click', () => TrainListPage.renderTrainListPage(speechPart))
+  }
+}
+
+function showTrainSuggest() {
+  const wordArea = document.querySelector('#wordArea')
+  const cardBtnDiv = document.querySelector('.cardBtnDiv')
+
+  wordArea.innerHTML = '<p>Хороший набор слов. <br>Переходим к тренировкам?)</p>'
+  cardBtnDiv.innerHTML = `
+      <button class="myBtn btn-lg" id="startTrainBtn">Тренировать</button>
+      <button class="myBtn btn-lg" id="goOnBtn">Пока нет</button>
+    `
+
+  const trainBtn = document.querySelector('#startTrainBtn')
+  trainBtn.addEventListener('click', () => TrainListPage.renderTrainListPage(speechPart))
+  const goOnBtn = document.querySelector('#goOnBtn')
+  goOnBtn.addEventListener('click', () => {
+    studyWordCounter = 0
+    renderLookThroughPage(speechPart)
+  })
 }
