@@ -3,7 +3,7 @@
   justify-content: center;
   flex-wrap: wrap;
   height: 400px;
-  width: 450px;
+  width: 600px;
   background: lightblue;
   border: 1px solid lightslategray;
   border-radius: 7px;
@@ -11,11 +11,12 @@
 
 .cardWordArea {
   height: 300px;
-  width: 350px;
+  width: 500px;
   margin-top: 20px;
   background: #f0ffff;
   border: 1px solid lightslategray;
   border-radius: 7px;
+  font-size: 22px;
 }
 
 .cardWordArea div:nth-child(1) {

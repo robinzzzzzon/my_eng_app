@@ -1,4 +1,5 @@
 const TrainListPage = require('./TrainListPage')
+const { speechList } = require('../constants')
 
 const content = document.querySelector('.content')
 
@@ -11,7 +12,13 @@ export function renderStudyDictionariesPage() {
     dictionary.classList.add('dictionary')
     dictionary.classList.add('shadow-lg')
     dictionary.setAttribute('data-name', `${localStorage.key(index)}`)
-    dictionary.textContent = localStorage.key(index).toUpperCase()
+    if (localStorage.key(index) === 'all-study-words') {
+      dictionary.textContent = 'ВСЕ СЛОВА'
+    } else {
+      const text = speechList.find((el) => el.dataName === localStorage.key(index))
+      dictionary.textContent = text.translateName.toUpperCase()
+    }
+
     dictionaryRoot.append(dictionary)
   }
 

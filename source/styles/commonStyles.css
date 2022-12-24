@@ -6,7 +6,7 @@
   margin-top: 15px;
   margin-left: 5px;
   margin-right: 5px;
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 600;
 }
 
@@ -75,6 +75,8 @@
   border: 1px solid lightslategray;
   border-radius: 10px;
   text-align: center;
+  font-size: 18px;
+  font-weight: 600;
   line-height: 150px;
 }
 

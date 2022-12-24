@@ -1,9 +1,9 @@
 const LookThroughPage = require('./LookThroughPage')
 const dictionary = require('../dictionary.json')
 const utils = require('../utils')
+const { speechList } = require('../constants')
 
 const content = document.querySelector('.content')
-const speechList = ['verbs', 'phrazal verbs', 'nouns', 'adjectives', 'adverbs', 'pronouns', 'numerals', 'other parts', 'idioms']
 
 export function renderNewDictionariesPage() {
   content.innerHTML = `<div class="dictionaryRoot"></div>`
@@ -14,11 +14,11 @@ export function renderNewDictionariesPage() {
     const item = document.createElement('button')
     item.classList.add('dictionary')
     item.classList.add('shadow-lg')
-    item.setAttribute('data-name', speechList[index])
-    item.textContent = speechList[index].toUpperCase()
+    item.setAttribute('data-name', speechList[index].dataName)
+    item.textContent = speechList[index].translateName.toUpperCase()
 
-    const dictionaryList = dictionary.filter((item) => item.wordType === speechList[index])
-    const storageList = utils.getWordsFromStorage(speechList[index])
+    const dictionaryList = dictionary.filter((item) => item.wordType === speechList[index].dataName)
+    const storageList = utils.getWordsFromStorage(speechList[index].dataName)
 
     if (dictionaryList.length === storageList.length) item.disabled = 'true'
 
