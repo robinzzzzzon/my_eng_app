@@ -1,5 +1,5 @@
 .trainArea {
-  height: 500px;
+  height: 400px;
   width: 700px;
   background: lightblue;
   border: 1px solid lightslategray;
@@ -7,25 +7,26 @@
 }
 
 #wordItem {
-  height: 300px;
+  height: 220px;
   width: auto;
-  background: #fff0f5;
+  background: #ffe8f0;
   border: 1px solid lightslategray;
-  border-radius: 3px;
+  border-radius: 8px;
   text-align: center;
-  line-height: 300px;
+  line-height: 220px;
   font-size: 30px;
   font-weight: 600;
+  margin: 5px;
 }
 
 .itemArea {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: 90px 90px;
-  grid-column-gap: 10px;
+  grid-template-rows: 80px 80px;
+  grid-column-gap: 5px;
   grid-row-gap: 5px;
-  margin: 5px;
-  line-height: 90px;
+  margin: 4px;
+  line-height: 80px;
 }
 
 .itemArea > div {
@@ -33,6 +34,8 @@
   border: 1px solid lightslategray;
   border-radius: 10px;
   text-align: center;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .itemArea > div:hover {
