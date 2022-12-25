@@ -82,6 +82,8 @@ function checkWord(event) {
 
     setTimeout(() => {
       if (!currentDictionary.length) {
+        const progressBar = document.querySelector('.myProgressBar')
+        progressBar.innerHTML = ''
         input.outerHTML = ''
         const translateDiv = document.querySelector('.translateDiv')
         translateDiv.textContent = 'Это было круто! Ты молодец :)'
