@@ -141,6 +141,8 @@ function checkEnterWord(event) {
       toggleClassForChar(resultChars)
 
       setTimeout(() => {
+        const progressBar = document.querySelector('.myProgressBar')
+        progressBar.innerHTML = ''
         translateDiv.textContent = 'Отлично! Тебе это удалось :)'
         wordDiv.innerHTML = ''
         btnDiv.innerHTML = ''

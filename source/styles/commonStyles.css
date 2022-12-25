@@ -69,7 +69,6 @@
 }
 
 .dictionary {
-  background-color: #fae25a;
   margin-left: 50px;
   margin-right: 50px;
   border: 1px solid lightslategray;
@@ -82,7 +81,11 @@
 
 .dictionary:hover {
   cursor: pointer;
-  background-color: #fcdc2a;
+  opacity: 0.9;
+}
+
+.initItem {
+  background-color: #a8f1f1;
 }
 
 .myProgressBar {

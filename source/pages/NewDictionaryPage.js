@@ -14,6 +14,7 @@ export function renderNewDictionariesPage() {
     const item = document.createElement('button')
     item.classList.add('dictionary')
     item.classList.add('shadow-lg')
+    item.style.backgroundColor = speechList[index].color
     item.setAttribute('data-name', speechList[index].dataName)
     item.textContent = speechList[index].translateName.toUpperCase()
 
