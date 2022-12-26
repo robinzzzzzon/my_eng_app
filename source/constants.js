@@ -8,4 +8,5 @@ export const speechList = [
   { dataName: 'numerals', translateName: 'числительные', color: '#FFA500' },
   { dataName: 'other parts', translateName: 'прочие части речи', color: '#AFEEEE' },
   { dataName: 'idioms', translateName: 'идиомы', color: '#FFDAB9' },
+  { dataName: 'useful phrases', translateName: 'популярные фразы', color: '#9ACD32' },
 ]
