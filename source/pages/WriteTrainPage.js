@@ -1,5 +1,6 @@
 import '../styles/writeTrainStyles.css'
 const utils = require('../utils')
+const constants = require('../constants')
 const NewDictionaryPage = require('./NewDictionaryPage')
 
 const contentRoot = document.querySelector('.content')
@@ -12,13 +13,13 @@ let currentDictionary = []
 export function renderWritePage(name) {
   speechPart = name
 
+  initDictionary = utils.getWordsFromStorage(speechPart)
+
   if (!localStorage.length) {
     return
   } else if (!currentDictionary.length) {
     currentDictionary = utils.getWordsFromStorage(`${speechPart}`)
   }
-
-  initDictionary = utils.getWordsFromStorage(speechPart)
 
   contentRoot.innerHTML = `
     <div class="wrapper">
@@ -76,7 +77,7 @@ function checkWord(event) {
   if (enterWord === currentDictionary[0].word) {
     utils.modifyStudyLevel(speechPart, currentDictionary[0], true)
 
-    input.style.background = '#ccffcc'
+    input.style.backgroundColor = constants.system_colors.success
     currentDictionary.shift()
     charIndex = 0
 
@@ -100,10 +101,7 @@ function checkWord(event) {
         btnDiv.append(newBtn)
         btnDiv.append(oneMoreBtn)
 
-        if (!JSON.parse(localStorage.getItem(speechPart)).length) {
-          retryBtn.disabled = 'true'
-          localStorage.removeItem(speechPart)
-        }
+        utils.checkEmptyStorageBySpeechPart(speechPart)
 
         newBtn.addEventListener('click', NewDictionaryPage.renderNewDictionariesPage)
         oneMoreBtn.addEventListener('click', () => renderWritePage(speechPart))
@@ -114,7 +112,7 @@ function checkWord(event) {
   } else {
     utils.modifyStudyLevel(speechPart, currentDictionary[0])
 
-    input.style.background = '#ffd9d9'
+    input.style.backgroundColor = constants.system_colors.failed
     setTimeout(() => {
       clearProgress()
     }, 300)
@@ -123,7 +121,7 @@ function checkWord(event) {
 
 function clearProgress() {
   const input = document.querySelector('.writeInput')
-  input.style.background = ''
+  input.style.backgroundColor = ''
   input.value = ''
   charIndex = 0
 }

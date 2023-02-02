@@ -110,3 +110,10 @@ export function fillProgressBar(initDictionary, currentDictionary, selector = '.
     itemList[index].style.backgroundColor = '#98FB98'
   }
 }
+
+export function checkEmptyStorageBySpeechPart(speechPart) {
+  if (!JSON.parse(localStorage.getItem(speechPart)).length) {
+    retryBtn.disabled = 'true'
+    localStorage.removeItem(speechPart)
+  }
+}

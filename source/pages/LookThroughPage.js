@@ -17,7 +17,7 @@ export function renderLookThroughPage(name) {
     currentDictionary = dictionary.filter((item) => item.wordType === speechPart)
     currentDictionary = utils.filterCurrentDictionary(currentDictionary, speechPart)
 
-    if (!currentDictionary.length) renderEmptyDictionary(true)
+    if (!currentDictionary.length) renderEmptyDictionary()
   }
 
   contentRoot.innerHTML = `
