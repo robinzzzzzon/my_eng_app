@@ -6,7 +6,7 @@ const content = document.querySelector('.content')
 export function renderActualDictionaryPage() {
   content.innerHTML = `<div class="actualDictionaryRoot"></div>`
 
-  const actualDictinaryRoot = document.querySelector('.actualDictionaryRoot')
+  const actualDictionaryRoot = document.querySelector('.actualDictionaryRoot')
   const dictionary = utils.getWordsFromStorage('all-study-words')
 
   for (let index = 0; index < dictionary.length; index++) {
@@ -21,17 +21,17 @@ export function renderActualDictionaryPage() {
         <button class="btn btn-outline-warning btn-sm" id="removeWord">Delete</button>
       </div>
     `
-    dictionary[index].word
-    actualDictinaryRoot.append(item)
+
+    actualDictionaryRoot.append(item)
     item.addEventListener('click', clearWordProgress)
     item.addEventListener('click', removeWord)
 
     let windowInnerHeight = window.innerHeight - 250
-    let actualDictionaryRootHeight = getComputedStyle(actualDictinaryRoot).height.substring(0, 4)
+    let actualDictionaryRootHeight = getComputedStyle(actualDictionaryRoot).height.substring(0, 4)
 
     if (windowInnerHeight < +actualDictionaryRootHeight) {
-      actualDictinaryRoot.style.height = `${windowInnerHeight}px`
-      actualDictinaryRoot.style.overflow = 'scroll'
+      actualDictionaryRoot.style.height = `${windowInnerHeight}px`
+      actualDictionaryRoot.style.overflow = 'scroll'
     }
   }
 }

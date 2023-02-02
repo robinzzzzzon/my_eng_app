@@ -10,14 +10,14 @@ let currentDictionary = []
 
 export function renderPuzzlePage(name) {
   speechPart = name
+  
+  initDictionary = utils.getWordsFromStorage(speechPart)
 
   if (!localStorage.length) {
     return
   } else if (!currentDictionary.length) {
     currentDictionary = utils.getWordsFromStorage(speechPart)
   }
-
-  initDictionary = utils.getWordsFromStorage(speechPart)
 
   contentRoot.innerHTML = `
       <div class="wrapper">
@@ -81,6 +81,7 @@ function clearWordProgress(event, word = currentDictionary[0]) {
   genCharacters(word)
 }
 
+// функция для эвентов по клику или по нажатию клавиши:
 function moveCharToWordArea(event) {
   event.preventDefault()
 
@@ -91,6 +92,7 @@ function moveCharToWordArea(event) {
   wordDiv.style.gridTemplateColumns = `repeat(${currentDictionary[0].word.length}, 1fr)`
   const charsList = document.querySelectorAll('#charArea > .char')
 
+  // по 1му совпадению с клавиатуры перемещаем char:
   const arr = []
   charsList.forEach((item) => {
     if (item.textContent === keyChar) {
@@ -100,7 +102,7 @@ function moveCharToWordArea(event) {
     }
   })
 
-  if (targetChar.id !== 'charArea') {
+  if (targetChar.classList.contains('char')) {
     wordDiv.append(targetChar)
   }
 
@@ -157,10 +159,7 @@ function checkEnterWord(event) {
         btnDiv.append(newBtn)
         btnDiv.append(retryBtn)
 
-        if (!JSON.parse(localStorage.getItem(speechPart)).length) {
-          retryBtn.disabled = 'true'
-          localStorage.removeItem(speechPart)
-        }
+        utils.checkEmptyStorageBySpeechPart(speechPart)
 
         newBtn.addEventListener('click', NewDictionaryPage.renderNewDictionariesPage)
         retryBtn.addEventListener('click', () => renderPuzzlePage(speechPart))

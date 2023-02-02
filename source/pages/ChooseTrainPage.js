@@ -1,5 +1,6 @@
 import '../styles/chooseTrainStyles.css'
 const utils = require('../utils')
+const constants = require('../constants')
 const fullDictionary = require('../dictionary.json')
 const NewDictionaryPage = require('./NewDictionaryPage')
 
@@ -66,11 +67,11 @@ function checkChooseWord(event) {
   if (chooseWord.id !== 'item') return
 
   if (chooseWord.textContent === currentDictionary[0].translate) {
-    chooseWord.style.backgroundColor = '#94ff94'
+    chooseWord.style.backgroundColor = constants.system_colors.success
     utils.modifyStudyLevel(speechPart, currentDictionary[0], true)
     currentDictionary.shift()
   } else {
-    chooseWord.style.backgroundColor = '#ff8c8c'
+    chooseWord.style.backgroundColor = constants.system_colors.failed
     utils.modifyStudyLevel(speechPart, currentDictionary[0])
   }
 
@@ -89,10 +90,7 @@ function checkChooseWord(event) {
       const findNewBtn = document.querySelector('#findNewBtn')
       const retryBtn = document.querySelector('#retryBtn')
 
-      if (!JSON.parse(localStorage.getItem(speechPart)).length) {
-        retryBtn.disabled = 'true'
-        localStorage.removeItem(speechPart)
-      }
+      utils.checkEmptyStorageBySpeechPart(speechPart)
 
       findNewBtn.addEventListener('click', NewDictionaryPage.renderNewDictionariesPage)
       retryBtn.addEventListener('click', () => renderChoosePage(speechPart))
