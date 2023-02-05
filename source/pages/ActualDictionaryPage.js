@@ -3,7 +3,7 @@ const utils = require('../utils')
 
 const content = document.querySelector('.content')
 
-export function renderActualDictionaryPage() {
+export function renderPage() {
   content.innerHTML = `<div class="actualDictionaryRoot"></div>`
 
   const actualDictionaryRoot = document.querySelector('.actualDictionaryRoot')
@@ -99,5 +99,5 @@ function removeWord(event) {
     localStorage.setItem('all-study-words', JSON.stringify(allWordsList))
   }
 
-  renderActualDictionaryPage()
+  renderPage()
 }

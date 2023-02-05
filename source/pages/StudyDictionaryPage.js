@@ -4,7 +4,7 @@ const { speechList } = require('../constants')
 
 const content = document.querySelector('.content')
 
-export function renderStudyDictionariesPage() {
+export function renderPage() {
   let dictionaryRoot = document.createElement('div')
   dictionaryRoot.classList.add('dictionaryRoot')
 
@@ -42,6 +42,6 @@ export function renderStudyDictionariesPage() {
 
     const name = event.target.dataset.name
 
-    TrainListPage.renderTrainListPage(name)
+    TrainListPage.renderPage(name)
   })
 }

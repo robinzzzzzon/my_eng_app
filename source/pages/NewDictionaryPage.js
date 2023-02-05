@@ -5,7 +5,7 @@ const { speechList } = require('../constants')
 
 const content = document.querySelector('.content')
 
-export function renderNewDictionariesPage() {
+export function renderPage() {
   content.innerHTML = `<div class="dictionaryRoot"></div>`
 
   const dictionaryRoot = document.querySelector('.dictionaryRoot')
@@ -33,6 +33,6 @@ export function renderNewDictionariesPage() {
 
     const name = event.target.dataset.name
 
-    LookThroughPage.renderLookThroughPage(name)
+    LookThroughPage.renderPage(name)
   })
 }

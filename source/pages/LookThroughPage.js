@@ -10,7 +10,7 @@ let speechPart
 let currentDictionary = []
 let studyWordCounter = 0
 
-export function renderLookThroughPage(name) {
+export function renderPage(name) {
   speechPart = name
 
   if (!currentDictionary.length) {
@@ -47,7 +47,7 @@ export function showNewWord(event) {
   if (!currentDictionary.length) {
     renderEmptyDictionary()
   } else {
-    renderLookThroughPage(speechPart)
+    renderPage(speechPart)
   }
 }
 
@@ -75,7 +75,7 @@ function renderEmptyDictionary() {
     `
 
   const findNewBtn = document.querySelector('#findNewBtn')
-  findNewBtn.addEventListener('click', NewDictionaryPage.renderNewDictionariesPage)
+  findNewBtn.addEventListener('click', NewDictionaryPage.renderPage)
 
   checkTrainAvailable()
 }
@@ -86,7 +86,7 @@ function checkTrainAvailable() {
     studyBtn.disabled = true
   } else {
     const studyBtn = document.querySelector('#studyBtn')
-    studyBtn.addEventListener('click', () => TrainListPage.renderTrainListPage(speechPart))
+    studyBtn.addEventListener('click', () => TrainListPage.renderPage(speechPart))
   }
 }
 
@@ -101,10 +101,10 @@ function showTrainSuggest() {
     `
 
   const trainBtn = document.querySelector('#startTrainBtn')
-  trainBtn.addEventListener('click', () => TrainListPage.renderTrainListPage(speechPart))
+  trainBtn.addEventListener('click', () => TrainListPage.renderPage(speechPart))
   const goOnBtn = document.querySelector('#goOnBtn')
   goOnBtn.addEventListener('click', () => {
     studyWordCounter = 0
-    renderLookThroughPage(speechPart)
+    renderPage(speechPart)
   })
 }

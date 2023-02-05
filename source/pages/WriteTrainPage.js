@@ -10,7 +10,7 @@ let speechPart
 let initDictionary = []
 let currentDictionary = []
 
-export function renderWritePage(name) {
+export function renderPage(name) {
   speechPart = name
 
   initDictionary = utils.getWordsFromStorage(speechPart)
@@ -103,10 +103,10 @@ function checkWord(event) {
 
         utils.checkEmptyStorageBySpeechPart(speechPart)
 
-        newBtn.addEventListener('click', NewDictionaryPage.renderNewDictionariesPage)
-        oneMoreBtn.addEventListener('click', () => renderWritePage(speechPart))
+        newBtn.addEventListener('click', NewDictionaryPage.renderPage)
+        oneMoreBtn.addEventListener('click', () => renderPage(speechPart))
       } else {
-        renderWritePage(speechPart)
+        renderPage(speechPart)
       }
     }, 300)
   } else {

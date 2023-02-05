@@ -6,7 +6,7 @@ const WritePage = require('./WriteTrainPage')
 
 const content = document.querySelector('.content')
 
-export function renderTrainListPage(speechPart) {
+export function renderPage(speechPart) {
   content.innerHTML = `
     <div class="trainList">
         <div class="shadow-lg" id="writeTraining">
@@ -28,9 +28,9 @@ export function renderTrainListPage(speechPart) {
     `
 
   const enterCard = document.querySelector('#writeTraining')
-  enterCard.addEventListener('click', () => WritePage.renderWritePage(speechPart))
+  enterCard.addEventListener('click', () => WritePage.renderPage(speechPart))
   const spellCard = document.querySelector('#puzzleTraining')
-  spellCard.addEventListener('click', () => PuzzlePage.renderPuzzlePage(speechPart))
+  spellCard.addEventListener('click', () => PuzzlePage.renderPage(speechPart))
   const chooseCard = document.querySelector('#chooseTraining')
-  chooseCard.addEventListener('click', () => ChoosePage.renderChoosePage(speechPart))
+  chooseCard.addEventListener('click', () => ChoosePage.renderPage(speechPart))
 }
