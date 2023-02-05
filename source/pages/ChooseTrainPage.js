@@ -9,7 +9,7 @@ const contentRoot = document.querySelector('.content')
 let speechPart
 let currentDictionary = []
 
-export function renderChoosePage(name) {
+export function renderPage(name) {
   speechPart = name
 
   let initDictionary = utils.getWordsFromStorage(speechPart)
@@ -92,12 +92,12 @@ function checkChooseWord(event) {
 
       utils.checkEmptyStorageBySpeechPart(speechPart)
 
-      findNewBtn.addEventListener('click', NewDictionaryPage.renderNewDictionariesPage)
-      retryBtn.addEventListener('click', () => renderChoosePage(speechPart))
+      findNewBtn.addEventListener('click', NewDictionaryPage.renderPage)
+      retryBtn.addEventListener('click', () => renderPage(speechPart))
     }, '300')
   } else {
     setTimeout(() => {
-      renderChoosePage(speechPart)
+      renderPage(speechPart)
     }, '300')
   }
 }

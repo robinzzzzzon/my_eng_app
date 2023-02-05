@@ -8,9 +8,9 @@ let speechPart
 let initDictionary = []
 let currentDictionary = []
 
-export function renderPuzzlePage(name) {
+export function renderPage(name) {
   speechPart = name
-  
+
   initDictionary = utils.getWordsFromStorage(speechPart)
 
   if (!localStorage.length) {
@@ -161,14 +161,14 @@ function checkEnterWord(event) {
 
         utils.checkEmptyStorageBySpeechPart(speechPart)
 
-        newBtn.addEventListener('click', NewDictionaryPage.renderNewDictionariesPage)
-        retryBtn.addEventListener('click', () => renderPuzzlePage(speechPart))
+        newBtn.addEventListener('click', NewDictionaryPage.renderPage)
+        retryBtn.addEventListener('click', () => renderPage(speechPart))
       }, '300')
     } else {
       toggleClassForChar(resultChars)
 
       setTimeout(() => {
-        renderPuzzlePage(speechPart)
+        renderPage(speechPart)
       }, 300)
     }
   } else {

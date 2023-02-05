@@ -1,33 +1,22 @@
 import './styles/indexStyles.css'
 import './styles/commonStyles.css'
 import './bootstrap/btstrp_css/bootstrap.min.css'
-const NewDictionaryPage = require('./pages/NewDictionaryPage')
-const StudyDictionaryPage = require('./pages/StudyDictionaryPage')
-const ActualDictionaryPage = require('./pages/ActualDictionaryPage')
+const VocabularyPage = require('./pages/VocabularyPage')
+const SpeakingConfPage = require('./pages/SpeakingConfPage')
 
 const actionRoot = document.querySelector('.actionRoot')
-actionRoot.addEventListener('click', renderIndexPage)
+actionRoot.addEventListener('click', renderNextPage)
 
-if (!localStorage.length) {
-  const trainBtn = document.querySelector('[data-name="train"]')
-  trainBtn.disabled = 'true'
-
-  const seeAllBtn = document.querySelector('[data-name="seeAll"]')
-  seeAllBtn.disabled = 'true'
-}
-
-export function renderIndexPage(event) {
+function renderNextPage(event) {
   event.preventDefault()
 
   if (!event.target.dataset.name) return
 
   const name = event.target.dataset.name
 
-  if (name === 'choose') {
-    NewDictionaryPage.renderNewDictionariesPage()
-  } else if (name === 'train') {
-    StudyDictionaryPage.renderStudyDictionariesPage()
-  } else if (name === 'seeAll') {
-    ActualDictionaryPage.renderActualDictionaryPage()
+  if (name === 'vocabulary') {
+    VocabularyPage.renderPage(event)
+  } else if (name === 'speaking') {
+    SpeakingConfPage.renderPage(event)
   }
 }

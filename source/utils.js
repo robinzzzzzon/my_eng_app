@@ -117,3 +117,16 @@ export function checkEmptyStorageBySpeechPart(speechPart) {
     localStorage.removeItem(speechPart)
   }
 }
+
+export function getRandomListBySpeechPart(dictionary, speechPart, size = 5) {
+  const speechDictionary = dictionary.filter((item) => item.wordType === speechPart)
+  let randomList = []
+
+  while (randomList.length !== size) {
+    const phrase = speechDictionary[Math.floor(Math.random() * speechDictionary.length)]
+
+    if (!randomList.includes(phrase)) randomList.push(phrase)
+  }
+
+  return randomList
+}
