@@ -1,4 +1,5 @@
 const dictionary = require('../dictionary.json')
+const constants = require('../constants')
 const utils = require('../utils')
 
 const contentRoot = document.querySelector('.content')
@@ -7,14 +8,15 @@ export function renderPage(event, config) {
   event.preventDefault()
 
   const data = generateSpeakingData(config)
-  console.log(data)
 
-  // позже дополнить реализацию с учетом сложности
+  // поправить разворачивание элементов массива.
   contentRoot.innerHTML = `
   <div class="speakingAreaRoot">
-    <h2>Current topic is: AnyTopic</h2>
-    <div class="mainTask"></div>
-    <div class="availablePhrazes"></div>
+    <h2>${data.topic}</h2>
+    <div class="availablePhrazes">
+      <p>You should use these words:</p>
+      <div>${data.phrases}</div>
+    </div>
     <div>
       <button class="myBtn">Next</button>
     </div>
@@ -27,7 +29,7 @@ function generateSpeakingData(options) {
 
   switch (options[2]) {
     case 'First': {
-      // data.sentenses = generateSentenses(options[0], options[1])
+      data.topic = utils.getRandomTopic(constants.easyTopicList)
       const part1 = utils.getRandomListBySpeechPart(dictionary, 'useful phrases')
       const part2 = utils.getRandomListBySpeechPart(dictionary, 'idioms')
       data.phrases = [...part1, ...part2]
@@ -35,7 +37,7 @@ function generateSpeakingData(options) {
     }
 
     case 'Second': {
-      // data.sentenses = generateSentenses(options[0], options[1])
+      data.topic = utils.getRandomTopic(constants.middleTopicList)
       const part1 = utils.getRandomListBySpeechPart(dictionary, 'useful phrases')
       const part2 = utils.getRandomListBySpeechPart(dictionary, 'idioms')
       data.phrases = [...part1, ...part2]
@@ -43,7 +45,7 @@ function generateSpeakingData(options) {
     }
 
     case 'Third': {
-      // data.sentenses = generateSentenses(options[0], options[1])
+      data.topic = utils.getRandomTopic(constants.hardTopicList)
       const part1 = utils.getRandomListBySpeechPart(dictionary, 'useful phrases')
       const part2 = utils.getRandomListBySpeechPart(dictionary, 'idioms')
       data.phrases = [...part1, ...part2]
