@@ -130,3 +130,7 @@ export function getRandomListBySpeechPart(dictionary, speechPart, size = 5) {
 
   return randomList
 }
+
+export function getRandomTopic(topicList) {
+  return topicList[Math.floor(Math.random() * topicList.length)]
+}
