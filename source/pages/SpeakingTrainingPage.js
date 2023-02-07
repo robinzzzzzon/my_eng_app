@@ -1,3 +1,5 @@
+import '../styles/speakingTrainingStyles.css'
+
 const dictionary = require('../dictionary.json')
 const constants = require('../constants')
 const utils = require('../utils')
@@ -9,19 +11,23 @@ export function renderPage(event, config) {
 
   const data = generateSpeakingData(config)
 
-  // поправить разворачивание элементов массива.
   contentRoot.innerHTML = `
   <div class="speakingAreaRoot">
-    <h2>${data.topic}</h2>
-    <div class="availablePhrazes">
-      <p>You should use these words:</p>
-      <div>${data.phrases}</div>
+    <h2>Current topic: ${data.topic}</h2>
+    <p>You should use these words or phrases:</p>
+    <div class="availablePhrases">
     </div>
-    <div>
-      <button class="myBtn">Next</button>
-    </div>
+    <button class="myBtn">Next</button>
   </div>
   `
+
+  const phrasesRoot = document.querySelector('.availablePhrases')
+
+  for (let index = 0; index < data.phrases.length; index++) {
+    const phrase = document.createElement('div')
+    phrase.textContent = data.phrases[index].word
+    phrasesRoot.append(phrase)
+  }
 }
 
 function generateSpeakingData(options) {

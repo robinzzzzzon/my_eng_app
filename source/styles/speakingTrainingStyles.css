@@ -1,0 +1,21 @@
+.speakingAreaRoot p {
+  text-align: center;
+  font-size: 18px;
+}
+
+.speakingAreaRoot button {
+  float: right;
+  background-color: lightcyan;
+}
+
+.availablePhrases {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: 50px;
+  align-items: center;
+  justify-items: center;
+}
+
+.availablePhrases div {
+  font-size: 18px;
+}
