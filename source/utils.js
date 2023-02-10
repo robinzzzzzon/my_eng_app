@@ -118,7 +118,7 @@ export function checkEmptyStorageBySpeechPart(speechPart) {
   }
 }
 
-export function getRandomListBySpeechPart(dictionary, speechPart, size = 5) {
+export function getRandomListBySpeechPart(dictionary, speechPart, size) {
   const speechDictionary = dictionary.filter((item) => item.wordType === speechPart)
   let randomList = []
 
