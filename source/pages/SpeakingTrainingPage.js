@@ -1,5 +1,4 @@
 import '../styles/speakingTrainingStyles.css'
-
 const dictionary = require('../dictionary.json')
 const constants = require('../constants')
 const utils = require('../utils')
@@ -22,9 +21,13 @@ export function renderPage(event, config) {
     </div>
     <p>You should use these words or phrases:</p>
     <div class="availablePhrases"></div>
+    <div id="timer"></div>
     <button class="myBtn nextBtn">Next</button>
   </div>
   `
+
+  const timer = document.querySelector('#timer')
+  utils.setTimer(timer)
 
   const phrasesRoot = document.querySelector('.availablePhrases')
 

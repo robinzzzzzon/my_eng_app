@@ -1,7 +1,6 @@
 const path = require('path')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlPlugin = require('html-webpack-plugin')
-const ASSET_PATH = process.env.ASSET_PATH || '/'
 
 module.exports = {
   entry: {
