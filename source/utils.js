@@ -134,3 +134,28 @@ export function getRandomListBySpeechPart(dictionary, speechPart, size) {
 export function getRandomTopic(topicList) {
   return topicList[Math.floor(Math.random() * topicList.length)]
 }
+
+export function setTimer(element, interval = 20) {
+  interval--
+  let seconds = 59
+  setTimeout(function counter() {
+    if (!interval && seconds < 0) {
+      element.textContent = ''
+      return
+    } else if (seconds < 10) {
+      if (seconds < 0) {
+        interval--
+        seconds = 59
+      } else {
+        seconds = `0${seconds}`
+      }
+    } else if (interval < 10 && !interval.toString().startsWith('0')) {
+      interval = `0${interval}`
+    }
+
+    element.textContent = `${interval}:${seconds}`
+
+    seconds--
+    setTimeout(counter, 1000)
+  }, 1000)
+}
