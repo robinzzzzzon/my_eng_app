@@ -1,71 +1,48 @@
-const mongoose = require('mongoose')
-const WordScheme = require('./Word')
-
-const Schema = new mongoose.Schema(WordScheme.word)
-const Model = mongoose.model('Word', Schema)
+const WordService = require('./WordService')
 
 module.exports = {
   async add(req, res) {
     try {
-      const { word, translate, wordType } = req.body
-      const post = await Model.create({ word, translate, wordType })
+      const post = await WordService.add(req.body)
       res.json(post)
     } catch (e) {
-      res.status(500).json(e)
+      res.status(500).json(e.message)
     }
   },
 
   async getAll(req, res) {
     try {
-      const getWords = await Model.find()
+      const getWords = await WordService.getAll()
       return res.json(getWords)
     } catch (e) {
-      res.status(500).json(e)
+      res.status(500).json(e.message)
     }
   },
 
   async getOne(req, res) {
     try {
-      const { id } = req.params
-
-      if (!id) {
-        res.status(400).json('Id не указан')
-      }
-
-      const getWord = await Model.findById(id)
+      const getWord = await WordService.getOne(req.params.id)
       return res.json(getWord)
     } catch (e) {
-      res.status(500).json(e)
+      res.status(500).json(e.message)
     }
   },
 
   async update(req, res) {
     try {
-      const getWord = req.body
-
-      if (!getWord._id) {
-        res.status(400).json('Id не указан')
-      }
-
-      const updateWord = await Model.findByIdAndUpdate(getWord._id, getWord, { new: true })
+      const updateWord = await WordService.update(req.body)
       return res.json(updateWord)
     } catch (e) {
-      res.status(500).json(e)
+      res.status(500).json(e.message)
     }
   },
 
   async delete(req, res) {
     try {
-      const { id } = req.params
-
-      if (!id) {
-        res.status(400).json('Id не указан')
-      }
-
-      const deleteWord = await Model.findByIdAndDelete(id)
+      const deleteWord = await WordService.delete(req.params.id)
       return res.json(deleteWord)
     } catch (e) {
-      res.status(500).json(e)
+      res.status(500).json(e.message)
     }
   },
 }

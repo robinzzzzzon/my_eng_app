@@ -11,13 +11,13 @@ const api = express()
 api.use(express.json())
 api.use('/api', Route.router)
 
-async function connectToDb() {
+async function connectDb() {
   try {
     await mongoose.connect(DB_URL)
-    api.listen(API_PORT, () => console.log('СЕРВЕР РАБОТАЕТ'))
+    api.listen(API_PORT, () => console.log('Server started'))
   } catch (e) {
     console.log(e)
   }
 }
 
-connectToDb()
+connectDb()
