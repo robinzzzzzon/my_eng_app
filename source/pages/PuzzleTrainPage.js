@@ -1,3 +1,4 @@
+import { domain } from '../constants'
 import '../styles/puzzleTrainStyles.css'
 const NewDictionaryPage = require('./NewDictionaryPage')
 const utils = require('../utils')
@@ -5,18 +6,26 @@ const utils = require('../utils')
 const contentRoot = document.querySelector('.content')
 
 let speechPart
-let initDictionary = []
-let currentDictionary = []
+let initDictionary = null
+let currentDictionary = null
 
-export function renderPage(name) {
+export async function renderPage(name) {
   speechPart = name
 
-  initDictionary = utils.getWordsFromStorage(speechPart)
+  if (!initDictionary) {
+    initDictionary = await utils.makeRequest({
+      methodType: 'GET',
+      getUrl: `${domain}/words/study`,
+      getParams: { wordType: speechPart },
+    })
+  }
 
-  if (!localStorage.length) {
-    return
-  } else if (!currentDictionary.length) {
-    currentDictionary = utils.getWordsFromStorage(speechPart)
+  if (!currentDictionary) {
+    currentDictionary = await utils.makeRequest({
+      methodType: 'GET',
+      getUrl: `${domain}/words/study`,
+      getParams: { wordType: speechPart },
+    })
   }
 
   contentRoot.innerHTML = `
@@ -24,7 +33,7 @@ export function renderPage(name) {
         <div class="myProgressBar shadow"></div>
         <div class="rootArea shadow">
           <div class="spellArea">
-            <div id="translateDiv">${currentDictionary[0].translate}</div>
+            <div id="translateDiv">${currentDictionary.data[0].translate}</div>
               <div id="wordDiv"></div>
             </div>
             <div id="charArea" tabindex="0"></div>
@@ -38,7 +47,7 @@ export function renderPage(name) {
 
   utils.fillProgressBar(initDictionary, currentDictionary)
 
-  genCharacters(currentDictionary[0])
+  genCharacters(currentDictionary.data[0])
 
   const checkBtn = document.querySelector('#checkBtn')
   const clearBtn = document.querySelector('#clearBtn')
@@ -71,13 +80,14 @@ function genCharacters(getWord) {
   charArea.focus()
 }
 
-function clearWordProgress(event, word = currentDictionary[0]) {
+function clearWordProgress(event, word = currentDictionary.data[0]) {
   event.preventDefault()
 
   const charArea = document.querySelector('#charArea')
   const wordDiv = document.querySelector('#wordDiv')
   charArea.innerHTML = ''
   wordDiv.innerHTML = ''
+
   genCharacters(word)
 }
 
@@ -87,10 +97,10 @@ function moveCharToWordArea(event) {
 
   const targetChar = event.target
   const keyChar = event.key
-  const wordDiv = document.querySelector('#wordDiv')
-  const charArea = document.querySelector('#charArea')
-  wordDiv.style.gridTemplateColumns = `repeat(${currentDictionary[0].word.length}, 1fr)`
   const charsList = document.querySelectorAll('#charArea > .char')
+  const charArea = document.querySelector('#charArea')
+  const wordDiv = document.querySelector('#wordDiv')
+  wordDiv.style.gridTemplateColumns = `repeat(${currentDictionary.data[0].word.length}, 1fr)`
 
   // по 1му совпадению с клавиатуры перемещаем char:
   const arr = []
@@ -118,7 +128,7 @@ function moveCharToWordArea(event) {
   }
 }
 
-function checkEnterWord(event) {
+async function checkEnterWord(event) {
   event.preventDefault()
 
   const translateDiv = document.querySelector('#translateDiv')
@@ -130,40 +140,41 @@ function checkEnterWord(event) {
 
   let resultWord = ''
 
-  for (let index = 0; index < currentDictionary[0].word.length; index++) {
+  for (let index = 0; index < currentDictionary.data[0].word.length; index++) {
     resultWord = resultWord.concat(resultChars[index].textContent)
   }
 
-  if (resultWord === currentDictionary[0].word) {
-    utils.modifyStudyLevel(speechPart, currentDictionary[0], true)
+  if (resultWord === currentDictionary.data[0].word) {
+    await utils.modifyStudyLevel(speechPart, currentDictionary.data[0], true)
 
-    currentDictionary.shift()
+    currentDictionary.data.shift()
 
-    if (!currentDictionary.length) {
+    if (!currentDictionary.data.length) {
+      currentDictionary = null
+      initDictionary = null
+
       toggleClassForChar(resultChars)
 
-      setTimeout(() => {
-        const progressBar = document.querySelector('.myProgressBar')
-        progressBar.innerHTML = ''
-        translateDiv.textContent = 'Отлично! Тебе это удалось :)'
-        wordDiv.innerHTML = ''
-        btnDiv.innerHTML = ''
-        const newBtn = document.createElement('button')
-        newBtn.classList.add('myBtn')
-        newBtn.setAttribute('id', 'findNewBtn')
-        newBtn.textContent = 'Выбрать слова'
-        const retryBtn = document.createElement('button')
-        retryBtn.classList.add('myBtn')
-        retryBtn.setAttribute('id', 'retryBtn')
-        retryBtn.textContent = 'Еще раз'
-        btnDiv.append(newBtn)
-        btnDiv.append(retryBtn)
+      const progressBar = document.querySelector('.myProgressBar')
+      progressBar.innerHTML = ''
+      translateDiv.textContent = 'Отлично! Тебе это удалось :)'
+      wordDiv.innerHTML = ''
+      btnDiv.innerHTML = ''
+      const newBtn = document.createElement('button')
+      newBtn.classList.add('myBtn')
+      newBtn.setAttribute('id', 'findNewBtn')
+      newBtn.textContent = 'Выбрать слова'
+      const retryBtn = document.createElement('button')
+      retryBtn.classList.add('myBtn')
+      retryBtn.setAttribute('id', 'retryBtn')
+      retryBtn.textContent = 'Еще раз'
+      btnDiv.append(newBtn)
+      btnDiv.append(retryBtn)
 
-        utils.checkEmptyStorageBySpeechPart(speechPart)
+      await utils.checkAvailableStudyWords(speechPart)
 
-        newBtn.addEventListener('click', NewDictionaryPage.renderPage)
-        retryBtn.addEventListener('click', () => renderPage(speechPart))
-      }, '300')
+      newBtn.addEventListener('click', NewDictionaryPage.renderPage)
+      retryBtn.addEventListener('click', () => renderPage(speechPart))
     } else {
       toggleClassForChar(resultChars)
 
@@ -172,12 +183,13 @@ function checkEnterWord(event) {
       }, 300)
     }
   } else {
-    utils.modifyStudyLevel(speechPart, currentDictionary[0])
+    await utils.modifyStudyLevel(speechPart, currentDictionary.data[0])
 
     toggleClassForChar(resultChars, 'wrongChar')
 
     setTimeout(() => {
       clearWordProgress(event)
+
       checkBtn.disabled = true
       clearBtn.disabled = false
     }, '300')

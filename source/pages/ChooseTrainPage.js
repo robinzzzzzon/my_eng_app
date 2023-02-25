@@ -1,32 +1,33 @@
 import '../styles/chooseTrainStyles.css'
 const utils = require('../utils')
 const constants = require('../constants')
-const fullDictionary = require('../dictionary.json')
 const NewDictionaryPage = require('./NewDictionaryPage')
 
 const contentRoot = document.querySelector('.content')
 
 let speechPart
-let currentDictionary = []
+let initDictionary = null
+let currentDictionary = null
+let fullDictionary = null
 
-export function renderPage(name) {
+export async function renderPage(name) {
   speechPart = name
 
-  let initDictionary = utils.getWordsFromStorage(speechPart)
-
-  if (!localStorage.length) {
-    return
-  } else if (!currentDictionary.length) {
-    currentDictionary = utils.getWordsFromStorage(speechPart)
+  if (!currentDictionary) {
+    currentDictionary = await utils.makeRequest({
+      methodType: 'GET',
+      getUrl: `${constants.domain}/words/study/`,
+      getParams: { wordType: speechPart },
+    })
   }
 
-  const translateArray = getRandomTranslateArray(currentDictionary[0])
+  const translateArray = await getRandomTranslateArray(currentDictionary.data[0])
 
   contentRoot.innerHTML = `
     <div class="wrapper">
       <div class="myProgressBar shadow"></div>
       <div class="trainArea shadow">
-        <div id="wordItem">${currentDictionary[0].word}</div>
+        <div id="wordItem">${currentDictionary.data[0].word}</div>
         <div class="itemArea">
             <div id="item">${translateArray[0]}</div>
             <div id="item">${translateArray[1]}</div>
@@ -37,18 +38,34 @@ export function renderPage(name) {
     </div>
     `
 
+  if (!initDictionary) {
+    initDictionary = await utils.makeRequest({
+      methodType: 'GET',
+      getUrl: `${constants.domain}/words/study/`,
+      getParams: { wordType: speechPart },
+    })
+  }
+
   utils.fillProgressBar(initDictionary, currentDictionary)
 
   const itemArea = document.querySelector('.itemArea')
   itemArea.addEventListener('click', checkChooseWord)
 }
 
-function getRandomTranslateArray(studyWord) {
+async function getRandomTranslateArray(studyWord) {
+  if (!fullDictionary) {
+    fullDictionary = await utils.makeRequest({
+      methodType: 'GET',
+      getUrl: `${constants.domain}/words/init/`,
+    })
+  }
+
   let translateArray = []
   const getTranslate = studyWord.translate
 
   for (let index = 0; translateArray.length < 3; index++) {
-    const translate = fullDictionary[Math.floor(Math.random() * fullDictionary.length)].translate
+    const translate =
+      fullDictionary.data[Math.floor(Math.random() * fullDictionary.data.length)].translate
     if (!translateArray.includes(translate) && translate !== getTranslate) {
       translateArray.push(translate)
     }
@@ -59,25 +76,27 @@ function getRandomTranslateArray(studyWord) {
   return translateArray.sort(() => Math.random() - 0.5)
 }
 
-function checkChooseWord(event) {
+async function checkChooseWord(event) {
   event.preventDefault()
 
   const chooseWord = event.target
 
   if (chooseWord.id !== 'item') return
 
-  if (chooseWord.textContent === currentDictionary[0].translate) {
+  if (chooseWord.textContent === currentDictionary.data[0].translate) {
     chooseWord.style.backgroundColor = constants.system_colors.success
-    utils.modifyStudyLevel(speechPart, currentDictionary[0], true)
-    currentDictionary.shift()
+    await utils.modifyStudyLevel(speechPart, currentDictionary.data[0], true)
+    currentDictionary.data.shift()
   } else {
     chooseWord.style.backgroundColor = constants.system_colors.failed
-    utils.modifyStudyLevel(speechPart, currentDictionary[0])
+    await utils.modifyStudyLevel(speechPart, currentDictionary.data[0])
   }
 
-  if (!currentDictionary.length) {
-    setTimeout(() => {
-      contentRoot.innerHTML = `
+  if (!currentDictionary.data.length) {
+    currentDictionary = null
+    initDictionary = null
+
+    contentRoot.innerHTML = `
             <div class="finishArea">
                 <div id="finishWordArea">Вы хорошо позанимались!</div>
                 <div class="finishBtnArea">
@@ -87,17 +106,14 @@ function checkChooseWord(event) {
             </div>
             `
 
-      const findNewBtn = document.querySelector('#findNewBtn')
-      const retryBtn = document.querySelector('#retryBtn')
+    const findNewBtn = document.querySelector('#findNewBtn')
+    const retryBtn = document.querySelector('#retryBtn')
 
-      utils.checkEmptyStorageBySpeechPart(speechPart)
+    await utils.checkAvailableStudyWords(speechPart)
 
-      findNewBtn.addEventListener('click', NewDictionaryPage.renderPage)
-      retryBtn.addEventListener('click', () => renderPage(speechPart))
-    }, '300')
+    findNewBtn.addEventListener('click', NewDictionaryPage.renderPage)
+    retryBtn.addEventListener('click', () => renderPage(speechPart))
   } else {
-    setTimeout(() => {
-      renderPage(speechPart)
-    }, '300')
+    renderPage(speechPart)
   }
 }

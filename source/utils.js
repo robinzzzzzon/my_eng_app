@@ -1,3 +1,6 @@
+import { domain } from './constants'
+const axios = require('axios').default
+
 export function addWordToStorage(getWord, storageName) {
   let studyWords = this.getWordsFromStorage(storageName)
   const nameList = studyWords.map((el) => el.word)
@@ -12,96 +15,71 @@ export function getWordsFromStorage(itemName) {
   return JSON.parse(localStorage.getItem(itemName) || '[]')
 }
 
-export function filterCurrentDictionary(dictionary, speechPart) {
-  let studyArray = getWordsFromStorage(speechPart)
+export async function filterCurrentDictionary(dictionary, speechPart) {
+  let studyArray = await makeRequest({
+    methodType: 'GET',
+    getUrl: `${domain}/words/study/`,
+    getParams: { wordType: speechPart },
+  })
 
-  if (studyArray) {
-    studyArray = studyArray.map((item) => item.word)
+  if (studyArray.data.length) {
+    studyArray = studyArray.data.map((item) => item.word)
 
-    dictionary = dictionary.filter((item) => !studyArray.includes(item.word))
+    dictionary.data = dictionary.data.filter((item) => !studyArray.includes(item.word))
   }
 
   return dictionary
 }
 
-export function modifyStudyLevel(speechPart, getWord, isRight) {
-  let speechDictionary = []
-  let allStudyDictionary = []
+export async function modifyStudyLevel(speechPart, getWord, isRight) {
+  let speechDictionary = await makeRequest({
+    methodType: 'GET',
+    getUrl: `${domain}/words/study/`,
+    getParams: { wordType: speechPart },
+  })
 
-  if (speechPart === 'all-study-words') {
-    speechDictionary = JSON.parse(localStorage.getItem(getWord.wordType))
-    allStudyDictionary = getWordsFromStorage(speechPart)
-  } else {
-    speechDictionary = getWordsFromStorage(speechPart)
-    allStudyDictionary = getWordsFromStorage('all-study-words')
-  }
-
-  const currentWord = speechDictionary.find((item) => item.word === getWord.word)
+  let currentWord = Array.from(speechDictionary.data).find((item) => item.word === getWord.word)
 
   if (isRight) {
     if (currentWord.studyLevel === 4) {
-      speechDictionary = speechDictionary.filter((item) => item.word !== getWord.word)
-      allStudyDictionary = allStudyDictionary.filter((item) => item.word !== getWord.word)
-
-      if (!allStudyDictionary.length) {
-        localStorage.clear()
-      } else if (speechPart === 'all-study-words') {
-        localStorage.setItem(getWord.wordType, JSON.stringify(speechDictionary))
-        localStorage.setItem(speechPart, JSON.stringify(allStudyDictionary))
-      } else {
-        localStorage.setItem(speechPart, JSON.stringify(speechDictionary))
-        localStorage.setItem('all-study-words', JSON.stringify(allStudyDictionary))
-      }
+      await makeRequest({
+        methodType: 'DELETE',
+        getUrl: `${domain}/words/study/${currentWord._id}`,
+      })
 
       return
     }
 
-    speechDictionary.forEach((item) => {
-      if (item.word === getWord.word) {
-        item.studyLevel++
-      }
-    })
+    currentWord.studyLevel++
 
-    allStudyDictionary.forEach((item) => {
-      if (item.word === getWord.word) {
-        item.studyLevel++
-      }
+    await makeRequest({
+      methodType: 'UPDATE',
+      getUrl: `${domain}/words/study/${currentWord._id}`,
+      getBody: currentWord,
     })
   } else {
     if (currentWord.studyLevel === 0) return
 
-    speechDictionary.forEach((item) => {
-      if (item.word === getWord.word) {
-        item.studyLevel--
-      }
-    })
+    currentWord.studyLevel--
 
-    allStudyDictionary.forEach((item) => {
-      if (item.word === getWord.word) {
-        item.studyLevel--
-      }
+    await makeRequest({
+      methodType: 'UPDATE',
+      getUrl: `${domain}/words/study/${currentWord._id}`,
+      getBody: currentWord,
     })
-  }
-
-  if (speechPart === 'all-study-words') {
-    localStorage.setItem(getWord.wordType, JSON.stringify(speechDictionary))
-    localStorage.setItem(speechPart, JSON.stringify(allStudyDictionary))
-  } else {
-    localStorage.setItem(speechPart, JSON.stringify(speechDictionary))
-    localStorage.setItem('all-study-words', JSON.stringify(allStudyDictionary))
   }
 }
 
 export function fillProgressBar(initDictionary, currentDictionary, selector = '.myProgressBar') {
   const progressBar = document.querySelector(selector)
-  progressBar.style.gridTemplateColumns = `repeat(${initDictionary.length}, 1fr)`
+  progressBar.style.gridTemplateColumns = `repeat(${initDictionary.data.length}, 1fr)`
 
-  for (let index = 0; index < initDictionary.length; index++) {
+  for (let index = 0; index < initDictionary.data.length; index++) {
     const item = document.createElement('div')
     progressBar.append(item)
   }
 
-  const colorizeLength = initDictionary.length - currentDictionary.length
+  const colorizeLength = initDictionary.data.length - currentDictionary.data.length
 
   let itemList = document.querySelector(selector).childNodes
   itemList = Array.from(itemList)
@@ -111,11 +89,14 @@ export function fillProgressBar(initDictionary, currentDictionary, selector = '.
   }
 }
 
-export function checkEmptyStorageBySpeechPart(speechPart) {
-  if (!JSON.parse(localStorage.getItem(speechPart)).length) {
-    retryBtn.disabled = 'true'
-    localStorage.removeItem(speechPart)
-  }
+export async function checkAvailableStudyWords(speechPart) {
+  let studyList = await makeRequest({
+    methodType: 'GET',
+    getUrl: `${domain}/words/study/`,
+    getParams: { wordType: speechPart },
+  })
+
+  if (!studyList.data.length) retryBtn.disabled = 'true'
 }
 
 export function getRandomListBySpeechPart(dictionary, speechPart, size) {
@@ -158,4 +139,31 @@ export function setTimer(element, interval = 20) {
     seconds--
     setTimeout(counter, 1000)
   }, 1000)
+}
+
+export async function makeRequest({ methodType, getUrl, getBody, getParams }) {
+  let res = null
+
+  switch (methodType) {
+    case 'GET':
+      res = await axios.get(getUrl, { params: getParams })
+      break
+
+    case 'POST': {
+      res = await axios.post(getUrl, getBody)
+      break
+    }
+
+    case 'UPDATE': {
+      res = await axios.put(getUrl, getBody)
+      break
+    }
+
+    case 'DELETE': {
+      res = await axios.delete(getUrl)
+      break
+    }
+  }
+
+  return res
 }
