@@ -7,7 +7,7 @@ const SpeakingConfPage = require('./pages/SpeakingConfPage')
 const actionRoot = document.querySelector('.actionRoot')
 actionRoot.addEventListener('click', renderNextPage)
 
-function renderNextPage(event) {
+async function renderNextPage(event) {
   event.preventDefault()
 
   if (!event.target.dataset.name) return
@@ -15,7 +15,7 @@ function renderNextPage(event) {
   const name = event.target.dataset.name
 
   if (name === 'vocabulary') {
-    VocabularyPage.renderPage(event)
+    await VocabularyPage.renderPage(event)
   } else if (name === 'speaking') {
     SpeakingConfPage.renderPage(event)
   }

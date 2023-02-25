@@ -1,8 +1,9 @@
 import '../styles/lookThroughStyles.css'
+import { domain } from '../constants'
 const utils = require('../utils')
-const dictionary = require('../dictionary.json')
 const TrainListPage = require('./TrainListPage')
 const NewDictionaryPage = require('./NewDictionaryPage')
+const axios = require('axios').default
 
 const contentRoot = document.querySelector('.content')
 
@@ -10,21 +11,30 @@ let speechPart
 let currentDictionary = []
 let studyWordCounter = 0
 
-export function renderPage(name) {
+export async function initPage(name) {
   speechPart = name
 
   if (!currentDictionary.length) {
-    currentDictionary = dictionary.filter((item) => item.wordType === speechPart)
-    currentDictionary = utils.filterCurrentDictionary(currentDictionary, speechPart)
+    currentDictionary = await utils.makeRequest({
+      methodType: 'GET',
+      getUrl: `${domain}/words/init/`,
+      getParams: { wordType: speechPart },
+    })
 
-    if (!currentDictionary.length) renderEmptyDictionary()
+    currentDictionary = await utils.filterCurrentDictionary(currentDictionary, speechPart)
+
+    if (!currentDictionary.data.length) renderEmptyDictionary()
   }
 
+  renderPage()
+}
+
+function renderPage() {
   contentRoot.innerHTML = `
     <div class="cardRoot shadow">
         <div class="cardWordArea" id="wordArea">
-            <div><b>${currentDictionary[0].word}</b></div>
-            <div>${currentDictionary[0].translate}</div> 
+            <div><b>${currentDictionary.data[0].word}</b></div>
+            <div>${currentDictionary.data[0].translate}</div> 
         </div>
         <div class="cardBtnDiv">
             <button class="myBtn btn-lg" id="knowBtn">Уже знаю</button> 
@@ -39,23 +49,29 @@ export function renderPage(name) {
   studyBtn.addEventListener('click', studyThisWord)
 }
 
-export function showNewWord(event) {
+function showNewWord(event) {
   event.preventDefault()
 
-  currentDictionary.shift()
+  currentDictionary.data.shift()
 
-  if (!currentDictionary.length) {
+  if (!currentDictionary.data.length) {
     renderEmptyDictionary()
   } else {
-    renderPage(speechPart)
+    renderPage()
   }
 }
 
-function studyThisWord(event) {
+async function studyThisWord(event) {
   event.preventDefault()
 
-  utils.addWordToStorage(currentDictionary[0], `${speechPart}`)
-  utils.addWordToStorage(currentDictionary[0], `all-study-words`)
+  const addStudyWord = {
+    word: currentDictionary.data[0].word,
+    translate: currentDictionary.data[0].translate,
+    wordType: currentDictionary.data[0].wordType,
+    studyLevel: 0,
+  }
+
+  await axios.post(`${domain}/words/study/`, addStudyWord)
 
   studyWordCounter++
 
@@ -80,8 +96,14 @@ function renderEmptyDictionary() {
   checkTrainAvailable()
 }
 
-function checkTrainAvailable() {
-  if (!JSON.parse(localStorage.getItem(speechPart))) {
+async function checkTrainAvailable() {
+  const studyList = await utils.makeRequest({
+    methodType: 'GET',
+    getUrl: `${domain}/words/study/`,
+    getParams: { wordType: speechPart },
+  })
+
+  if (!studyList.data.length) {
     const studyBtn = document.querySelector('#studyBtn')
     studyBtn.disabled = true
   } else {
@@ -105,6 +127,6 @@ function showTrainSuggest() {
   const goOnBtn = document.querySelector('#goOnBtn')
   goOnBtn.addEventListener('click', () => {
     studyWordCounter = 0
-    renderPage(speechPart)
+    renderPage()
   })
 }

@@ -11,6 +11,8 @@ export const speechList = [
   { dataName: 'useful phrases', translateName: 'популярные фразы', color: '#9ACD32' },
 ]
 
+export const domain = 'http://{{current_ip}}:5000/api'
+
 export const system_colors = {
   success: '#94ff94',
   failed: '#ff8c8c',

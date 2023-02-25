@@ -1,21 +1,29 @@
+import { domain } from '../constants'
 import '../styles/actualDictionaryStyles.css'
 const utils = require('../utils')
 
 const content = document.querySelector('.content')
+let studyList = null
 
-export function renderPage() {
+export async function initPage() {
   content.innerHTML = `<div class="actualDictionaryRoot"></div>`
 
-  const actualDictionaryRoot = document.querySelector('.actualDictionaryRoot')
-  const dictionary = utils.getWordsFromStorage('all-study-words')
+  studyList = await utils.makeRequest({ methodType: 'GET', getUrl: `${domain}/words/study` })
 
-  for (let index = 0; index < dictionary.length; index++) {
+  renderPage()
+}
+
+function renderPage() {
+  const actualDictionaryRoot = document.querySelector('.actualDictionaryRoot')
+  actualDictionaryRoot.innerHTML = ''
+
+  for (let index = 0; index < studyList.data.length; index++) {
     const item = document.createElement('div')
     item.classList.add('actualItem')
     item.classList.add('shadow-sm')
     item.innerHTML = `
-      <div id="word">${dictionary[index].word}</div>
-      <div id="translate">${dictionary[index].translate}</div>
+      <div id="word">${studyList.data[index].word}</div>
+      <div id="translate">${studyList.data[index].translate}</div>
       <div class="wordBtnRoot">
         <button class="btn btn-outline-secondary btn-sm" id="clearProgress">Reset</button>
         <button class="btn btn-outline-warning btn-sm" id="removeWord">Delete</button>
@@ -36,68 +44,49 @@ export function renderPage() {
   }
 }
 
-function clearWordProgress(event) {
+async function clearWordProgress(event) {
   event.preventDefault()
 
   const clearBtn = event.target
 
   if (clearBtn.id !== 'clearProgress') return
 
-  const word = this.querySelector('div').textContent
+  const itemWordText = this.querySelector('div').textContent
 
-  let findType
-
-  const allWordsList = utils.getWordsFromStorage('all-study-words').map((item) => {
-    if (item.word === word) {
+  await studyList.data.forEach((item) => {
+    if (item.word === itemWordText) {
       item.studyLevel = 0
-      findType = item.wordType
+      utils.makeRequest({
+        methodType: 'UPDATE',
+        getUrl: `${domain}/words/study/${item._id}`,
+        getBody: item,
+      })
     }
-    return item
   })
-
-  const typeWordsList = utils.getWordsFromStorage(findType).map((item) => {
-    if (item.word === word) {
-      item.studyLevel = 0
-    }
-    return item
-  })
-
-  localStorage.setItem('all-study-words', JSON.stringify(allWordsList))
-  localStorage.setItem(findType, JSON.stringify(typeWordsList))
 }
 
-function removeWord(event) {
+async function removeWord(event) {
   event.preventDefault()
 
   const removeBtn = event.target
 
   if (removeBtn.id !== 'removeWord') return
 
-  const word = this.querySelector('div').textContent
+  let findWord = null
+  const thisWordText = this.querySelector('div').textContent
 
-  let findType
-
-  const allWordsList = utils.getWordsFromStorage('all-study-words').filter((item) => {
-    if (item.word === word) {
-      findType = item.wordType
-      return
+  studyList.data.forEach((item) => {
+    if (item.word === thisWordText) {
+      findWord = item
     }
-    return item
   })
 
-  const typeWordsList = utils.getWordsFromStorage(findType).filter((item) => item.word !== word)
+  await utils.makeRequest({
+    methodType: 'DELETE',
+    getUrl: `${domain}/words/study/${findWord._id}`,
+  })
 
-  if (!typeWordsList.length) {
-    localStorage.removeItem(findType)
-  } else {
-    localStorage.setItem(findType, JSON.stringify(typeWordsList))
-  }
-
-  if (!allWordsList.length) {
-    localStorage.removeItem('all-study-words')
-  } else {
-    localStorage.setItem('all-study-words', JSON.stringify(allWordsList))
-  }
+  studyList.data = Array.from(studyList.data).filter((item) => item.word !== thisWordText)
 
   renderPage()
 }

@@ -1,14 +1,19 @@
 const LookThroughPage = require('./LookThroughPage')
-const dictionary = require('../dictionary.json')
 const utils = require('../utils')
-const { speechList } = require('../constants')
+const { speechList, domain } = require('../constants')
 
 const content = document.querySelector('.content')
 
-export function renderPage() {
-  content.innerHTML = `<div class="dictionaryRoot"></div>`
+export async function renderPage() {
+  let dictionaryRoot = document.createElement('div')
+  dictionaryRoot.classList.add('dictionaryRoot')
 
-  const dictionaryRoot = document.querySelector('.dictionaryRoot')
+  content.innerHTML = `
+    <div class="d-flex align-items-center">
+      <strong>Loading...</strong>
+      <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+    </div>
+    `
 
   for (let index = 0; index < speechList.length; index++) {
     const item = document.createElement('button')
@@ -18,13 +23,25 @@ export function renderPage() {
     item.setAttribute('data-name', speechList[index].dataName)
     item.textContent = speechList[index].translateName.toUpperCase()
 
-    const dictionaryList = dictionary.filter((item) => item.wordType === speechList[index].dataName)
-    const storageList = utils.getWordsFromStorage(speechList[index].dataName)
+    const dictionaryList = await utils.makeRequest({
+      methodType: 'GET',
+      getUrl: `${domain}/words/init/`,
+      getParams: { wordType: speechList[index].dataName },
+    })
 
-    if (dictionaryList.length === storageList.length) item.disabled = 'true'
+    const studyList = await utils.makeRequest({
+      methodType: 'GET',
+      getUrl: `${domain}/words/study/`,
+      getParams: { wordType: speechList[index].dataName },
+    })
+
+    if (dictionaryList.data.length === studyList.data.length) item.disabled = 'true'
 
     dictionaryRoot.append(item)
   }
+
+  content.innerHTML = ''
+  content.append(dictionaryRoot)
 
   dictionaryRoot.addEventListener('click', (event) => {
     event.preventDefault()
@@ -33,6 +50,6 @@ export function renderPage() {
 
     const name = event.target.dataset.name
 
-    LookThroughPage.renderPage(name)
+    LookThroughPage.initPage(name)
   })
 }
