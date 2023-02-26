@@ -3,7 +3,7 @@ const utils = require('../utils')
 const constants = require('../constants')
 const NewDictionaryPage = require('./NewDictionaryPage')
 
-const contentRoot = document.querySelector('.content')
+const content = document.querySelector('.content')
 
 let speechPart
 let initDictionary = null
@@ -13,6 +13,8 @@ let fullDictionary = null
 export async function renderPage(name) {
   speechPart = name
 
+  content.innerHTML = constants.spinner
+
   if (!currentDictionary) {
     currentDictionary = await utils.makeRequest({
       methodType: 'GET',
@@ -21,9 +23,17 @@ export async function renderPage(name) {
     })
   }
 
+  if (!initDictionary) {
+    initDictionary = await utils.makeRequest({
+      methodType: 'GET',
+      getUrl: `${constants.domain}/words/study/`,
+      getParams: { wordType: speechPart },
+    })
+  }
+
   const translateArray = await getRandomTranslateArray(currentDictionary.data[0])
 
-  contentRoot.innerHTML = `
+  content.innerHTML = `
     <div class="wrapper">
       <div class="myProgressBar shadow"></div>
       <div class="trainArea shadow">
@@ -37,14 +47,6 @@ export async function renderPage(name) {
       </div>
     </div>
     `
-
-  if (!initDictionary) {
-    initDictionary = await utils.makeRequest({
-      methodType: 'GET',
-      getUrl: `${constants.domain}/words/study/`,
-      getParams: { wordType: speechPart },
-    })
-  }
 
   utils.fillProgressBar(initDictionary, currentDictionary)
 
@@ -96,7 +98,7 @@ async function checkChooseWord(event) {
     currentDictionary = null
     initDictionary = null
 
-    contentRoot.innerHTML = `
+    content.innerHTML = `
             <div class="finishArea">
                 <div id="finishWordArea">Вы хорошо позанимались!</div>
                 <div class="finishBtnArea">

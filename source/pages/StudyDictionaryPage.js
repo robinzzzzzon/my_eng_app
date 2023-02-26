@@ -1,6 +1,6 @@
 const TrainListPage = require('./TrainListPage')
 const utils = require('../utils')
-const { speechList, domain } = require('../constants')
+const { speechList, domain, spinner } = require('../constants')
 
 const content = document.querySelector('.content')
 
@@ -8,18 +8,7 @@ export async function renderPage() {
   let dictionaryRoot = document.createElement('div')
   dictionaryRoot.classList.add('dictionaryRoot')
 
-  content.innerHTML = `
-    <div class="d-flex align-items-center">
-      <strong>Loading...</strong>
-      <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
-    </div>
-    `
-
-  // Пока оставить. Если проблема после подключения к апи будет актуальна - сделать реализацию.
-  for (const key of Object.keys(localStorage)) {
-    const item = utils.getWordsFromStorage(key)
-    if (!item.length) localStorage.removeItem(key)
-  }
+  content.innerHTML = spinner
 
   const allStudyList = await utils.makeRequest({
     methodType: 'GET',

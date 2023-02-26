@@ -1,4 +1,4 @@
-import { domain } from '../constants'
+import { domain, spinner } from '../constants'
 const NewDictionaryPage = require('./NewDictionaryPage')
 const StudyDictionaryPage = require('./StudyDictionaryPage')
 const ActualDictionaryPage = require('./ActualDictionaryPage')
@@ -9,13 +9,7 @@ const actionRoot = document.querySelector('.actionRoot')
 export async function renderPage(event) {
   event.preventDefault()
 
-  actionRoot.innerHTML = `
-      <div class="d-flex justify-content-center">
-      <div class="spinner-border" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-    </div>
-    `
+  actionRoot.innerHTML = spinner
 
   const studyList = await utils.makeRequest({ methodType: 'GET', getUrl: `${domain}/words/study` })
 

@@ -1,12 +1,13 @@
-import { domain } from '../constants'
 import '../styles/actualDictionaryStyles.css'
+import { domain, spinner } from '../constants'
+const NewDictionaryPage = require('./NewDictionaryPage')
 const utils = require('../utils')
 
 const content = document.querySelector('.content')
 let studyList = null
 
 export async function initPage() {
-  content.innerHTML = `<div class="actualDictionaryRoot"></div>`
+  content.innerHTML = spinner
 
   studyList = await utils.makeRequest({ methodType: 'GET', getUrl: `${domain}/words/study` })
 
@@ -14,8 +15,21 @@ export async function initPage() {
 }
 
 function renderPage() {
+  content.innerHTML = `<div class="actualDictionaryRoot"></div>`
+
   const actualDictionaryRoot = document.querySelector('.actualDictionaryRoot')
-  actualDictionaryRoot.innerHTML = ''
+
+  if (!studyList.data.length) {
+    actualDictionaryRoot.innerHTML = `
+    <div>
+      <p>Список изучаемых слов пуст. Вы можете добавить новые</p>
+      <button class="myBtn" id="understandBtn">Понятно</button>
+    </div>
+    `
+
+    const understandBtn = document.querySelector('.myBtn')
+    understandBtn.addEventListener('click', NewDictionaryPage.renderPage)
+  }
 
   for (let index = 0; index < studyList.data.length; index++) {
     const item = document.createElement('div')
@@ -80,6 +94,8 @@ async function removeWord(event) {
       findWord = item
     }
   })
+
+  content.innerHTML = spinner
 
   await utils.makeRequest({
     methodType: 'DELETE',

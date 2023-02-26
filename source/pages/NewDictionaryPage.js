@@ -1,6 +1,6 @@
 const LookThroughPage = require('./LookThroughPage')
 const utils = require('../utils')
-const { speechList, domain } = require('../constants')
+const { speechList, domain, spinner } = require('../constants')
 
 const content = document.querySelector('.content')
 
@@ -8,12 +8,7 @@ export async function renderPage() {
   let dictionaryRoot = document.createElement('div')
   dictionaryRoot.classList.add('dictionaryRoot')
 
-  content.innerHTML = `
-    <div class="d-flex align-items-center">
-      <strong>Loading...</strong>
-      <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
-    </div>
-    `
+  content.innerHTML = spinner
 
   for (let index = 0; index < speechList.length; index++) {
     const item = document.createElement('button')

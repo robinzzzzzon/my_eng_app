@@ -1,9 +1,9 @@
-import { domain } from '../constants'
 import '../styles/puzzleTrainStyles.css'
+import { domain, spinner } from '../constants'
 const NewDictionaryPage = require('./NewDictionaryPage')
 const utils = require('../utils')
 
-const contentRoot = document.querySelector('.content')
+const content = document.querySelector('.content')
 
 let speechPart
 let initDictionary = null
@@ -11,6 +11,8 @@ let currentDictionary = null
 
 export async function renderPage(name) {
   speechPart = name
+
+  content.innerHTML = spinner
 
   if (!initDictionary) {
     initDictionary = await utils.makeRequest({
@@ -28,7 +30,7 @@ export async function renderPage(name) {
     })
   }
 
-  contentRoot.innerHTML = `
+  content.innerHTML = `
       <div class="wrapper">
         <div class="myProgressBar shadow"></div>
         <div class="rootArea shadow">
@@ -192,7 +194,7 @@ async function checkEnterWord(event) {
 
       checkBtn.disabled = true
       clearBtn.disabled = false
-    }, '300')
+    }, 300)
   }
 }
 

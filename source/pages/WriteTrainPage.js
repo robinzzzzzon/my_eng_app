@@ -3,7 +3,7 @@ const utils = require('../utils')
 const constants = require('../constants')
 const NewDictionaryPage = require('./NewDictionaryPage')
 
-const contentRoot = document.querySelector('.content')
+const content = document.querySelector('.content')
 
 let speechPart
 let initDictionary = null
@@ -12,6 +12,8 @@ let charIndex = 0
 
 export async function renderPage(name) {
   speechPart = name
+
+  content.innerHTML = constants.spinner
 
   if (!initDictionary) {
     initDictionary = await utils.makeRequest({
@@ -29,7 +31,7 @@ export async function renderPage(name) {
     })
   }
 
-  contentRoot.innerHTML = `
+  content.innerHTML = `
     <div class="wrapper">
       <div class="myProgressBar shadow"></div>
       <div class="rootDiv shadow">

@@ -1,20 +1,6 @@
 import { domain } from './constants'
 const axios = require('axios').default
 
-export function addWordToStorage(getWord, storageName) {
-  let studyWords = this.getWordsFromStorage(storageName)
-  const nameList = studyWords.map((el) => el.word)
-  if (!nameList.includes(getWord.word)) {
-    getWord.studyLevel = 0
-    studyWords.push(getWord)
-    localStorage.setItem(storageName, JSON.stringify(studyWords))
-  }
-}
-
-export function getWordsFromStorage(itemName) {
-  return JSON.parse(localStorage.getItem(itemName) || '[]')
-}
-
 export async function filterCurrentDictionary(dictionary, speechPart) {
   let studyArray = await makeRequest({
     methodType: 'GET',

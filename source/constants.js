@@ -11,7 +11,15 @@ export const speechList = [
   { dataName: 'useful phrases', translateName: 'популярные фразы', color: '#9ACD32' },
 ]
 
-export const domain = 'http://{{current_ip}}:5000/api'
+export const domain = 'http://127.0.0.1:5000/api'
+
+export const spinner = `
+<div class="d-flex justify-content-center">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+`
 
 export const system_colors = {
   success: '#94ff94',
