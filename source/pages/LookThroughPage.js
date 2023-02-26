@@ -1,11 +1,11 @@
 import '../styles/lookThroughStyles.css'
-import { domain } from '../constants'
+import { domain, spinner } from '../constants'
 const utils = require('../utils')
 const TrainListPage = require('./TrainListPage')
 const NewDictionaryPage = require('./NewDictionaryPage')
 const axios = require('axios').default
 
-const contentRoot = document.querySelector('.content')
+const content = document.querySelector('.content')
 
 let speechPart
 let currentDictionary = []
@@ -13,6 +13,8 @@ let studyWordCounter = 0
 
 export async function initPage(name) {
   speechPart = name
+
+  content.innerHTML = spinner
 
   if (!currentDictionary.length) {
     currentDictionary = await utils.makeRequest({
@@ -30,7 +32,7 @@ export async function initPage(name) {
 }
 
 function renderPage() {
-  contentRoot.innerHTML = `
+  content.innerHTML = `
     <div class="cardRoot shadow">
         <div class="cardWordArea" id="wordArea">
             <div><b>${currentDictionary.data[0].word}</b></div>
@@ -64,6 +66,11 @@ function showNewWord(event) {
 async function studyThisWord(event) {
   event.preventDefault()
 
+  const studyBtn = document.querySelector('#studyBtn')
+  studyBtn.textContent = ''
+  studyBtn.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`
+  studyBtn.disabled = true
+
   const addStudyWord = {
     word: currentDictionary.data[0].word,
     translate: currentDictionary.data[0].translate,
@@ -73,11 +80,17 @@ async function studyThisWord(event) {
 
   await axios.post(`${domain}/words/study/`, addStudyWord)
 
+  studyBtn.innerHTML = ''
+  studyBtn.textContent = 'Изучить'
+  studyBtn.disabled = false
+
   studyWordCounter++
 
-  showNewWord(event)
-
-  if (studyWordCounter === 10) showTrainSuggest()
+  if (studyWordCounter === 10) {
+    showTrainSuggest()
+  } else {
+    showNewWord(event)
+  }
 }
 
 function renderEmptyDictionary() {
@@ -113,6 +126,8 @@ async function checkTrainAvailable() {
 }
 
 function showTrainSuggest() {
+  currentDictionary.data.shift()
+
   const wordArea = document.querySelector('#wordArea')
   const cardBtnDiv = document.querySelector('.cardBtnDiv')
 

@@ -14,3 +14,7 @@
   margin-bottom: 5px;
   float: right;
 }
+
+.speakingConfRoot button:hover {
+  background-color: #d0fcfc;
+}
