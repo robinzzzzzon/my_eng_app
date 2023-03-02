@@ -23,7 +23,7 @@ exports.config = {
     // will be called from there.
     //
     specs: [
-        './source/test/specs/*.spec.js'
+        './source/tests/specs/*.spec.js'
     ],
     // Patterns to exclude.
     exclude: [
@@ -103,7 +103,7 @@ exports.config = {
     //
     // Default timeout in milliseconds for request
     // if browser driver or grid doesn't send response
-    connectionRetryTimeout: 120000,
+    connectionRetryTimeout: 60000,
     //
     // Default request retries count
     connectionRetryCount: 3,
