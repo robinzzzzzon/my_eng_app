@@ -3,15 +3,19 @@ const methods = require('../baseModule/baseMethods')
 
 class TrainListPage extends Page {
   async open() {
-    await super.open();
+    await super.open()
   }
 
   get trainRoot() {
-    return methods.$getElement('.trainList');
+    return methods.$getElement('.trainList')
   }
-  
+
   get trainList() {
-    return methods.$getElements('div', this.trainRoot);
+    return methods.$getElements('div', this.trainRoot)
+  }
+
+  get trainSvgList() {
+    return methods.$getElements('svg', this.trainRoot)
   }
 
   async goToWriteTraining() {
