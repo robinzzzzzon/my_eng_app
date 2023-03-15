@@ -13,6 +13,12 @@ describe('Add new study word and then delete it', () => {
     await assertions.$urlContaining('3000')
   })
 
+  // for selenoid check:
+  it.skip('Check test in Selenoid', async () => {
+    await browser.url('https://aerokube.com/')
+    await browser.pause(20000)
+  })
+
   it('Check content of IndexPage and go to VocabularyPage', async () => {
     await ContentSnippets.checkIndexPage()
     await IndexPage.goToVocabularyPage()
