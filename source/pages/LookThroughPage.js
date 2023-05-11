@@ -3,7 +3,6 @@ import { domain, spinner } from '../constants'
 const utils = require('../utils')
 const TrainListPage = require('./TrainListPage')
 const NewDictionaryPage = require('./NewDictionaryPage')
-const axios = require('axios').default
 
 const content = document.querySelector('.content')
 
@@ -78,7 +77,11 @@ async function studyThisWord(event) {
     studyLevel: 0,
   }
 
-  await axios.post(`${domain}/words/study/`, addStudyWord)
+  await utils.makeRequest({
+    methodType: 'POST',
+    getUrl: `${domain}/words/study/`,
+    getBody: addStudyWord,
+  })
 
   studyBtn.innerHTML = ''
   studyBtn.textContent = 'Изучить'
