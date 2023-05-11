@@ -2,6 +2,7 @@ import { domain, spinner } from '../constants'
 const NewDictionaryPage = require('./NewDictionaryPage')
 const StudyDictionaryPage = require('./StudyDictionaryPage')
 const ActualDictionaryPage = require('./ActualDictionaryPage')
+const NewDictionaryWordPage = require('./NewDictionaryWordPage')
 const utils = require('../utils')
 
 const actionRoot = document.querySelector('.actionRoot')
@@ -14,9 +15,10 @@ export async function renderPage(event) {
   const studyList = await utils.makeRequest({ methodType: 'GET', getUrl: `${domain}/words/study` })
 
   actionRoot.innerHTML = `
-    <button class="dictionary initItem shadow-lg" data-name="choose">ВЫБРАТЬ СЛОВА</button>
-    <button class="dictionary initItem shadow-lg" data-name="train">ТРЕНИРОВАТЬ СЛОВА</button>
-    <button class="dictionary initItem shadow-lg" data-name="seeAll">МОЙ СЛОВАРЬ</button>
+    <button class="dictionary initItem shadow-lg" data-name="choose">CHOOSE WORDS</button>
+    <button class="dictionary initItem shadow-lg" data-name="train">STUDY WORDS</button>
+    <button class="dictionary initItem shadow-lg" data-name="seeAll">MY DICTIONARY</button>
+    <button class="dictionary initItem shadow-lg" data-name="addNew">ADD DICTIONARY WORD</button>
   `
 
   if (!studyList.data.length) {
@@ -41,5 +43,7 @@ async function renderNextPage(event) {
     await StudyDictionaryPage.renderPage()
   } else if (name === 'seeAll') {
     await ActualDictionaryPage.initPage()
+  } else if (name === 'addNew') {
+    await NewDictionaryWordPage.renderPage()
   }
 }
