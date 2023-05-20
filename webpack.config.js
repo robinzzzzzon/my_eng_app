@@ -17,6 +17,7 @@ module.exports = {
     allowedHosts: 'all',
     port: 3000,
   },
+  devtool: 'eval-cheap-source-map',
   plugins: [
     new HtmlPlugin({
       template: './source/index.html',
