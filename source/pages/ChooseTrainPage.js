@@ -15,16 +15,16 @@ export async function renderPage(name) {
 
   content.innerHTML = constants.spinner
 
-  if (!currentDictionary) {
-    currentDictionary = await utils.makeRequest({
+  if (!initDictionary) {
+    initDictionary = await utils.makeRequest({
       methodType: 'GET',
       getUrl: `${constants.domain}/words/study/`,
       getParams: { wordType: speechPart },
     })
   }
 
-  if (!initDictionary) {
-    initDictionary = await utils.makeRequest({
+  if (!currentDictionary) {
+    currentDictionary = await utils.makeRequest({
       methodType: 'GET',
       getUrl: `${constants.domain}/words/study/`,
       getParams: { wordType: speechPart },
