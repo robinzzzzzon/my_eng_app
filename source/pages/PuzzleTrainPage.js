@@ -105,57 +105,21 @@ function clearWordProgress(event, word = currentDictionary.data[0]) {
 function moveCharToWordArea(event) {
   event.preventDefault()
 
-  const targetChar = event.target
+  const target = event.target
   const key = event.key
   const charArea = document.querySelector('#charArea')
   const charsList = document.querySelectorAll('#charArea > .char')
   const wordDiv = document.querySelector('#wordDiv')
   wordDiv.style.gridTemplateColumns = `repeat(${currentDictionary.data[0].word.length}, 1fr)`
 
-  // подумать, может получится вынести обработку переноса для key и target в базовую реализацию
-  charsList.forEach(char => {
+  charsList.forEach((char) => {
     if (char.textContent.includes(key)) {
-
-      let content = char.textContent.trim()
-
-      let count = content.substring(2, 3)
-
-      if (count > 1) {
-        const charDiv = document.createElement('div')
-        charDiv.classList.add('char')
-        charDiv.innerHTML = `${key}`
-        wordDiv.append(charDiv)
-
-        char.innerHTML = `
-        ${key} <span class="badge charSpan">${--count}</span>
-        `
-      } else {
-        char.innerHTML = `${key}`
-        wordDiv.append(char)
-      }
+      handleKeyboardEvent(char, key)
     }
   })
 
-  if (targetChar.classList.contains('char')) {
-    
-    let content = targetChar.textContent.trim()
-
-      const key = content.substring(0, 1)
-      let count = content.substring(2, 3)
-
-      if (count > 1) {
-        const charDiv = document.createElement('div')
-        charDiv.classList.add('char')
-        charDiv.innerHTML = `${key}`
-        wordDiv.append(charDiv)
-
-        targetChar.innerHTML = `
-        ${key} <span class="badge charSpan">${--count}</span>
-        `
-      } else {
-        targetChar.innerHTML = `${key}`
-        wordDiv.append(targetChar)
-      }
+  if (target.classList.contains('char')) {
+    handleKeyboardEvent(target)
   }
 
   if (!charArea.innerHTML) {
@@ -241,5 +205,30 @@ async function checkEnterWord(event) {
 function toggleClassForChar(charArray, className = 'accessChar') {
   for (let index = 0; index < charArray.length; index++) {
     charArray[index].classList.toggle(className)
+  }
+}
+
+function handleKeyboardEvent(char, getKey) {
+  let content = char.textContent.trim()
+  let key = getKey
+
+  if (!key) {
+    key = content.substring(0, 1)
+  }
+
+  let count = content.substring(2, 3)
+
+  if (count > 1) {
+    const charDiv = document.createElement('div')
+    charDiv.classList.add('char')
+    charDiv.innerHTML = `${key}`
+    wordDiv.append(charDiv)
+
+    char.innerHTML = `
+        ${key} <span class="badge charSpan">${--count}</span>
+        `
+  } else {
+    char.innerHTML = `${key}`
+    wordDiv.append(char)
   }
 }
