@@ -103,18 +103,17 @@ export function optimizeCharacters(chars) {
   let finalChars = []
 
   finalChars = chars.reduce((total, el) => {
-      if (!temporaryChars.includes(el)) {
-          temporaryChars.push(el)
-          total.push({element: el, count: 1})
-      } else {
-          let findElement = total.find(obj => obj.element === el)
-          findElement.count++
-      }
+    if (!temporaryChars.includes(el)) {
+      temporaryChars.push(el)
+      total.push({ element: el, count: 1 })
+    } else {
+      let findElement = total.find((obj) => obj.element === el)
+      findElement.count++
+    }
 
-      return total
-
+    return total
   }, [])
-  
+
   return finalChars
 }
 
