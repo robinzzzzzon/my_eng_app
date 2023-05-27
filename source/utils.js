@@ -17,14 +17,31 @@ export async function filterCurrentDictionary(dictionary, speechPart) {
   return dictionary
 }
 
-export async function modifyStudyLevel(speechPart, getWord, isRight) {
-  let speechDictionary = await makeRequest({
+export async function fillArray(speechPart) {
+  let array = []
+
+  speechPart === 'all-study-words'
+    ? (array = await makeRequest({
+        methodType: 'GET',
+        getUrl: `${domain}/words/study`,
+      }))
+    : (array = await makeRequest({
+        methodType: 'GET',
+        getUrl: `${domain}/words/study`,
+        getParams: { wordType: speechPart },
+      }))
+
+  return array
+}
+
+export async function modifyStudyLevel(getWord, isRight) {
+  let currentWord = await makeRequest({
     methodType: 'GET',
     getUrl: `${domain}/words/study/`,
-    getParams: { wordType: speechPart },
+    getParams: { word: getWord },
   })
 
-  let currentWord = Array.from(speechDictionary.data).find((item) => item.word === getWord.word)
+  currentWord = currentWord.data[0]
 
   if (isRight) {
     if (currentWord.studyLevel === 4) {
@@ -76,11 +93,7 @@ export function fillProgressBar(initDictionary, currentDictionary, selector = '.
 }
 
 export async function checkAvailableStudyWords(speechPart) {
-  let studyList = await makeRequest({
-    methodType: 'GET',
-    getUrl: `${domain}/words/study/`,
-    getParams: { wordType: speechPart },
-  })
+  let studyList = await fillArray(speechPart)
 
   if (!studyList.data.length) retryBtn.disabled = 'true'
 }

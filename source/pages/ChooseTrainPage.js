@@ -1,11 +1,11 @@
 import '../styles/chooseTrainStyles.css'
-const utils = require('../utils')
 const constants = require('../constants')
 const NewDictionaryPage = require('./NewDictionaryPage')
+const utils = require('../utils')
 
 const content = document.querySelector('.content')
 
-let speechPart
+let speechPart = null
 let initDictionary = null
 let currentDictionary = null
 let fullDictionary = null
@@ -16,19 +16,11 @@ export async function renderPage(name) {
   content.innerHTML = constants.spinner
 
   if (!initDictionary) {
-    initDictionary = await utils.makeRequest({
-      methodType: 'GET',
-      getUrl: `${constants.domain}/words/study/`,
-      getParams: { wordType: speechPart },
-    })
+    initDictionary = await utils.fillArray(speechPart)
   }
 
   if (!currentDictionary) {
-    currentDictionary = await utils.makeRequest({
-      methodType: 'GET',
-      getUrl: `${constants.domain}/words/study/`,
-      getParams: { wordType: speechPart },
-    })
+    currentDictionary = await utils.fillArray(speechPart)
   }
 
   const translateArray = await getRandomTranslateArray(currentDictionary.data[0])
@@ -87,11 +79,11 @@ async function checkChooseWord(event) {
 
   if (chooseWord.textContent === currentDictionary.data[0].translate) {
     chooseWord.style.backgroundColor = constants.system_colors.success
-    await utils.modifyStudyLevel(speechPart, currentDictionary.data[0], true)
+    await utils.modifyStudyLevel(currentDictionary.data[0].word, true)
     currentDictionary.data.shift()
   } else {
     chooseWord.style.backgroundColor = constants.system_colors.failed
-    await utils.modifyStudyLevel(speechPart, currentDictionary.data[0])
+    await utils.modifyStudyLevel(currentDictionary.data[0].word)
   }
 
   if (!currentDictionary.data.length) {
