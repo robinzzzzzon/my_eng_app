@@ -1,7 +1,7 @@
 import '../styles/writeTrainStyles.css'
-const utils = require('../utils')
 const constants = require('../constants')
 const NewDictionaryPage = require('./NewDictionaryPage')
+const utils = require('../utils')
 
 const content = document.querySelector('.content')
 
@@ -16,19 +16,11 @@ export async function renderPage(name) {
   content.innerHTML = constants.spinner
 
   if (!initDictionary) {
-    initDictionary = await utils.makeRequest({
-      methodType: 'GET',
-      getUrl: `${constants.domain}/words/study`,
-      getParams: { wordType: speechPart },
-    })
+    initDictionary = await utils.fillArray(speechPart)
   }
 
   if (!currentDictionary) {
-    currentDictionary = await utils.makeRequest({
-      methodType: 'GET',
-      getUrl: `${constants.domain}/words/study`,
-      getParams: { wordType: speechPart },
-    })
+    currentDictionary = await utils.fillArray(speechPart)
   }
 
   content.innerHTML = `
@@ -85,7 +77,7 @@ async function checkWord(event) {
   const enterWord = input.value.toLowerCase().trim()
 
   if (enterWord === currentDictionary.data[0].word) {
-    await utils.modifyStudyLevel(speechPart, currentDictionary.data[0], true)
+    await utils.modifyStudyLevel(currentDictionary.data[0].word, true)
 
     currentDictionary.data.shift()
 
@@ -124,7 +116,7 @@ async function checkWord(event) {
       }, 200)
     }
   } else {
-    await utils.modifyStudyLevel(speechPart, currentDictionary.data[0])
+    await utils.modifyStudyLevel(currentDictionary.data[0].word)
 
     input.style.backgroundColor = constants.system_colors.failed
 

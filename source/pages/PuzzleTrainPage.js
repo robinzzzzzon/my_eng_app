@@ -1,5 +1,5 @@
 import '../styles/puzzleTrainStyles.css'
-import { domain, spinner } from '../constants'
+import { spinner } from '../constants'
 const NewDictionaryPage = require('./NewDictionaryPage')
 const utils = require('../utils')
 
@@ -9,6 +9,7 @@ let speechPart = null
 let initDictionary = null
 let currentDictionary = null
 let chars = null
+let badgeSpanClassList = 'position-absolute translate-middle badge rounded-pill charSpan'
 
 export async function renderPage(name) {
   speechPart = name
@@ -16,19 +17,11 @@ export async function renderPage(name) {
   content.innerHTML = spinner
 
   if (!initDictionary) {
-    initDictionary = await utils.makeRequest({
-      methodType: 'GET',
-      getUrl: `${domain}/words/study`,
-      getParams: { wordType: speechPart },
-    })
+    initDictionary = await utils.fillArray(speechPart)
   }
 
   if (!currentDictionary) {
-    currentDictionary = await utils.makeRequest({
-      methodType: 'GET',
-      getUrl: `${domain}/words/study`,
-      getParams: { wordType: speechPart },
-    })
+    currentDictionary = await utils.fillArray(speechPart)
   }
 
   content.innerHTML = `
@@ -75,10 +68,11 @@ function genCharacters(getWord) {
   for (let index = 0; index < chars.length; index++) {
     const charDiv = document.createElement('div')
     charDiv.classList.add('char')
+    charDiv.style.position = 'relative'
 
     if (chars[index].count > 1) {
       charDiv.innerHTML = `
-      ${chars[index].element} <span class="badge charSpan">${chars[index].count}</span>
+      ${chars[index].element} <span class="${badgeSpanClassList}">${chars[index].count}</span>
       `
     } else {
       charDiv.textContent = chars[index].element
@@ -151,7 +145,7 @@ async function checkEnterWord(event) {
   }
 
   if (resultWord === currentDictionary.data[0].word) {
-    await utils.modifyStudyLevel(speechPart, currentDictionary.data[0], true)
+    await utils.modifyStudyLevel(currentDictionary.data[0].word, true)
 
     currentDictionary.data.shift()
 
@@ -189,7 +183,7 @@ async function checkEnterWord(event) {
       }, 300)
     }
   } else {
-    await utils.modifyStudyLevel(speechPart, currentDictionary.data[0])
+    await utils.modifyStudyLevel(currentDictionary.data[0].word)
 
     toggleClassForChar(resultChars, 'wrongChar')
 
@@ -224,9 +218,7 @@ function handleKeyboardEvent(char, getKey) {
     charDiv.innerHTML = `${key}`
     wordDiv.append(charDiv)
 
-    char.innerHTML = `
-        ${key} <span class="badge charSpan">${--count}</span>
-        `
+    char.innerHTML = `${key} <span class="${badgeSpanClassList}">${--count}</span>`
   } else {
     char.innerHTML = `${key}`
     wordDiv.append(char)
