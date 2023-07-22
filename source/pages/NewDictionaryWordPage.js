@@ -60,9 +60,9 @@ async function sendNewWord() {
   if (!word.value || !translate.value || select.options[0].selected) return
 
   const newWord = {
-    word: word.value,
-    translate: translate.value,
-    wordType: select.options[select.selectedIndex].text,
+    word: word.value.toLowerCase(),
+    translate: translate.value.toLowerCase(),
+    wordType: select.options[select.selectedIndex].text.toLowerCase(),
   }
 
   await utils.makeRequest({ methodType: 'POST', getUrl: `${domain}/words/init/`, getBody: newWord })
