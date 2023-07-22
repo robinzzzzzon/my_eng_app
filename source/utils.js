@@ -127,6 +127,12 @@ export function optimizeCharacters(chars) {
     return total
   }, [])
 
+  finalChars = finalChars.map((el) => {
+    el.element === ' ' ? (el.element = '-') : el
+
+    return el
+  })
+
   return finalChars
 }
 

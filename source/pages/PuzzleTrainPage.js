@@ -60,22 +60,22 @@ function genCharacters(getWord) {
     chars = getWord.word.split('').sort(() => Math.random() - 0.5)
   } while (chars.join('') === getWord.word)
 
-  chars = utils.optimizeCharacters(chars)
+  const optimizeChars = utils.optimizeCharacters(chars)
 
   const charArea = document.querySelector('#charArea')
-  charArea.style.gridTemplateColumns = `repeat(${chars.length}, 1fr)`
+  charArea.style.gridTemplateColumns = `repeat(${optimizeChars.length}, 1fr)`
 
-  for (let index = 0; index < chars.length; index++) {
+  for (let index = 0; index < optimizeChars.length; index++) {
     const charDiv = document.createElement('div')
     charDiv.classList.add('char')
     charDiv.style.position = 'relative'
 
-    if (chars[index].count > 1) {
+    if (optimizeChars[index].count > 1) {
       charDiv.innerHTML = `
-      ${chars[index].element} <span class="${badgeSpanClassList}">${chars[index].count}</span>
+      ${optimizeChars[index].element} <span class="${badgeSpanClassList}">${optimizeChars[index].count}</span>
       `
     } else {
-      charDiv.textContent = chars[index].element
+      charDiv.textContent = optimizeChars[index].element
     }
 
     charArea.append(charDiv)
@@ -99,18 +99,23 @@ function clearWordProgress(event, word = currentDictionary.data[0]) {
 function moveCharToWordArea(event) {
   event.preventDefault()
 
+  let key = event.key
   const target = event.target
-  const key = event.key
   const charArea = document.querySelector('#charArea')
   const charsList = document.querySelectorAll('#charArea > .char')
   const wordDiv = document.querySelector('#wordDiv')
   wordDiv.style.gridTemplateColumns = `repeat(${currentDictionary.data[0].word.length}, 1fr)`
 
-  charsList.forEach((char) => {
-    if (char.textContent.includes(key)) {
-      handleKeyboardEvent(char, key)
+  if (key) {
+    if (key === ' ') key = '-'
+
+    for (let i = 0; i < charsList.length; i++) {
+      if (charsList[i].textContent.trim().split(' ').join('').includes(key)) {
+        handleKeyboardEvent(charsList[i], key)
+        break
+      }
     }
-  })
+  }
 
   if (target.classList.contains('char')) {
     handleKeyboardEvent(target)
@@ -128,6 +133,29 @@ function moveCharToWordArea(event) {
   }
 }
 
+function handleKeyboardEvent(getChar, getKey) {
+  let content = getChar.textContent.trim().split(' ').join('')
+  let key = getKey
+
+  if (!key) {
+    key = content.substring(0, 1)
+  }
+
+  let count = content.substring(1, 2)
+
+  if (count > 1) {
+    const charDiv = document.createElement('div')
+    charDiv.classList.add('char')
+    charDiv.innerHTML = `${key}`
+    wordDiv.append(charDiv)
+
+    getChar.innerHTML = `${key} <span class="${badgeSpanClassList}">${--count}</span>`
+  } else {
+    getChar.innerHTML = `${key}`
+    wordDiv.append(getChar)
+  }
+}
+
 async function checkEnterWord(event) {
   event.preventDefault()
 
@@ -141,6 +169,7 @@ async function checkEnterWord(event) {
   let resultWord = ''
 
   for (let index = 0; index < currentDictionary.data[0].word.length; index++) {
+    if (resultChars[index].textContent === '-') resultChars[index].textContent = ' '
     resultWord = resultWord.concat(resultChars[index].textContent)
   }
 
@@ -199,28 +228,5 @@ async function checkEnterWord(event) {
 function toggleClassForChar(charArray, className = 'accessChar') {
   for (let index = 0; index < charArray.length; index++) {
     charArray[index].classList.toggle(className)
-  }
-}
-
-function handleKeyboardEvent(char, getKey) {
-  let content = char.textContent.trim()
-  let key = getKey
-
-  if (!key) {
-    key = content.substring(0, 1)
-  }
-
-  let count = content.substring(2, 3)
-
-  if (count > 1) {
-    const charDiv = document.createElement('div')
-    charDiv.classList.add('char')
-    charDiv.innerHTML = `${key}`
-    wordDiv.append(charDiv)
-
-    char.innerHTML = `${key} <span class="${badgeSpanClassList}">${--count}</span>`
-  } else {
-    char.innerHTML = `${key}`
-    wordDiv.append(char)
   }
 }
