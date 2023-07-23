@@ -1,6 +1,11 @@
 module.exports = {
   indexPageDictionaries: ['VOCABULARY', 'SPEAKING'],
-  vocabularyPageDictionaries: ['ВЫБРАТЬ СЛОВА', 'ТРЕНИРОВАТЬ СЛОВА', 'МОЙ СЛОВАРЬ'],
+  vocabularyPageDictionaries: [
+    'CHOOSE WORDS',
+    'STUDY WORDS',
+    'MY DICTIONARY',
+    'ADD DICTIONARY WORD',
+  ],
   newDictPageDictionaries: [
     'ГЛАГОЛЫ',
     'ФРАЗОВЫЕ ГЛАГОЛЫ',

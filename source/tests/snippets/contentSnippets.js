@@ -22,7 +22,7 @@ class ContentSnippets extends Page {
 
   async checkVocabularyPage() {
     await assertions.$checkDisplayedAll(VocabularyPage.dictionaryList)
-    await assertions.$isArrayOfSize(VocabularyPage.dictionaryList, 3)
+    await assertions.$isArrayOfSize(VocabularyPage.dictionaryList, 4)
     await assertions.$isClickableAll(VocabularyPage.dictionaryList)
     await assertions.$haveTextAll(VocabularyPage.dictionaryList, data.vocabularyPageDictionaries)
   }
