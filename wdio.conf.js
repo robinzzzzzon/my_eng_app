@@ -1,17 +1,9 @@
 /* eslint-disable no-console */
-const https = require('https')
-const fs = require('fs')
 const allure = require('@wdio/allure-reporter').default
 const chai = require('chai')
 
 const dynamicConfig = {}
 
-// selenoid configuration:
-// dynamicConfig.services = [['intercept'], ['shared-store']]
-// dynamicConfig.hostname = 'localhost'
-// dynamicConfig.port = 4444
-// dynamicConfig.protocol = 'http'
-// dynamicConfig.path = '/wd/hub'
 dynamicConfig.capabilities = [
   {
     maxInstances: 1,
@@ -45,15 +37,14 @@ exports.config = Object.assign(
     logLevel: 'error',
     coloredLogs: true,
     bail: 0,
-    // baseUrl: '',
     waitforTimeout: 10000,
-    connectionRetryTimeout: 60000,
+    connectionRetryTimeout: 30000,
     connectionRetryCount: 3,
     services: ['chromedriver'],
     framework: 'mocha',
     mochaOpts: {
       ui: 'bdd',
-      timeout: 60000,
+      timeout: 30000,
     },
     reporters: [
       'spec',
