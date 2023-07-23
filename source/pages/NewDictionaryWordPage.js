@@ -62,7 +62,7 @@ async function sendNewWord() {
   const newWord = {
     word: word.value.toLowerCase(),
     translate: translate.value.toLowerCase(),
-    wordType: select.options[select.selectedIndex].text.toLowerCase(),
+    wordType: select.options[select.selectedIndex].text,
   }
 
   await utils.makeRequest({ methodType: 'POST', getUrl: `${domain}/words/init/`, getBody: newWord })
