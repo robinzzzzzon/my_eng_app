@@ -1,5 +1,5 @@
-import '../styles/speakingConfStyles.css'
-const SpeakingTrainingPage = require('../pages/SpeakingTrainingPage')
+import '../../styles/speakingConfiguration.css'
+const FreeSpeakingTraining = require('./FreeSpeakingTraining')
 
 export function renderPage(event) {
   event.preventDefault()
@@ -38,7 +38,11 @@ export function renderPage(event) {
   `
 
   const confirmBtn = document.querySelector('#confirmBtn')
-  confirmBtn.addEventListener('click', (event) => {
+  
+  confirmBtn.addEventListener('click', startTrainig)
+}
+
+function startTrainig(event) {
     event.preventDefault()
 
     let config = document.querySelectorAll('.speakingConfRoot select')
@@ -51,6 +55,5 @@ export function renderPage(event) {
     const needTimer = document.querySelector('#needTimer')
     config.push(needTimer.checked)
 
-    SpeakingTrainingPage.renderPage(event, config)
-  })
+    FreeSpeakingTraining.renderPage(event, config)
 }

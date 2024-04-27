@@ -1,10 +1,11 @@
 import './styles/indexStyles.css'
 import './styles/commonStyles.css'
 import './bootstrap/btstrp_css/bootstrap.min.css'
-const VocabularyPage = require('./pages/VocabularyPage')
-const SpeakingConfPage = require('./pages/SpeakingConfPage')
+const VocabularySection = require('./pages/vocabulary/VocabularySection')
+const SpeakingSection = require('./pages/speaking/SpeakingSection')
 
 const actionRoot = document.querySelector('.actionRoot')
+
 actionRoot.addEventListener('click', renderNextPage)
 
 async function renderNextPage(event) {
@@ -15,8 +16,8 @@ async function renderNextPage(event) {
   const name = event.target.dataset.name
 
   if (name === 'vocabulary') {
-    await VocabularyPage.renderPage(event)
+    await VocabularySection.renderPage(event)
   } else if (name === 'speaking') {
-    SpeakingConfPage.renderPage(event)
+    SpeakingSection.renderPage(event)
   }
 }

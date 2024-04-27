@@ -1,7 +1,7 @@
-import '../styles/chooseTrainStyles.css'
-const constants = require('../constants')
-const NewDictionaryPage = require('./NewDictionaryPage')
-const utils = require('../utils')
+import '../../styles/chooseTraining.css'
+const constants = require('../../utils/constants')
+const NewDictionary = require('./NewDictionary')
+const utils = require('../../utils/utils')
 
 const content = document.querySelector('.content')
 
@@ -105,7 +105,7 @@ async function checkChooseWord(event) {
 
     await utils.checkAvailableStudyWords(speechPart)
 
-    findNewBtn.addEventListener('click', NewDictionaryPage.renderPage)
+    findNewBtn.addEventListener('click', NewDictionary.renderPage)
     retryBtn.addEventListener('click', () => renderPage(speechPart))
   } else {
     renderPage(speechPart)

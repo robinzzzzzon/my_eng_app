@@ -1,7 +1,7 @@
-import '../styles/puzzleTrainStyles.css'
-import { spinner } from '../constants'
-const NewDictionaryPage = require('./NewDictionaryPage')
-const utils = require('../utils')
+import '../../styles/puzzleTraining.css'
+import { spinner } from '../../utils/constants'
+const NewDictionary = require('./NewDictionary')
+const utils = require('../../utils/utils')
 
 const content = document.querySelector('.content')
 
@@ -202,7 +202,7 @@ async function checkEnterWord(event) {
 
       await utils.checkAvailableStudyWords(speechPart)
 
-      newBtn.addEventListener('click', NewDictionaryPage.renderPage)
+      newBtn.addEventListener('click', NewDictionary.renderPage)
       retryBtn.addEventListener('click', () => renderPage(speechPart))
     } else {
       toggleClassForChar(resultChars)

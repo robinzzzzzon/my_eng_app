@@ -1,18 +1,14 @@
-import '../styles/speakingTrainingStyles.css'
-const dictionary = require('../dictionary.json')
-const constants = require('../constants')
-const utils = require('../utils')
-
-let speechConfig
+import '../../styles/freeSpeakingTraining.css'
+const dictionary = require('../../utils/dictionary.json')
+const constants = require('../../utils/constants')
+const utils = require('../../utils/utils')
 
 const contentRoot = document.querySelector('.content')
 
 export function renderPage(event, config) {
   event.preventDefault()
 
-  speechConfig = config
-
-  const data = generateSpeakingData(speechConfig)
+  const data = generateSpeakingData(config)
 
   contentRoot.innerHTML = `
   <div class="speakingAreaRoot">
@@ -47,7 +43,7 @@ export function renderPage(event, config) {
   })
 
   const nextBtn = document.querySelector('.nextBtn')
-  nextBtn.addEventListener('click', () => renderPage(event, speechConfig))
+  nextBtn.addEventListener('click', () => renderPage(event, config))
 }
 
 function generateSpeakingData(options) {
