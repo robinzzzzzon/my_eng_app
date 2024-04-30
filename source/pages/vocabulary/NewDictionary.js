@@ -1,6 +1,6 @@
-const LookThroughPage = require('./LookThroughPage')
-const utils = require('../utils')
-const { speechList, domain, spinner } = require('../constants')
+const SeekNewWord = require('./SeekNewWord')
+const utils = require('../../utils/utils')
+const { speechList, domain, spinner } = require('../../utils/constants')
 
 const content = document.querySelector('.content')
 
@@ -45,6 +45,6 @@ export async function renderPage() {
 
     const name = event.target.dataset.name
 
-    LookThroughPage.initPage(name)
+    SeekNewWord.initPage(name)
   })
 }

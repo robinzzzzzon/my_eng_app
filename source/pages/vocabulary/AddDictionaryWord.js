@@ -1,6 +1,6 @@
-import '../styles/newWordStyles.css'
-const utils = require('../utils')
-const { domain } = require('../constants')
+import '../../styles/addDictionaryWord.css'
+const utils = require('../../utils/utils')
+const { domain } = require('../../utils/constants')
 
 const content = document.querySelector('.content')
 

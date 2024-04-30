@@ -1,8 +1,8 @@
-import '../styles/lookThroughStyles.css'
-import { domain, spinner } from '../constants'
-const utils = require('../utils')
-const TrainListPage = require('./TrainListPage')
-const NewDictionaryPage = require('./NewDictionaryPage')
+import '../../styles/seekNewWord.css'
+import { domain, spinner } from '../../utils/constants'
+const utils = require('../../utils/utils')
+const TrainingList = require('./TrainingList')
+const NewDictionary = require('./NewDictionary')
 
 const content = document.querySelector('.content')
 
@@ -107,7 +107,7 @@ function renderEmptyDictionary() {
     `
 
   const findNewBtn = document.querySelector('#findNewBtn')
-  findNewBtn.addEventListener('click', NewDictionaryPage.renderPage)
+  findNewBtn.addEventListener('click', NewDictionary.renderPage)
 
   checkTrainAvailable()
 }
@@ -124,7 +124,7 @@ async function checkTrainAvailable() {
     studyBtn.disabled = true
   } else {
     const studyBtn = document.querySelector('#studyBtn')
-    studyBtn.addEventListener('click', () => TrainListPage.renderPage(speechPart))
+    studyBtn.addEventListener('click', () => TrainingList.renderPage(speechPart))
   }
 }
 
@@ -141,7 +141,7 @@ function showTrainSuggest() {
     `
 
   const trainBtn = document.querySelector('#startTrainBtn')
-  trainBtn.addEventListener('click', () => TrainListPage.renderPage(speechPart))
+  trainBtn.addEventListener('click', () => TrainingList.renderPage(speechPart))
   const goOnBtn = document.querySelector('#goOnBtn')
   goOnBtn.addEventListener('click', () => {
     studyWordCounter = 0

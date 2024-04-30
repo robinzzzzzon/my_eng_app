@@ -1,6 +1,6 @@
-const TrainListPage = require('./TrainListPage')
-const utils = require('../utils')
-const { speechList, domain, spinner } = require('../constants')
+const TrainingList = require('./TrainingList')
+const utils = require('../../utils/utils')
+const { speechList, domain, spinner } = require('../../utils/constants')
 
 const content = document.querySelector('.content')
 
@@ -43,7 +43,7 @@ export async function renderPage() {
 
     const name = event.target.dataset.name
 
-    TrainListPage.renderPage(name)
+    TrainingList.renderPage(name)
   })
 }
 

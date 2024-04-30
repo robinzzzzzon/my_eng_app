@@ -1,7 +1,7 @@
-import '../styles/actualDictionaryStyles.css'
-import { domain, spinner } from '../constants'
-const NewDictionaryPage = require('./NewDictionaryPage')
-const utils = require('../utils')
+import '../../styles/actualDictionary.css'
+import { domain, spinner } from '../../utils/constants'
+const NewDictionary = require('./NewDictionary')
+const utils = require('../../utils/utils')
 
 const content = document.querySelector('.content')
 let studyList = null
@@ -28,7 +28,8 @@ function renderPage() {
     `
 
     const understandBtn = document.querySelector('.myBtn')
-    understandBtn.addEventListener('click', NewDictionaryPage.renderPage)
+    
+    understandBtn.addEventListener('click', NewDictionary.renderPage)
   }
 
   for (let index = 0; index < studyList.data.length; index++) {

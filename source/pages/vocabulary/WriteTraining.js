@@ -1,7 +1,7 @@
-import '../styles/writeTrainStyles.css'
-const constants = require('../constants')
-const NewDictionaryPage = require('./NewDictionaryPage')
-const utils = require('../utils')
+import '../../styles/writeTraining.css'
+const constants = require('../../utils/constants')
+const NewDictionary = require('./NewDictionary')
+const utils = require('../../utils/utils')
 
 const content = document.querySelector('.content')
 
@@ -108,7 +108,7 @@ async function checkWord(event) {
 
       await utils.checkAvailableStudyWords(speechPart)
 
-      newBtn.addEventListener('click', NewDictionaryPage.renderPage)
+      newBtn.addEventListener('click', NewDictionary.renderPage)
       oneMoreBtn.addEventListener('click', () => renderPage(speechPart))
     } else {
       setTimeout(() => {

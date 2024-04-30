@@ -1,8 +1,7 @@
-import '../styles/trainListStyles.css'
-
-const ChoosePage = require('./ChooseTrainPage')
-const PuzzlePage = require('./PuzzleTrainPage')
-const WritePage = require('./WriteTrainPage')
+import '../../styles/trainingList.css'
+const ChooseTraining = require('./ChooseTraining')
+const PuzzleTraining = require('./PuzzleTraining')
+const WriteTraining = require('./WriteTraining')
 
 const content = document.querySelector('.content')
 
@@ -27,10 +26,10 @@ export function renderPage(speechPart) {
     </div>
     `
 
-  const enterCard = document.querySelector('#writeTraining')
-  enterCard.addEventListener('click', () => WritePage.renderPage(speechPart))
-  const spellCard = document.querySelector('#puzzleTraining')
-  spellCard.addEventListener('click', () => PuzzlePage.renderPage(speechPart))
+  const writingCard = document.querySelector('#writeTraining')
+  writingCard.addEventListener('click', () => WriteTraining.renderPage(speechPart))
+  const puzzleCard = document.querySelector('#puzzleTraining')
+  puzzleCard.addEventListener('click', () => PuzzleTraining.renderPage(speechPart))
   const chooseCard = document.querySelector('#chooseTraining')
-  chooseCard.addEventListener('click', () => ChoosePage.renderPage(speechPart))
+  chooseCard.addEventListener('click', () => ChooseTraining.renderPage(speechPart))
 }
