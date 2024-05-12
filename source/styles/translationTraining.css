@@ -5,10 +5,19 @@
     max-width: 1300px;
     min-height: 400px;
     font-size: 18px;
+    border: 1px solid gray;
 }
 
 .paragraphArea {
-    background-color: lightpink;
+    background-color: rgb(252, 185, 195);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.paragraphArea > p {
+  margin-left: 10px;
+  font-size: 18px;
 }
 
 .timerArea {

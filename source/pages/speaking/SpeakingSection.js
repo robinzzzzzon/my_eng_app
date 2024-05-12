@@ -1,11 +1,12 @@
 const FreeSpeakingConfiguration = require('./FreeSpeakingConfiguration')
 const TranslationConfiguration = require('./TranslationConfiguration')
 
-const actionRoot = document.querySelector('.actionRoot')
 
 export async function renderPage(event) {
   event.preventDefault()
-
+  
+  const actionRoot = document.querySelector('.actionRoot')
+  
   actionRoot.innerHTML = `
     <button class="dictionary initItem shadow-lg" data-name="translation">TRANSLATION</button>
     <button class="dictionary initItem shadow-lg" data-name="free">FREE SPEAKING</button>
