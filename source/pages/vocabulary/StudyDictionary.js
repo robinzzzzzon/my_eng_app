@@ -1,50 +1,52 @@
-const TrainingList = require('./TrainingList')
+import TrainingList from './TrainingList'
 const utils = require('../../utils/utils')
 const { speechList, domain, spinner } = require('../../utils/constants')
 
 const content = document.querySelector('.content')
 
-export async function renderPage() {
-  let dictionaryRoot = document.createElement('div')
-  dictionaryRoot.classList.add('dictionaryRoot')
-
-  content.innerHTML = spinner
-
-  const allStudyList = await utils.makeRequest({
-    methodType: 'GET',
-    getUrl: `${domain}/words/study/`,
-  })
-
-  if (allStudyList.data.length) {
-    const dictionary = createStudyDictionary()
-    dictionaryRoot.append(dictionary)
-  }
-
-  for (let index = 0; index < speechList.length; index++) {
-    const studyList = await utils.makeRequest({
+class StudyDictionary {
+  async renderPage() {
+    let dictionaryRoot = document.createElement('div')
+    dictionaryRoot.classList.add('dictionaryRoot')
+  
+    content.innerHTML = spinner
+  
+    const allStudyList = await utils.makeRequest({
       methodType: 'GET',
       getUrl: `${domain}/words/study/`,
-      getParams: { wordType: speechList[index].dataName },
     })
-
-    if (studyList.data.length) {
-      const dictionary = createStudyDictionary(speechList[index])
+  
+    if (allStudyList.data.length) {
+      const dictionary = createStudyDictionary()
       dictionaryRoot.append(dictionary)
     }
+  
+    for (let index = 0; index < speechList.length; index++) {
+      const studyList = await utils.makeRequest({
+        methodType: 'GET',
+        getUrl: `${domain}/words/study/`,
+        getParams: { wordType: speechList[index].dataName },
+      })
+  
+      if (studyList.data.length) {
+        const dictionary = createStudyDictionary(speechList[index])
+        dictionaryRoot.append(dictionary)
+      }
+    }
+  
+    content.innerHTML = ''
+    content.append(dictionaryRoot)
+  
+    dictionaryRoot.addEventListener('click', (event) => {
+      event.preventDefault()
+  
+      if (!event.target.dataset.name) return
+  
+      const name = event.target.dataset.name
+  
+      TrainingList.renderPage(name)
+    })
   }
-
-  content.innerHTML = ''
-  content.append(dictionaryRoot)
-
-  dictionaryRoot.addEventListener('click', (event) => {
-    event.preventDefault()
-
-    if (!event.target.dataset.name) return
-
-    const name = event.target.dataset.name
-
-    TrainingList.renderPage(name)
-  })
 }
 
 function createStudyDictionary(speechListItem) {
@@ -64,3 +66,5 @@ function createStudyDictionary(speechListItem) {
 
   return dictionary
 }
+
+export default new StudyDictionary()

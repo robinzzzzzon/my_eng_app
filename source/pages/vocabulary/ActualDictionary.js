@@ -1,17 +1,19 @@
 import '../../styles/actualDictionary.css'
+import NewDictionary from'./NewDictionary'
 import { domain, spinner } from '../../utils/constants'
-const NewDictionary = require('./NewDictionary')
 const utils = require('../../utils/utils')
 
 const content = document.querySelector('.content')
 let studyList = null
 
-export async function initPage() {
-  content.innerHTML = spinner
-
-  studyList = await utils.makeRequest({ methodType: 'GET', getUrl: `${domain}/words/study` })
-
-  renderPage()
+class ActualDictionary {
+  async initPage() {
+    content.innerHTML = spinner
+  
+    studyList = await utils.makeRequest({ methodType: 'GET', getUrl: `${domain}/words/study` })
+  
+    renderPage()
+  }
 }
 
 function renderPage() {
@@ -27,7 +29,7 @@ function renderPage() {
     </div>
     `
 
-    const understandBtn = document.querySelector('.myBtn')
+    const understandBtn = document.querySelector('#understandBtn')
     
     understandBtn.addEventListener('click', NewDictionary.renderPage)
   }
@@ -107,3 +109,5 @@ async function removeWord(event) {
 
   renderPage()
 }
+
+export default new ActualDictionary()

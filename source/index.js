@@ -1,8 +1,8 @@
 import './styles/indexStyles.css'
 import './styles/commonStyles.css'
 import './bootstrap/btstrp_css/bootstrap.min.css'
-const VocabularySection = require('./pages/vocabulary/VocabularySection')
-const SpeakingSection = require('./pages/speaking/SpeakingSection')
+import SpeakingSection from './pages/speaking/SpeakingSection'
+import VocabularySection from './pages/vocabulary/VocabularySection'
 
 const actionRoot = document.querySelector('.actionRoot')
 

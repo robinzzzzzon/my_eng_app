@@ -1,6 +1,6 @@
 import '../../styles/chooseTraining.css'
+import NewDictionary from './NewDictionary'
 const constants = require('../../utils/constants')
-const NewDictionary = require('./NewDictionary')
 const utils = require('../../utils/utils')
 
 const content = document.querySelector('.content')
@@ -10,40 +10,46 @@ let initDictionary = null
 let currentDictionary = null
 let fullDictionary = null
 
-export async function renderPage(name) {
-  speechPart = name
-
-  content.innerHTML = constants.spinner
-
-  if (!initDictionary) {
-    initDictionary = await utils.fillArray(speechPart)
+class ChooseTraining {
+  async initPage(name) {
+    speechPart = name
+  
+    content.innerHTML = constants.spinner
+  
+    if (!initDictionary) {
+      initDictionary = await utils.fillArray(speechPart)
+    }
+  
+    if (!currentDictionary) {
+      currentDictionary = await utils.fillArray(speechPart)
+    }
+  
+    renderPage()
   }
+}
 
-  if (!currentDictionary) {
-    currentDictionary = await utils.fillArray(speechPart)
-  }
-
+async function renderPage() {
   const translateArray = await getRandomTranslateArray(currentDictionary.data[0])
-
-  content.innerHTML = `
-    <div class="wrapper">
-      <div class="myProgressBar shadow"></div>
-      <div class="trainArea shadow">
-        <div id="wordItem">${currentDictionary.data[0].word}</div>
-        <div class="itemArea">
-            <div id="item">${translateArray[0]}</div>
-            <div id="item">${translateArray[1]}</div>
-            <div id="item">${translateArray[2]}</div>
-            <div id="item">${translateArray[3]}</div>
+  
+    content.innerHTML = `
+      <div class="wrapper">
+        <div class="myProgressBar shadow"></div>
+        <div class="trainArea shadow">
+          <div id="wordItem">${currentDictionary.data[0].word}</div>
+          <div class="itemArea">
+              <div id="item">${translateArray[0]}</div>
+              <div id="item">${translateArray[1]}</div>
+              <div id="item">${translateArray[2]}</div>
+              <div id="item">${translateArray[3]}</div>
+          </div>
         </div>
       </div>
-    </div>
-    `
-
-  utils.fillProgressBar(initDictionary, currentDictionary)
-
-  const itemArea = document.querySelector('.itemArea')
-  itemArea.addEventListener('click', checkChooseWord)
+      `
+  
+    utils.fillProgressBar(initDictionary, currentDictionary)
+  
+    const itemArea = document.querySelector('.itemArea')
+    itemArea.addEventListener('click', checkChooseWord)
 }
 
 async function getRandomTranslateArray(studyWord) {
@@ -106,8 +112,10 @@ async function checkChooseWord(event) {
     await utils.checkAvailableStudyWords(speechPart)
 
     findNewBtn.addEventListener('click', NewDictionary.renderPage)
-    retryBtn.addEventListener('click', () => renderPage(speechPart))
+    retryBtn.addEventListener('click', () => new ChooseTraining().initPage(speechPart))
   } else {
-    renderPage(speechPart)
+    renderPage()
   }
 }
+
+export default new ChooseTraining()
