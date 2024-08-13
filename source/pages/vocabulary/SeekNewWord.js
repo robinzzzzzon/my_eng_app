@@ -1,8 +1,8 @@
 import '../../styles/seekNewWord.css'
+import NewDictionary from './NewDictionary'
+import TrainingList from './TrainingList'
 import { domain, spinner } from '../../utils/constants'
 const utils = require('../../utils/utils')
-const TrainingList = require('./TrainingList')
-const NewDictionary = require('./NewDictionary')
 
 const content = document.querySelector('.content')
 
@@ -10,24 +10,26 @@ let speechPart
 let currentDictionary = []
 let studyWordCounter = 0
 
-export async function initPage(name) {
-  speechPart = name
-
-  content.innerHTML = spinner
-
-  if (!currentDictionary.length) {
-    currentDictionary = await utils.makeRequest({
-      methodType: 'GET',
-      getUrl: `${domain}/words/init/`,
-      getParams: { wordType: speechPart },
-    })
-
-    currentDictionary = await utils.filterCurrentDictionary(currentDictionary, speechPart)
-
-    if (!currentDictionary.data.length) renderEmptyDictionary()
+class SeekNewWord {
+  async initPage(name) {
+    speechPart = name
+  
+    content.innerHTML = spinner
+  
+    if (!currentDictionary.length) {
+      currentDictionary = await utils.makeRequest({
+        methodType: 'GET',
+        getUrl: `${domain}/words/init/`,
+        getParams: { wordType: speechPart },
+      })
+  
+      currentDictionary = await utils.filterCurrentDictionary(currentDictionary, speechPart)
+  
+      if (!currentDictionary.data.length) renderEmptyDictionary()
+    }
+  
+    renderPage()
   }
-
-  renderPage()
 }
 
 function renderPage() {
@@ -119,13 +121,11 @@ async function checkTrainAvailable() {
     getParams: { wordType: speechPart },
   })
 
-  if (!studyList.data.length) {
-    const studyBtn = document.querySelector('#studyBtn')
-    studyBtn.disabled = true
-  } else {
-    const studyBtn = document.querySelector('#studyBtn')
-    studyBtn.addEventListener('click', () => TrainingList.renderPage(speechPart))
-  }
+  const studyBtn = document.querySelector('#studyBtn')
+
+  !studyList.data.length 
+    ? studyBtn.disabled = true
+    : studyBtn.addEventListener('click', () => TrainingList.renderPage(speechPart))
 }
 
 function showTrainSuggest() {
@@ -148,3 +148,5 @@ function showTrainSuggest() {
     renderPage()
   })
 }
+
+export default new SeekNewWord()

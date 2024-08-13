@@ -1,28 +1,31 @@
-const FreeSpeakingConfiguration = require('./FreeSpeakingConfiguration')
-const TranslationConfiguration = require('./TranslationConfiguration')
+import FreeSpeakingConfiguration from './FreeSpeakingConfiguration'
+import TranslationConfiguration from './TranslationConfiguration'
 
-
-export async function renderPage(event) {
-  event.preventDefault()
+class SpeakingSection {
+  renderPage(event) {
+    event.preventDefault()
+    
+    const actionRoot = document.querySelector('.actionRoot')
+    
+    actionRoot.innerHTML = `
+      <button class="dictionary initItem shadow-lg" data-name="translation">TRANSLATION</button>
+      <button class="dictionary initItem shadow-lg" data-name="free">FREE SPEAKING</button>
+    `
   
-  const actionRoot = document.querySelector('.actionRoot')
+    actionRoot.addEventListener('click', this.renderNextPage)
+  }
+
+  renderNextPage(event) {
+    if (!event.target.dataset.name) return
   
-  actionRoot.innerHTML = `
-    <button class="dictionary initItem shadow-lg" data-name="translation">TRANSLATION</button>
-    <button class="dictionary initItem shadow-lg" data-name="free">FREE SPEAKING</button>
-  `
-
-  actionRoot.addEventListener('click', renderNextPage)
-}
-
-async function renderNextPage(event) {
-  if (!event.target.dataset.name) return
-
-  const name = event.target.dataset.name
-
-  if (name === 'free') {
-    FreeSpeakingConfiguration.renderPage(event)
-  } else if (name === 'translation') {
-    TranslationConfiguration.renderPage(event)
+    const name = event.target.dataset.name
+  
+    if (name === 'free') {
+      FreeSpeakingConfiguration.renderPage(event)
+    } else if (name === 'translation') {
+      TranslationConfiguration.renderPage(event)
+    }
   }
 }
+
+export default new SpeakingSection()

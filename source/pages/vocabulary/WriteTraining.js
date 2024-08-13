@@ -1,6 +1,6 @@
 import '../../styles/writeTraining.css'
+import NewDictionary from './NewDictionary'
 const constants = require('../../utils/constants')
-const NewDictionary = require('./NewDictionary')
 const utils = require('../../utils/utils')
 
 const content = document.querySelector('.content')
@@ -10,47 +10,53 @@ let initDictionary = null
 let currentDictionary = null
 let charIndex = 0
 
-export async function renderPage(name) {
-  speechPart = name
+class WriteTraining {
+  async initPage(name) {
+    speechPart = name
+  
+    content.innerHTML = constants.spinner
+  
+    if (!initDictionary) {
+      initDictionary = await utils.fillArray(speechPart)
+    }
+  
+    if (!currentDictionary) {
+      currentDictionary = await utils.fillArray(speechPart)
+    }
 
-  content.innerHTML = constants.spinner
-
-  if (!initDictionary) {
-    initDictionary = await utils.fillArray(speechPart)
+    renderPage()
   }
+}
 
-  if (!currentDictionary) {
-    currentDictionary = await utils.fillArray(speechPart)
-  }
-
+function renderPage() {
   content.innerHTML = `
-    <div class="wrapper">
-      <div class="myProgressBar shadow"></div>
-      <div class="rootDiv shadow">
-        <div class="translateDiv">${currentDictionary.data[0].translate}</div>
-        <input type="text" class="writeInput" placeholder=" Пишите здесь...">
-        <div class="btnDiv">
-            <button class="myBtn" id="suggestBtn">Подсказать</button>
-            <button class="myBtn" id="checkBtn">Проверить</button>
+      <div class="wrapper">
+        <div class="myProgressBar shadow"></div>
+        <div class="rootDiv shadow">
+          <div class="translateDiv">${currentDictionary.data[0].translate}</div>
+          <input type="text" class="writeInput" placeholder=" Пишите здесь...">
+          <div class="btnDiv">
+              <button class="myBtn" id="suggestBtn">Подсказать</button>
+              <button class="myBtn" id="checkBtn">Проверить</button>
+          </div>
         </div>
       </div>
-    </div>
-    `
-
-  utils.fillProgressBar(initDictionary, currentDictionary)
-
-  const input = document.querySelector('.writeInput')
-  input.focus()
-  input.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') {
-      checkWord(event)
-    }
-  })
-
-  const suggestBtn = document.querySelector('#suggestBtn')
-  suggestBtn.addEventListener('click', suggestChar)
-  const checkBtn = document.querySelector('#checkBtn')
-  checkBtn.addEventListener('click', checkWord)
+      `
+  
+    utils.fillProgressBar(initDictionary, currentDictionary)
+  
+    const input = document.querySelector('.writeInput')
+    input.focus()
+    input.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        checkWord(event)
+      }
+    })
+  
+    const suggestBtn = document.querySelector('#suggestBtn')
+    suggestBtn.addEventListener('click', suggestChar)
+    const checkBtn = document.querySelector('#checkBtn')
+    checkBtn.addEventListener('click', checkWord)
 }
 
 function suggestChar(event) {
@@ -109,10 +115,10 @@ async function checkWord(event) {
       await utils.checkAvailableStudyWords(speechPart)
 
       newBtn.addEventListener('click', NewDictionary.renderPage)
-      oneMoreBtn.addEventListener('click', () => renderPage(speechPart))
+      oneMoreBtn.addEventListener('click', () => new WriteTraining().initPage(speechPart))
     } else {
       setTimeout(() => {
-        renderPage(speechPart)
+        renderPage()
       }, 200)
     }
   } else {
@@ -132,3 +138,5 @@ function clearProgress() {
   input.value = ''
   charIndex = 0
 }
+
+export default new WriteTraining()

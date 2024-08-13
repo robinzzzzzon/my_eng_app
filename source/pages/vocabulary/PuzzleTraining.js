@@ -1,6 +1,6 @@
 import '../../styles/puzzleTraining.css'
+import NewDictionary from'./NewDictionary'
 import { spinner } from '../../utils/constants'
-const NewDictionary = require('./NewDictionary')
 const utils = require('../../utils/utils')
 
 const content = document.querySelector('.content')
@@ -11,48 +11,54 @@ let currentDictionary = null
 let chars = null
 let badgeSpanClassList = 'position-absolute translate-middle badge rounded-pill charSpan'
 
-export async function renderPage(name) {
-  speechPart = name
-
-  content.innerHTML = spinner
-
-  if (!initDictionary) {
-    initDictionary = await utils.fillArray(speechPart)
+class PuzzleTraining {
+  async initPage(name) {
+    speechPart = name
+  
+    content.innerHTML = spinner
+  
+    if (!initDictionary) {
+      initDictionary = await utils.fillArray(speechPart)
+    }
+  
+    if (!currentDictionary) {
+      currentDictionary = await utils.fillArray(speechPart)
+    }
+  
+    renderPage()
   }
+}
 
-  if (!currentDictionary) {
-    currentDictionary = await utils.fillArray(speechPart)
-  }
-
+function renderPage() {
   content.innerHTML = `
-      <div class="wrapper">
-        <div class="myProgressBar shadow"></div>
-        <div class="rootArea shadow">
-          <div class="spellArea">
-            <div id="translateDiv">${currentDictionary.data[0].translate}</div>
-              <div id="wordDiv"></div>
+        <div class="wrapper">
+          <div class="myProgressBar shadow"></div>
+          <div class="rootArea shadow">
+            <div class="spellArea">
+              <div id="translateDiv">${currentDictionary.data[0].translate}</div>
+                <div id="wordDiv"></div>
+              </div>
+              <div id="charArea" tabindex="0"></div>
+              <div class="btnDiv">
+                  <button class="myBtn" id="checkBtn" disabled>Проверить</button>
+                  <button class="myBtn" id="clearBtn">Сбросить</button>
+              </div>
             </div>
-            <div id="charArea" tabindex="0"></div>
-            <div class="btnDiv">
-                <button class="myBtn" id="checkBtn" disabled>Проверить</button>
-                <button class="myBtn" id="clearBtn">Сбросить</button>
-            </div>
-          </div>
-      </div>
-    `
-
-  utils.fillProgressBar(initDictionary, currentDictionary)
-
-  genCharacters(currentDictionary.data[0])
-
-  const checkBtn = document.querySelector('#checkBtn')
-  const clearBtn = document.querySelector('#clearBtn')
-  checkBtn.addEventListener('click', checkEnterWord)
-  clearBtn.addEventListener('click', clearWordProgress)
-  clearBtn.disabled = false
-  const charArea = document.querySelector('#charArea')
-  charArea.addEventListener('click', moveCharToWordArea)
-  charArea.addEventListener('keydown', moveCharToWordArea)
+        </div>
+      `
+  
+    utils.fillProgressBar(initDictionary, currentDictionary)
+  
+    genCharacters(currentDictionary.data[0])
+  
+    const checkBtn = document.querySelector('#checkBtn')
+    const clearBtn = document.querySelector('#clearBtn')
+    checkBtn.addEventListener('click', checkEnterWord)
+    clearBtn.addEventListener('click', clearWordProgress)
+    clearBtn.disabled = false
+    const charArea = document.querySelector('#charArea')
+    charArea.addEventListener('click', moveCharToWordArea)
+    charArea.addEventListener('keydown', moveCharToWordArea)
 }
 
 function genCharacters(getWord) {
@@ -203,12 +209,12 @@ async function checkEnterWord(event) {
       await utils.checkAvailableStudyWords(speechPart)
 
       newBtn.addEventListener('click', NewDictionary.renderPage)
-      retryBtn.addEventListener('click', () => renderPage(speechPart))
+      retryBtn.addEventListener('click', () => new PuzzleTraining().initPage(speechPart))
     } else {
       toggleClassForChar(resultChars)
 
       setTimeout(() => {
-        renderPage(speechPart)
+        renderPage()
       }, 300)
     }
   } else {
@@ -230,3 +236,5 @@ function toggleClassForChar(charArray, className = 'accessChar') {
     charArray[index].classList.toggle(className)
   }
 }
+
+export default new PuzzleTraining()

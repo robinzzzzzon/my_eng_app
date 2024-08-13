@@ -3,45 +3,51 @@ const apiGpt = require('../../utils/chatGptApi')
 const utils = require('../../utils/utils')
 const { spinner } = require('../../utils/constants')
 
-let paragraphList = [];
 let trainingConfig = null;
+let paragraphList = [];
 
 const contentRoot = document.querySelector('.content')
 
-export async function renderPage(event, config) {
+class TranslationTraining {
+    async initPage(event, config) {
+        if (!trainingConfig) {
+            trainingConfig = config
+        }
+    
+        if (!paragraphList.length) {
+            contentRoot.innerHTML = spinner
+            paragraphList = await apiGpt.getRandomTextExamples(trainingConfig)
+            paragraphList = paragraphList.choices[0].message.content.split('[SECTION]').filter(el => el)
+        }
+    
+        renderPage(event, config)
+    }
+}
+
+function renderPage(event, config) {
     event.preventDefault()
 
-    if (!trainingConfig) {
-        trainingConfig = config
-    }
-
-    if (!paragraphList.length) {
-        contentRoot.innerHTML = spinner
-        paragraphList = await apiGpt.getRandomTextExamples(trainingConfig)
-        paragraphList = paragraphList.choices[0].message.content.split('[SECTION]').filter(el => el)
-    }
-
     contentRoot.innerHTML = `
-    <div class='trainingRoot'>
-        <div class='paragraphArea'>
-            <p>${paragraphList.shift()}</p>
-        </div>
-        <div class='timerArea'>
-            <div id='timer'></div>
-            <div>
-                <button class='myBtn nextBtn'>Show next</button>
+        <div class='trainingRoot'>
+            <div class='paragraphArea'>
+                <p>${paragraphList.shift()}</p>
+            </div>
+            <div class='timerArea'>
+                <div id='timer'></div>
+                <div>
+                    <button class='myBtn nextBtn'>Show next</button>
+                </div>
             </div>
         </div>
-    </div>
-    `
-
-    if (config[2]) {
-        const timerDiv = document.querySelector('#timer')
-        utils.setTimer(timerDiv, 3)
-    }
-
-    const nextBtn = document.querySelector('.nextBtn')
-    nextBtn.addEventListener('click', showNextText)
+        `
+    
+        if (config[2]) {
+            const timerDiv = document.querySelector('#timer')
+            utils.setTimer(timerDiv, 3)
+        }
+    
+        const nextBtn = document.querySelector('.nextBtn')
+        nextBtn.addEventListener('click', showNextText)
 }
 
 function showNextText(event) {
@@ -68,3 +74,5 @@ function showNextText(event) {
         renderPage(event, trainingConfig)
     }
 }
+
+export default new TranslationTraining()
