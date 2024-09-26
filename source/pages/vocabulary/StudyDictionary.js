@@ -1,6 +1,6 @@
 import TrainingList from './TrainingList'
-const utils = require('../../utils/utils')
-const { speechList, domain, spinner } = require('../../utils/constants')
+import { speechList, domain, spinner } from '../../utils/constants'
+import { makeRequest } from '../../utils/utils'
 
 const content = document.querySelector('.content')
 
@@ -11,7 +11,7 @@ class StudyDictionary {
   
     content.innerHTML = spinner
   
-    const allStudyList = await utils.makeRequest({
+    const allStudyList = await makeRequest({
       methodType: 'GET',
       getUrl: `${domain}/words/study/`,
     })
@@ -22,7 +22,7 @@ class StudyDictionary {
     }
   
     for (let index = 0; index < speechList.length; index++) {
-      const studyList = await utils.makeRequest({
+      const studyList = await makeRequest({
         methodType: 'GET',
         getUrl: `${domain}/words/study/`,
         getParams: { wordType: speechList[index].dataName },

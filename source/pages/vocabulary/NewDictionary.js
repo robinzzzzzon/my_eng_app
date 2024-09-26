@@ -1,6 +1,6 @@
 import SeekNewWord from './SeekNewWord'
-const { speechList, domain, spinner } = require('../../utils/constants')
-const utils = require('../../utils/utils')
+import { speechList, domain, spinner } from '../../utils/constants'
+import { makeRequest } from '../../utils/utils'
 
 const content = document.querySelector('.content')
 
@@ -19,13 +19,13 @@ class NewDictionary {
       item.setAttribute('data-name', speechList[index].dataName)
       item.textContent = speechList[index].translateName.toUpperCase()
   
-      const dictionaryList = await utils.makeRequest({
+      const dictionaryList = await makeRequest({
         methodType: 'GET',
         getUrl: `${domain}/words/init/`,
         getParams: { wordType: speechList[index].dataName },
       })
   
-      const studyList = await utils.makeRequest({
+      const studyList = await makeRequest({
         methodType: 'GET',
         getUrl: `${domain}/words/study/`,
         getParams: { wordType: speechList[index].dataName },

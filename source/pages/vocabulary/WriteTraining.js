@@ -1,7 +1,7 @@
 import '../../styles/writeTraining.css'
 import NewDictionary from './NewDictionary'
-const constants = require('../../utils/constants')
-const utils = require('../../utils/utils')
+import { fillArray, fillProgressBar, modifyStudyLevel, checkAvailableStudyWords } from '../../utils/utils'
+import { spinner, system_colors } from '../../utils/constants'
 
 const content = document.querySelector('.content')
 
@@ -14,14 +14,14 @@ class WriteTraining {
   async initPage(name) {
     speechPart = name
   
-    content.innerHTML = constants.spinner
+    content.innerHTML = spinner
   
     if (!initDictionary) {
-      initDictionary = await utils.fillArray(speechPart)
+      initDictionary = await fillArray(speechPart)
     }
   
     if (!currentDictionary) {
-      currentDictionary = await utils.fillArray(speechPart)
+      currentDictionary = await fillArray(speechPart)
     }
 
     renderPage()
@@ -43,7 +43,7 @@ function renderPage() {
       </div>
       `
   
-    utils.fillProgressBar(initDictionary, currentDictionary)
+    fillProgressBar(initDictionary, currentDictionary)
   
     const input = document.querySelector('.writeInput')
     input.focus()
@@ -83,11 +83,11 @@ async function checkWord(event) {
   const enterWord = input.value.toLowerCase().trim()
 
   if (enterWord === currentDictionary.data[0].word) {
-    await utils.modifyStudyLevel(currentDictionary.data[0].word, true)
+    await modifyStudyLevel(currentDictionary.data[0].word, true)
 
     currentDictionary.data.shift()
 
-    input.style.backgroundColor = constants.system_colors.success
+    input.style.backgroundColor = system_colors.success
     charIndex = 0
 
     if (!currentDictionary.data.length) {
@@ -112,7 +112,7 @@ async function checkWord(event) {
       btnDiv.append(newBtn)
       btnDiv.append(oneMoreBtn)
 
-      await utils.checkAvailableStudyWords(speechPart)
+      await checkAvailableStudyWords(speechPart)
 
       newBtn.addEventListener('click', NewDictionary.renderPage)
       oneMoreBtn.addEventListener('click', () => new WriteTraining().initPage(speechPart))
@@ -122,9 +122,9 @@ async function checkWord(event) {
       }, 200)
     }
   } else {
-    await utils.modifyStudyLevel(currentDictionary.data[0].word)
+    await modifyStudyLevel(currentDictionary.data[0].word)
 
-    input.style.backgroundColor = constants.system_colors.failed
+    input.style.backgroundColor = system_colors.failed
 
     setTimeout(() => {
       clearProgress()

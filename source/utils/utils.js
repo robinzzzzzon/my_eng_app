@@ -1,5 +1,5 @@
+import axios from 'axios'
 import { domain } from './constants'
-const axios = require('axios').default
 
 export async function filterCurrentDictionary(dictionary, speechPart) {
   let studyArray = await makeRequest({

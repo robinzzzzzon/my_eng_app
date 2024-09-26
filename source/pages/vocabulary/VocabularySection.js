@@ -1,9 +1,9 @@
-import { domain, spinner } from '../../utils/constants'
 import AddDictionaryWord from './AddDictionaryWord'
 import ActualDictionary from './ActualDictionary'
 import NewDictionary from './NewDictionary'
 import StudyDictionary from './StudyDictionary'
-const utils = require('../../utils/utils')
+import { domain, spinner } from '../../utils/constants'
+import { makeRequest } from '../../utils/utils'
 
 class VocabularySection {
   actionRoot = document.querySelector('.actionRoot')
@@ -13,7 +13,7 @@ class VocabularySection {
   
     this.actionRoot.innerHTML = spinner
   
-    const studyList = await utils.makeRequest({ methodType: 'GET', getUrl: `${domain}/words/study` })
+    const studyList = await makeRequest({ methodType: 'GET', getUrl: `${domain}/words/study` })
   
     this.actionRoot.innerHTML = `
       <button class="dictionary initItem shadow-lg" data-name="seekNew">CHOOSE WORDS</button>
