@@ -1,8 +1,8 @@
 import '../../styles/seekNewWord.css'
 import NewDictionary from './NewDictionary'
 import TrainingList from './TrainingList'
+import { makeRequest, filterCurrentDictionary } from '../../utils/utils'
 import { domain, spinner } from '../../utils/constants'
-const utils = require('../../utils/utils')
 
 const content = document.querySelector('.content')
 
@@ -17,13 +17,13 @@ class SeekNewWord {
     content.innerHTML = spinner
   
     if (!currentDictionary.length) {
-      currentDictionary = await utils.makeRequest({
+      currentDictionary = await makeRequest({
         methodType: 'GET',
         getUrl: `${domain}/words/init/`,
         getParams: { wordType: speechPart },
       })
   
-      currentDictionary = await utils.filterCurrentDictionary(currentDictionary, speechPart)
+      currentDictionary = await filterCurrentDictionary(currentDictionary, speechPart)
   
       if (!currentDictionary.data.length) renderEmptyDictionary()
     }
@@ -79,7 +79,7 @@ async function studyThisWord(event) {
     studyLevel: 0,
   }
 
-  await utils.makeRequest({
+  await makeRequest({
     methodType: 'POST',
     getUrl: `${domain}/words/study/`,
     getBody: addStudyWord,
@@ -115,7 +115,7 @@ function renderEmptyDictionary() {
 }
 
 async function checkTrainAvailable() {
-  const studyList = await utils.makeRequest({
+  const studyList = await makeRequest({
     methodType: 'GET',
     getUrl: `${domain}/words/study/`,
     getParams: { wordType: speechPart },

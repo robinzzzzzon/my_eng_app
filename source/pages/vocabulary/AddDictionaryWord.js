@@ -1,6 +1,6 @@
 import '../../styles/addDictionaryWord.css'
-const utils = require('../../utils/utils')
-const { domain } = require('../../utils/constants')
+import { domain } from '../../utils/constants'
+import { makeRequest } from '../../utils/utils'
 
 class AddDictionaryWord {
   content = document.querySelector('.content')
@@ -66,12 +66,12 @@ class AddDictionaryWord {
       wordType: select.options[select.selectedIndex].text,
     }
   
-    await utils.makeRequest({ methodType: 'POST', getUrl: `${domain}/words/init/`, getBody: newWord })
+    await makeRequest({ methodType: 'POST', getUrl: `${domain}/words/init/`, getBody: newWord })
   
     if (studyCb.checked) {
       newWord.studyLevel = 0
   
-      await utils.makeRequest({
+      await makeRequest({
         methodType: 'POST',
         getUrl: `${domain}/words/study/`,
         getBody: newWord,

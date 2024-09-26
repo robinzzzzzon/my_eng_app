@@ -1,7 +1,7 @@
 import '../../styles/chooseTraining.css'
 import NewDictionary from './NewDictionary'
-const constants = require('../../utils/constants')
-const utils = require('../../utils/utils')
+import { makeRequest, fillArray, fillProgressBar, modifyStudyLevel, checkAvailableStudyWords } from '../../utils/utils'
+import { domain, spinner, system_colors } from '../../utils/constants'
 
 const content = document.querySelector('.content')
 
@@ -14,14 +14,14 @@ class ChooseTraining {
   async initPage(name) {
     speechPart = name
   
-    content.innerHTML = constants.spinner
+    content.innerHTML = spinner
   
     if (!initDictionary) {
-      initDictionary = await utils.fillArray(speechPart)
+      initDictionary = await fillArray(speechPart)
     }
   
     if (!currentDictionary) {
-      currentDictionary = await utils.fillArray(speechPart)
+      currentDictionary = await fillArray(speechPart)
     }
   
     renderPage()
@@ -46,7 +46,7 @@ async function renderPage() {
       </div>
       `
   
-    utils.fillProgressBar(initDictionary, currentDictionary)
+    fillProgressBar(initDictionary, currentDictionary)
   
     const itemArea = document.querySelector('.itemArea')
     itemArea.addEventListener('click', checkChooseWord)
@@ -54,9 +54,9 @@ async function renderPage() {
 
 async function getRandomTranslateArray(studyWord) {
   if (!fullDictionary) {
-    fullDictionary = await utils.makeRequest({
+    fullDictionary = await makeRequest({
       methodType: 'GET',
-      getUrl: `${constants.domain}/words/init/`,
+      getUrl: `${domain}/words/init/`,
     })
   }
 
@@ -84,12 +84,12 @@ async function checkChooseWord(event) {
   if (chooseWord.id !== 'item') return
 
   if (chooseWord.textContent === currentDictionary.data[0].translate) {
-    chooseWord.style.backgroundColor = constants.system_colors.success
-    await utils.modifyStudyLevel(currentDictionary.data[0].word, true)
+    chooseWord.style.backgroundColor = system_colors.success
+    await modifyStudyLevel(currentDictionary.data[0].word, true)
     currentDictionary.data.shift()
   } else {
-    chooseWord.style.backgroundColor = constants.system_colors.failed
-    await utils.modifyStudyLevel(currentDictionary.data[0].word)
+    chooseWord.style.backgroundColor = system_colors.failed
+    await modifyStudyLevel(currentDictionary.data[0].word)
   }
 
   if (!currentDictionary.data.length) {
@@ -109,7 +109,7 @@ async function checkChooseWord(event) {
     const findNewBtn = document.querySelector('#findNewBtn')
     const retryBtn = document.querySelector('#retryBtn')
 
-    await utils.checkAvailableStudyWords(speechPart)
+    await checkAvailableStudyWords(speechPart)
 
     findNewBtn.addEventListener('click', NewDictionary.renderPage)
     retryBtn.addEventListener('click', () => new ChooseTraining().initPage(speechPart))

@@ -1,7 +1,7 @@
 import '../../styles/actualDictionary.css'
 import NewDictionary from'./NewDictionary'
 import { domain, spinner } from '../../utils/constants'
-const utils = require('../../utils/utils')
+import { makeRequest } from '../../utils/utils'
 
 const content = document.querySelector('.content')
 let studyList = null
@@ -10,7 +10,7 @@ class ActualDictionary {
   async initPage() {
     content.innerHTML = spinner
   
-    studyList = await utils.makeRequest({ methodType: 'GET', getUrl: `${domain}/words/study` })
+    studyList = await makeRequest({ methodType: 'GET', getUrl: `${domain}/words/study` })
   
     renderPage()
   }
@@ -73,7 +73,8 @@ async function clearWordProgress(event) {
   await studyList.data.forEach((item) => {
     if (item.word === itemWordText) {
       item.studyLevel = 0
-      utils.makeRequest({
+      
+      makeRequest({
         methodType: 'UPDATE',
         getUrl: `${domain}/words/study/${item._id}`,
         getBody: item,
@@ -100,7 +101,7 @@ async function removeWord(event) {
 
   content.innerHTML = spinner
 
-  await utils.makeRequest({
+  await makeRequest({
     methodType: 'DELETE',
     getUrl: `${domain}/words/study/${findWord._id}`,
   })

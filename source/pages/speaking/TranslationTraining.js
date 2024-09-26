@@ -1,7 +1,7 @@
 import '../../styles/translationTraining.css'
-const apiGpt = require('../../utils/chatGptApi')
-const utils = require('../../utils/utils')
-const { spinner } = require('../../utils/constants')
+import { spinner } from '../../utils/constants'
+import { setTimer } from '../../utils/utils'
+const apiGpt = require('../../utils/chatGptApi') // отдельно доработать
 
 let trainingConfig = null;
 let paragraphList = [];
@@ -43,7 +43,7 @@ function renderPage(event, config) {
     
         if (config[2]) {
             const timerDiv = document.querySelector('#timer')
-            utils.setTimer(timerDiv, 3)
+            setTimer(timerDiv, 3)
         }
     
         const nextBtn = document.querySelector('.nextBtn')

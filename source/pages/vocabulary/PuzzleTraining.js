@@ -1,7 +1,7 @@
 import '../../styles/puzzleTraining.css'
 import NewDictionary from'./NewDictionary'
+import { fillArray, fillProgressBar, optimizeCharacters, modifyStudyLevel, checkAvailableStudyWords } from '../../utils/utils'
 import { spinner } from '../../utils/constants'
-const utils = require('../../utils/utils')
 
 const content = document.querySelector('.content')
 
@@ -18,11 +18,11 @@ class PuzzleTraining {
     content.innerHTML = spinner
   
     if (!initDictionary) {
-      initDictionary = await utils.fillArray(speechPart)
+      initDictionary = await fillArray(speechPart)
     }
   
     if (!currentDictionary) {
-      currentDictionary = await utils.fillArray(speechPart)
+      currentDictionary = await fillArray(speechPart)
     }
   
     renderPage()
@@ -47,7 +47,7 @@ function renderPage() {
         </div>
       `
   
-    utils.fillProgressBar(initDictionary, currentDictionary)
+    fillProgressBar(initDictionary, currentDictionary)
   
     genCharacters(currentDictionary.data[0])
   
@@ -66,7 +66,7 @@ function genCharacters(getWord) {
     chars = getWord.word.split('').sort(() => Math.random() - 0.5)
   } while (chars.join('') === getWord.word)
 
-  const optimizeChars = utils.optimizeCharacters(chars)
+  const optimizeChars = optimizeCharacters(chars)
 
   const charArea = document.querySelector('#charArea')
   charArea.style.gridTemplateColumns = `repeat(${optimizeChars.length}, 1fr)`
@@ -180,7 +180,7 @@ async function checkEnterWord(event) {
   }
 
   if (resultWord === currentDictionary.data[0].word) {
-    await utils.modifyStudyLevel(currentDictionary.data[0].word, true)
+    await modifyStudyLevel(currentDictionary.data[0].word, true)
 
     currentDictionary.data.shift()
 
@@ -206,7 +206,7 @@ async function checkEnterWord(event) {
       btnDiv.append(newBtn)
       btnDiv.append(retryBtn)
 
-      await utils.checkAvailableStudyWords(speechPart)
+      await checkAvailableStudyWords(speechPart)
 
       newBtn.addEventListener('click', NewDictionary.renderPage)
       retryBtn.addEventListener('click', () => new PuzzleTraining().initPage(speechPart))
@@ -218,7 +218,7 @@ async function checkEnterWord(event) {
       }, 300)
     }
   } else {
-    await utils.modifyStudyLevel(currentDictionary.data[0].word)
+    await modifyStudyLevel(currentDictionary.data[0].word)
 
     toggleClassForChar(resultChars, 'wrongChar')
 
