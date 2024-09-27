@@ -4,6 +4,7 @@ import { domain, spinner } from '../../utils/constants'
 import { makeRequest } from '../../utils/utils'
 
 const content = document.querySelector('.content')
+
 let studyList = null
 
 class ActualDictionary {
@@ -16,7 +17,7 @@ class ActualDictionary {
   }
 }
 
-function renderPage() {
+function renderPage(itemIndex) {
   content.innerHTML = `<div class="actualDictionaryRoot"></div>`
 
   const actualDictionaryRoot = document.querySelector('.actualDictionaryRoot')
@@ -50,13 +51,17 @@ function renderPage() {
     actualDictionaryRoot.append(item)
     item.addEventListener('click', clearWordProgress)
     item.addEventListener('click', removeWord)
+  }
 
-    let windowInnerHeight = window.innerHeight - 250
-    let actualDictionaryRootHeight = getComputedStyle(actualDictionaryRoot).height.substring(0, 4)
+  let windowInnerHeight = window.innerHeight - 250
+  let actualDictionaryRootHeight = getComputedStyle(actualDictionaryRoot).height.substring(0, 4)
 
-    if (windowInnerHeight < +actualDictionaryRootHeight) {
-      actualDictionaryRoot.style.height = `${windowInnerHeight}px`
-      actualDictionaryRoot.style.overflow = 'scroll'
+  if (windowInnerHeight < +actualDictionaryRootHeight) {
+    actualDictionaryRoot.style.height = `${windowInnerHeight}px`
+    actualDictionaryRoot.style.overflow = 'scroll'
+
+    if (itemIndex) {
+      document.querySelector(`.actualDictionaryRoot > div:nth-child(${itemIndex - 1})`).scrollIntoView()
     }
   }
 }
@@ -70,7 +75,7 @@ async function clearWordProgress(event) {
 
   const itemWordText = this.querySelector('div').textContent
 
-  await studyList.data.forEach((item) => {
+  studyList.data.forEach((item) => {
     if (item.word === itemWordText) {
       item.studyLevel = 0
       
@@ -90,25 +95,26 @@ async function removeWord(event) {
 
   if (removeBtn.id !== 'removeWord') return
 
-  let findWord = null
   const thisWordText = this.querySelector('div').textContent
 
-  studyList.data.forEach((item) => {
+  let itemIndex
+
+  studyList.data.forEach((item, index) => {
     if (item.word === thisWordText) {
-      findWord = item
+      itemIndex = index
+
+      content.innerHTML = spinner
+
+      makeRequest({
+        methodType: 'DELETE',
+        getUrl: `${domain}/words/study/${item._id}`,
+      })
     }
-  })
-
-  content.innerHTML = spinner
-
-  await makeRequest({
-    methodType: 'DELETE',
-    getUrl: `${domain}/words/study/${findWord._id}`,
   })
 
   studyList.data = Array.from(studyList.data).filter((item) => item.word !== thisWordText)
 
-  renderPage()
+  renderPage(itemIndex)
 }
 
 export default new ActualDictionary()
