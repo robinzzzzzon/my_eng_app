@@ -53,27 +53,33 @@ function renderPage() {
       }
     })
   
+    const writeInput = document.querySelector('.writeInput')
     const suggestBtn = document.querySelector('#suggestBtn')
-    suggestBtn.addEventListener('click', suggestChar)
     const checkBtn = document.querySelector('#checkBtn')
+    checkBtn.disabled = true
+    suggestBtn.addEventListener('click', suggestChar)
     checkBtn.addEventListener('click', checkWord)
+    writeInput.addEventListener('input', checkCharCount)
 }
 
 function suggestChar(event) {
   event.preventDefault()
 
-  let chars = currentDictionary.data[0].word.split('')
-  const input = document.querySelector('.writeInput')
-  let inputValue = input.value
-  const currentValue = currentDictionary.data[0].word.substring(0, charIndex)
+  checkCharCount()
 
-  if (inputValue !== currentValue || !chars[charIndex]) {
+  const input = document.querySelector('.writeInput')
+  let chars = currentDictionary.data[0].word.split('')
+
+  if (!currentDictionary.data[0].word.includes(input.value) || !chars[charIndex]) {
     return
-  } else {
-    inputValue = inputValue.concat(chars.slice(charIndex, charIndex + 1))
-    input.value = inputValue
-    charIndex++
+  } 
+  
+  if (input.value.length !== charIndex) {
+    charIndex = input.value.length
   }
+  
+  input.value = currentDictionary.data[0].word.substring(0, charIndex + 1)
+  charIndex++
 }
 
 async function checkWord(event) {
@@ -82,7 +88,7 @@ async function checkWord(event) {
   const input = document.querySelector('.writeInput')
   const enterWord = input.value.toLowerCase().trim()
 
-  if (enterWord === currentDictionary.data[0].word) {
+  if (enterWord === currentDictionary.data[0].word || 'to'.concat(' ', enterWord) === currentDictionary.data[0].word) {
     await modifyStudyLevel(currentDictionary.data[0].word, true)
 
     currentDictionary.data.shift()
@@ -137,6 +143,15 @@ function clearProgress() {
   input.style.backgroundColor = ''
   input.value = ''
   charIndex = 0
+
+  checkCharCount()
+}
+
+function checkCharCount() {
+  const input = document.querySelector('.writeInput')
+  const checkBtn = document.querySelector('#checkBtn')
+
+  input.value.length > 1 ? checkBtn.disabled = false : checkBtn.disabled = true
 }
 
 export default new WriteTraining()
