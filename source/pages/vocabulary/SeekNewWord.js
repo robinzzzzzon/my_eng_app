@@ -43,11 +43,14 @@ function renderPage() {
             <button class="myBtn btn-lg" id="knowBtn">Уже знаю</button> 
             <button class="myBtn btn-lg" id="studyBtn">Изучить</button>
         </div>
-    </div>`
+    </div>
+    `
 
+  const wordArea = document.querySelector('#wordArea')
   const knowBtn = document.querySelector('#knowBtn')
   const studyBtn = document.querySelector('#studyBtn')
 
+  wordArea.addEventListener('click', changeWord)
   knowBtn.addEventListener('click', showNewWord)
   studyBtn.addEventListener('click', studyThisWord)
 }
@@ -97,6 +100,51 @@ async function studyThisWord(event) {
     showNewWord(event)
   }
 }
+
+function changeWord(event) {
+  event.preventDefault()
+
+  content.innerHTML = `
+  <div class="cardRoot shadow">
+        <div class="cardWordArea" id="wordArea">
+            <div><input></input></div>
+            <div><input></input></div> 
+        </div>
+        <div class="cardBtnDiv">
+            <button class="myBtn btn-lg" id="changeBtn">Изменить</button> 
+            <button class="myBtn btn-lg" id="cancelBtn">Отмена</button> 
+        </div>
+    </div>
+  `
+
+  const changeBtn = document.querySelector('#changeBtn')
+  const cancelBtn = document.querySelector('#cancelBtn')
+  const wordInput = document.querySelector('#wordArea > div:first-child > input')
+  const translationInput = document.querySelector('#wordArea > div:last-child > input')
+
+  wordInput.value = currentDictionary.data[0].word
+  translationInput.value = currentDictionary.data[0].translate
+
+  changeBtn.addEventListener('click', async () => {
+
+    if (wordInput.value.length < 1 || translationInput.value.length < 1) return
+
+    if (currentDictionary.data[0].word !== wordInput.value || currentDictionary.data[0].translate !== translationInput.value) {
+      currentDictionary.data[0].word = wordInput.value
+      currentDictionary.data[0].translate = translationInput.value
+
+      await makeRequest({
+        methodType: 'UPDATE',
+        getUrl: `${domain}/words/init/${currentDictionary.data[0]._id}`,
+        getBody: currentDictionary.data[0],
+      })
+    }
+
+    renderPage()
+  })
+
+  cancelBtn.addEventListener('click', renderPage)
+} 
 
 function renderEmptyDictionary() {
   const wordArea = document.querySelector('#wordArea')
