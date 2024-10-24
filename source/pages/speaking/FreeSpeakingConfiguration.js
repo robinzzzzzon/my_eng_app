@@ -9,24 +9,34 @@ class FreeSpeakingConfiguration {
   
     contentRoot.innerHTML = `
     <div class="speakingConfRoot">
-      <label for="tenses">Choose type of tenses:</label>
-      <select class="form-select form-select-lg" id="tenses" aria-label="Eng Tenses">
-        <option selected value="1">Simple</option>
-        <option value="2">Simple, Continious</option>
-        <option value="3">Simple, Continious, Perfect</option>
-        <option value="4">Simple, Continious, Perfect, Perfect continious</option>
+      <label for="themes">Choose relevant topic:</label>
+      <select class="form-select form-select-lg" id="themes" aria-label="topic_themes">
+        <option selected value="1">Sport</option>
+        <option value="2">Education</option>
+        <option value="3">Relationship</option>
+        <option value="4">Travellings</option>
+        <option value="5">Politics</option>
+        <option value="6">Psychology</option>
+        <option value="7">IT</option>
+        <option value="8">Universe</option>
+        <option value="9">Economy</option>
+        <option value="10">Music</option>
+        <option value="11">Philosophy</option>
+        <option value="12">Cinema</option>
+        <option value="13">Family</option>
+        <option value="14">Random topic</option>
       </select>
   
-      <label for="levels">Choose difficulty level:</label>
-      <select class="form-select form-select-lg" id="levels" aria-label="Difficulty training levels">
-        <option selected value="1">First</option>
-        <option value="2">Second</option>
-        <option value="3">Third</option>
+      <label for="count">Choose count of topics:</label>
+      <select class="form-select form-select-lg" id="count" aria-label="topics_count">
+        <option selected value="1">5</option>
+        <option value="2">10</option>
+        <option value="3">20</option>
       </select>
   
       <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" role="switch" id="passiveVoice">
-        <label class="form-check-label" for="passiveVoice">Should you use the passive voice?</label>
+        <input class="form-check-input" type="checkbox" role="switch" id="idioms">
+        <label class="form-check-label" for="idioms">Should you use the idioms only?</label>
       </div>
   
       <div class="form-check form-switch">
@@ -50,8 +60,8 @@ class FreeSpeakingConfiguration {
 
     config = Array.from(config).map((select) => select.options[select.selectedIndex].text)
 
-    const passiveToggle = document.querySelector('#passiveVoice')
-    config.push(passiveToggle.checked)
+    const idiomsToggle = document.querySelector('#idioms')
+    config.push(idiomsToggle.checked)
 
     const needTimer = document.querySelector('#needTimer')
     config.push(needTimer.checked)
