@@ -1,6 +1,6 @@
-import '../../styles/freeSpeakingTraining.css'
-import { setTimer, getRandomListBySpeechPart } from '../../utils/utils'
-import { getTopicList } from '../../utils/chatGptApi';
+import '../../styles/essayTraining.css'
+import { getRandomListBySpeechPart } from '../../utils/utils'
+import { getTopicList, verifyRawEssayByGpt } from '../../utils/chatGptApi';
 import { spinner } from '../../utils/constants';
 import dictionary from '../../utils/dictionary.json'
 
@@ -8,7 +8,7 @@ const contentRoot = document.querySelector('.content')
 
 let topicList = []
 
-class FreeSpeakingTraining {
+class EssayTraining {
   async renderPage(event, config) {
     event.preventDefault()
 
@@ -20,23 +20,22 @@ class FreeSpeakingTraining {
     }
     
     contentRoot.innerHTML = `
-    <div class="speakingAreaRoot">
+    <div class="essayAreaRoot">
       <h3>${topicList.shift()}</h3>
       <br>
       <p>You should use these words or phrases:</p>
-      <div class="availablePhrases"></div>
-      <div id="timer"></div>
-      <button class="myBtn nextBtn">Next</button>
+      <div class="phrasesRoot"></div>
+      <div id="essayArea">
+        <textarea class="shadow-sm" placeholder="Write your essay here..."></textarea>
+      </div>
+      <div class="btnContainer">
+        <button class="myBtn checkBtn">Check it</button>
+        <button class="myBtn nextBtn">Next topic</button>
+      </div>
     </div>
     `
   
-    if (config[3]) {
-      const timer = document.querySelector('#timer')
-
-      setTimer(timer)
-    }
-  
-    const phrasesRoot = document.querySelector('.availablePhrases')
+    const phrasesRoot = document.querySelector('.phrasesRoot')
 
     const wordList = this.generateWords(config);
   
@@ -54,6 +53,9 @@ class FreeSpeakingTraining {
   
       target.style.backgroundColor = '#DCDCDC'
     })
+
+    const checkBtn = document.querySelector('.checkBtn')
+    checkBtn.addEventListener('click', async () => this.verifyEssayByGpt(event, config))
   
     const nextBtn = document.querySelector('.nextBtn')
     nextBtn.addEventListener('click', async () => this.renderPage(event, config))
@@ -94,6 +96,24 @@ class FreeSpeakingTraining {
     }
     return words
   }
+
+  async verifyEssayByGpt(event, config) {
+    event.preventDefault()
+
+    const textArea = document.querySelector('#essayArea > textArea')
+    
+    if (textArea.value) {
+      const topicText = document.querySelector('.essayAreaRoot > h3')
+
+      let gptAnalysis = await verifyRawEssayByGpt(topicText.textContent, textArea.value, config)
+
+      gptAnalysis = gptAnalysis.choices[0].message.content
+
+      textArea.value = `${textArea.value} 
+                        ----------------- 
+                        ${gptAnalysis}`
+    }
+  }
 }
 
-export default new FreeSpeakingTraining()
+export default new EssayTraining()
