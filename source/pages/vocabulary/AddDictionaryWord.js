@@ -65,17 +65,21 @@ class AddDictionaryWord {
       translate: translate.value.toLowerCase(),
       wordType: select.options[select.selectedIndex].text,
     }
+
+    const dublicate = await makeRequest({ methodType: 'GET', getUrl: `${domain}/words/init/`, getParams: { word: newWord.word }})
+
+    if (!dublicate.data.length) {
+      await makeRequest({ methodType: 'POST', getUrl: `${domain}/words/init/`, getBody: newWord })
   
-    await makeRequest({ methodType: 'POST', getUrl: `${domain}/words/init/`, getBody: newWord })
-  
-    if (studyCb.checked) {
-      newWord.studyLevel = 0
-  
-      await makeRequest({
-        methodType: 'POST',
-        getUrl: `${domain}/words/study/`,
-        getBody: newWord,
-      })
+      if (studyCb.checked) {
+        newWord.studyLevel = 0
+    
+        await makeRequest({
+          methodType: 'POST',
+          getUrl: `${domain}/words/study/`,
+          getBody: newWord,
+        })
+      }
     }
   
     new AddDictionaryWord().renderPage()
