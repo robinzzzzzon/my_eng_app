@@ -21,7 +21,7 @@ export async function getTopicList(config) {
     model: 'gpt-4o-mini',
     messages: [{ 
         role: 'user', 
-        content: `Please generate ${config[1]} relevant and interesting topics as asking of my opinion by using theme: ${config[0]}. 
+        content: `Please generate ${config[1]} relevant and interesting topics as asking of my opinion by using theme: ${config[0]}. Topic's themes must be unique every time so that before to generate something check your previous generating staff and don't duplicate it.
           Length of topics shouldn't be more than 30 words. Mark each topic as [TOPIC] at the beginning of sentence without numeration and your first explanation. Only marking list.` 
     }],
   });

@@ -40,6 +40,7 @@ function renderPage() {
               </div>
               <div id="charArea" tabindex="0"></div>
               <div class="btnDiv">
+                  <button class="myBtn" id="answerBtn" disabled>Не знаю</button>
                   <button class="myBtn" id="checkBtn" disabled>Проверить</button>
                   <button class="myBtn" id="clearBtn">Сбросить</button>
               </div>
@@ -51,11 +52,14 @@ function renderPage() {
   
     genCharacters(currentDictionary.data[0])
   
+    const answerBtn = document.querySelector('#answerBtn')
     const checkBtn = document.querySelector('#checkBtn')
     const clearBtn = document.querySelector('#clearBtn')
+    answerBtn.addEventListener('click', showAnswer)
     checkBtn.addEventListener('click', checkEnterWord)
     clearBtn.addEventListener('click', clearWordProgress)
     clearBtn.disabled = false
+
     const charArea = document.querySelector('#charArea')
     charArea.addEventListener('click', moveCharToWordArea)
     charArea.addEventListener('keydown', moveCharToWordArea)
@@ -94,12 +98,37 @@ function genCharacters(getWord) {
 function clearWordProgress(event, word = currentDictionary.data[0]) {
   event.preventDefault()
 
+  const answerBtn = document.querySelector('#answerBtn')
   const charArea = document.querySelector('#charArea')
   const wordDiv = document.querySelector('#wordDiv')
+  answerBtn.disabled = true
   charArea.innerHTML = ''
   wordDiv.innerHTML = ''
 
   genCharacters(word)
+}
+
+function showAnswer(event) {
+  event.preventDefault()
+
+  const charArea = document.querySelector('#charArea')
+  const wordDiv = document.querySelector('#wordDiv')
+
+  charArea.innerHTML = ''
+  wordDiv.innerHTML = ''
+
+  for (let i = 0; i < currentDictionary.data[0].word.length; i++) {
+    const letter = document.createElement('div')
+    letter.textContent = currentDictionary.data[0].word[i]
+    letter.classList.add('char')
+    letter.style.position = 'relative'
+
+    wordDiv.append(letter)
+  }
+
+  setTimeout(() => {
+    clearWordProgress(event)
+  }, 1000)
 }
 
 function moveCharToWordArea(event) {
@@ -111,6 +140,9 @@ function moveCharToWordArea(event) {
   const charsList = document.querySelectorAll('#charArea > .char')
   const wordDiv = document.querySelector('#wordDiv')
   wordDiv.style.gridTemplateColumns = `repeat(${currentDictionary.data[0].word.length}, 1fr)`
+  const checkBtn = document.querySelector('#checkBtn')
+  const clearBtn = document.querySelector('#clearBtn')
+  const answerBtn = document.querySelector('#answerBtn')
 
   if (key) {
     if (key === ' ') key = '-'
@@ -128,15 +160,14 @@ function moveCharToWordArea(event) {
   }
 
   if (!charArea.innerHTML) {
-    const checkBtn = document.querySelector('#checkBtn')
-    const clearBtn = document.querySelector('#clearBtn')
+    answerBtn.disabled = true
     checkBtn.disabled = false
     clearBtn.disabled = true
 
     if (key === 'Enter') {
       checkBtn.addEventListener('keyDown', checkEnterWord(event))
     }
-  }
+  } else if (answerBtn.disabled) answerBtn.disabled = false
 }
 
 function handleKeyboardEvent(getChar, getKey) {

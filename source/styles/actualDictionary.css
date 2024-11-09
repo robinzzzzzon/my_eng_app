@@ -16,6 +16,12 @@
   min-width: 400px;
 }
 
+.actualItem:hover {
+  border: 1.5px solid rgb(118, 129,145);
+  background-color: #dfdfe7;
+  font-size: 18px;
+}
+
 .actualItem > div {
   line-height: 35px;
   margin-right: 10px;

@@ -55,6 +55,14 @@
   background-color: #86f7f7;
 }
 
+#answerBtn {
+  background-color: #c1c1f9;
+}
+
+#answerBtn:hover {
+  background-color: #ccccff;
+}
+
 .dictionaryRoot {
   display: grid;
   grid-template-columns: 1fr 1fr;
