@@ -1,43 +1,43 @@
-const Page = require('../pageObjects/page')
-const IndexPage = require('../pageObjects/Index.page')
-const VocabularyPage = require('../pageObjects/Vocabulary.page')
-const NewDictionariesPage = require('../pageObjects/NewDictionaries.page')
-const NewWordsPage = require('../pageObjects/NewWords.page')
-const StudyDictionariesPage = require('../pageObjects/StudyDictionaries.page')
-const StudyListPage = require('../pageObjects/StudyList.page')
-const TrainListPage = require('../pageObjects/TrainList.page')
-const assertions = require('../baseModule/baseAssertions')
-const data = require('../mocks/textData')
+import Page from '../pageObjects/page.mjs'
+import IndexPage from '../pageObjects/Index.page.mjs'
+import VocabularyPage from '../pageObjects/Vocabulary.page.mjs'
+import NewDictionariesPage from '../pageObjects/NewDictionaries.page.mjs'
+import NewWordsPage from '../pageObjects/NewWords.page.mjs'
+import StudyDictionariesPage from '../pageObjects/StudyDictionaries.page.mjs'
+import StudyListPage from '../pageObjects/StudyList.page.mjs'
+import TrainListPage from '../pageObjects/TrainList.page.mjs'
+import assertions from '../baseModule/baseAssertions.mjs'
+import data from '../mocks/textData.mjs'
 
 class ContentSnippets extends Page {
   async checkIndexPage() {
-    await assertions.$checkDisplayed(IndexPage.homeLink)
+    await assertions.$isDisplayed(IndexPage.homeLink)
     await assertions.$isClickable(IndexPage.homeLink)
     await assertions.$haveText(IndexPage.homeLink, 'Home')
     await assertions.$haveAttr(IndexPage.homeLink, 'href', 'localhost')
-    await assertions.$checkDisplayedAll(IndexPage.dictionaryList)
+    await assertions.$isDisplayedAll(IndexPage.dictionaryList)
     await assertions.$isClickableAll(IndexPage.dictionaryList)
     await assertions.$haveTextAll(IndexPage.dictionaryList, data.indexPageDictionaries)
   }
 
   async checkVocabularyPage() {
-    await assertions.$checkDisplayedAll(VocabularyPage.dictionaryList)
+    await assertions.$isDisplayedAll(VocabularyPage.dictionaryList)
     await assertions.$isArrayOfSize(VocabularyPage.dictionaryList, 4)
     await assertions.$isClickableAll(VocabularyPage.dictionaryList)
     await assertions.$haveTextAll(VocabularyPage.dictionaryList, data.vocabularyPageDictionaries)
   }
 
   async checkNewDictionariesPage() {
-    await assertions.$checkDisplayed(NewDictionariesPage.dictionaryRoot)
-    await assertions.$checkDisplayedAll(NewDictionariesPage.dictionaryList)
+    await assertions.$isDisplayed(NewDictionariesPage.dictionaryRoot)
+    await assertions.$isDisplayedAll(NewDictionariesPage.dictionaryList)
     await assertions.$isClickableAll(NewDictionariesPage.dictionaryList)
     await assertions.$isArrayOfSize(NewDictionariesPage.dictionaryList, 10)
     await assertions.$haveTextAll(NewDictionariesPage.dictionaryList, data.newDictPageDictionaries)
   }
 
   async checkNewWordsPage(word, translation) {
-    await assertions.$checkDisplayed(NewWordsPage.cardRoot)
-    await assertions.$checkDisplayed(NewWordsPage.wordArea)
+    await assertions.$isDisplayed(NewWordsPage.cardRoot)
+    await assertions.$isDisplayed(NewWordsPage.wordArea)
     await assertions.$haveText(NewWordsPage.word, word)
     await assertions.$haveText(NewWordsPage.translate, translation)
     await assertions.$isClickable(NewWordsPage.alreadyKnowBtn)
@@ -47,7 +47,7 @@ class ContentSnippets extends Page {
   }
 
   async checkStudyListPage(itemIndex, word, translation) {
-    await assertions.$checkDisplayed(StudyListPage.studyListRoot)
+    await assertions.$isDisplayed(StudyListPage.studyListRoot)
     await assertions.$haveTextFromList(StudyListPage.wordList, itemIndex, word)
     await assertions.$haveTextFromList(StudyListPage.translateList, itemIndex, translation)
     await assertions.$isClickableFromList(StudyListPage.resetBtnList, itemIndex)
@@ -62,8 +62,8 @@ class ContentSnippets extends Page {
     dictionaryText,
     dictionaryAttrValue,
   }) {
-    await assertions.$checkDisplayed(StudyDictionariesPage.dictionaryRoot)
-    await assertions.$checkDisplayedAll(StudyDictionariesPage.dictionaryList)
+    await assertions.$isDisplayed(StudyDictionariesPage.dictionaryRoot)
+    await assertions.$isDisplayedAll(StudyDictionariesPage.dictionaryList)
     await assertions.$isArrayOfSize(StudyDictionariesPage.dictionaryList, arraySize)
     await assertions.$isClickableAll(StudyDictionariesPage.dictionaryList)
     await assertions.$haveTextFromList(StudyDictionariesPage.dictionaryList, 0, 'ВСЕ СЛОВА')
@@ -81,13 +81,13 @@ class ContentSnippets extends Page {
   }
 
   async checkTrainListPage() {
-    await assertions.$checkDisplayed(TrainListPage.trainRoot)
-    await assertions.$checkDisplayedAll(TrainListPage.trainList)
-    await assertions.$checkDisplayedAll(TrainListPage.trainSvgList)
+    await assertions.$isDisplayed(TrainListPage.trainRoot)
+    await assertions.$isDisplayedAll(TrainListPage.trainList)
+    await assertions.$isDisplayedAll(TrainListPage.trainSvgList)
     await assertions.$isClickableAll(TrainListPage.trainList)
     await assertions.$haveAttrFromList(TrainListPage.trainList, 0, 'id', 'writeTraining')
     await assertions.$haveAttrFromList(TrainListPage.trainList, 1, 'id', 'puzzleTraining')
     await assertions.$haveAttrFromList(TrainListPage.trainList, 2, 'id', 'chooseTraining')
   }
 }
-module.exports = new ContentSnippets()
+export default new ContentSnippets()

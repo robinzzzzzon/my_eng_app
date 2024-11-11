@@ -1,63 +1,57 @@
 /* eslint-disable no-console */
-const allure = require('@wdio/allure-reporter').default
-const chai = require('chai')
+import chai from 'chai'
+import allure from '@wdio/allure-reporter'
+import { concurrentConfig } from './wdio.shared_concurrent.conf.mjs'
+import { parallelConfig } from './wdio.shared_parallel.conf.mjs'
 
 const dynamicConfig = {}
 
-dynamicConfig.capabilities = [
-  {
-    maxInstances: 1,
-    browserName: 'chrome',
-    'selenoid:options': {
-      enableVNC: true,
-      enableLog: true,
-    },
-    'goog:chromeOptions': {
-      args: [
-        '--no-sandbox',
-        '--ignore-certificate-errors',
-        '--disable-infobars',
-        // '--headless',
-        '--disable-gpu',
-        '--window-size=1440,735',
-        '--enable-features=NetworkService,NetworkServiceInProcess',
-        '--disable-dev-shm-usage',
-        '--use-fake-ui-for-media-stream',
-        '--use-fake-device-for-media-stream',
-      ],
-    },
-  },
-]
+if (process.env.CI) {
+  dynamicConfig.reporters = [
+    'spec',
+    [
+      'allure',
+      {
+        outputDir: './source/tests/reports/allure-results/',
+        disableWebdriverStepsReporting: true,
+        disableWebdriverScreenshotsReporting: false,
+        useCucumberStepReporter: false,
+      },
+    ],
+  ]
+} else {
+  dynamicConfig.services = [
+    // [
+    //   'chromedriver',
+    //   {
+    //     logFileName: 'wdio-chromedriver.log',
+    //     outputDir: 'driver-logs',
+    //     args: ['--silent'],
+    //   }
+    // ],
+    ['intercept'], 
+    ['shared-store']
+  ]
+  dynamicConfig.reporters = ['spec']
+  dynamicConfig.capabilities = [concurrentConfig.localCaps, parallelConfig.localCaps]
+}
 
-exports.config = Object.assign(
+export const config = Object.assign(
   {},
   {
-    specs: ['./source/tests/specs/*.spec.js'],
     exclude: [],
     logLevel: 'error',
     coloredLogs: true,
     bail: 0,
     waitforTimeout: 10000,
     connectionRetryTimeout: 30000,
-    connectionRetryCount: 3,
-    services: ['chromedriver'],
+    connectionRetryCount: 2,
     framework: 'mocha',
     mochaOpts: {
       ui: 'bdd',
       timeout: 30000,
     },
-    reporters: [
-      'spec',
-      [
-        'allure',
-        {
-          outputDir: './source/tests/reports/allure-results/',
-          disableWebdriverStepsReporting: true,
-          disableWebdriverScreenshotsReporting: false,
-          useCucumberStepReporter: false,
-        },
-      ],
-    ],
+
     onPrepare(/* config, capabilities */) {
       /* eslint-disable no-console */
       console.log('*** Normandy SR-2 is ready to fly, Captain ***')
@@ -67,8 +61,8 @@ exports.config = Object.assign(
     before(/* capabilities, specs */) {
       global.allure = allure
       global.assert = chai.assert
-      global.browser.setWindowSize(1920, 1080)
       global.should = chai.should()
+      global.browser.maximizeWindow()
     },
 
     async afterTest(test, context, { error }) {

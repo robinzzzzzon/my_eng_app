@@ -1,5 +1,5 @@
-const Page = require('./page')
-const methods = require('../baseModule/baseMethods')
+import Page from './page.mjs'
+import methods from '../baseModule/baseMethods.mjs'
 
 class StudyListPage extends Page {
   async open() {
@@ -51,4 +51,4 @@ class StudyListPage extends Page {
   }
 }
 
-module.exports = new StudyListPage()
+export default new StudyListPage()

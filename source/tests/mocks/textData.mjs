@@ -1,4 +1,4 @@
-module.exports = {
+const textData = {
   indexPageDictionaries: ['VOCABULARY', 'SPEAKING'],
   vocabularyPageDictionaries: [
     'CHOOSE WORDS',
@@ -19,3 +19,5 @@ module.exports = {
     'ПОПУЛЯРНЫЕ ФРАЗЫ',
   ],
 }
+
+export default textData

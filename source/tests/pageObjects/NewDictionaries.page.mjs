@@ -1,5 +1,5 @@
-const Page = require('./page')
-const methods = require('../baseModule/baseMethods')
+import Page from './page.mjs'
+import methods from '../baseModule/baseMethods.mjs'
 
 class NewDictionariesPage extends Page {
   async open() {
@@ -19,4 +19,4 @@ class NewDictionariesPage extends Page {
   }
 }
 
-module.exports = new NewDictionariesPage()
+export default new NewDictionariesPage()
