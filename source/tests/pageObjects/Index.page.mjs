@@ -1,5 +1,5 @@
-const Page = require('./page')
-const methods = require('../baseModule/baseMethods')
+import Page from './page.mjs'
+import methods from '../baseModule/baseMethods.mjs'
 
 class IndexPage extends Page {
   async open() {
@@ -10,7 +10,7 @@ class IndexPage extends Page {
     return methods.$getElements('.dictionary')
   }
 
-  // to-do: replace to widget
+  // TODO: replace to widget
   get homeLink() {
     return methods.$getElement('a=Home')
   }
@@ -28,4 +28,4 @@ class IndexPage extends Page {
   }
 }
 
-module.exports = new IndexPage()
+export default new IndexPage()

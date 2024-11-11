@@ -1,5 +1,5 @@
-const Page = require('./page')
-const methods = require('../baseModule/baseMethods')
+import Page from './page.mjs'
+import methods from '../baseModule/baseMethods.mjs'
 
 class VocabularyPage extends Page {
   async open() {
@@ -27,4 +27,4 @@ class VocabularyPage extends Page {
   }
 }
 
-module.exports = new VocabularyPage()
+export default new VocabularyPage()

@@ -1,18 +1,21 @@
 /* eslint-disable security/detect-object-injection */
+async function handleElement(getElement) {
+  let element
+
+  getElement instanceof Promise ? element = await getElement : element = getElement
+
+  return element
+}
+
 async function prepareState(getElement) {
   await getElement.waitForExist()
   await getElement.waitForDisplayed()
 }
 
-module.exports = {
+const methods = {
   // ---------------- действия с 1м элементом -----------------
-
   async $click(getElement) {
-    let element = getElement
-
-    if (getElement instanceof Promise) {
-      element = await getElement
-    }
+    const element = await handleElement(getElement)
 
     try {
       await prepareState(element)
@@ -24,11 +27,7 @@ module.exports = {
   },
 
   async $clickRandomXoffset(getElement, { right, left, step, withoutZero }) {
-    let element = getElement
-
-    if (getElement instanceof Promise) {
-      element = await getElement
-    }
+    const element = await handleElement(getElement)
 
     let pixelList = []
 
@@ -48,22 +47,14 @@ module.exports = {
   },
 
   async $clickXoffset(getElement, xOffset) {
-    let element = getElement
-
-    if (getElement instanceof Promise) {
-      element = await getElement
-    }
+    const element = await handleElement(getElement)
 
     await prepareState(element)
     await element.click({ x: xOffset })
   },
 
   async $setValue(getElement, value) {
-    let element = getElement
-
-    if (getElement instanceof Promise) {
-      element = await getElement
-    }
+    const element = await handleElement(getElement)
 
     try {
       await prepareState(element)
@@ -74,11 +65,7 @@ module.exports = {
   },
 
   async $clearValue(getElement) {
-    let element = getElement
-
-    if (getElement instanceof Promise) {
-      element = await getElement
-    }
+    const element = await handleElement(getElement)
 
     try {
       await prepareState(element)
@@ -89,11 +76,7 @@ module.exports = {
   },
 
   async $selectByAttribute(getElement, attr, value) {
-    let element = getElement
-
-    if (getElement instanceof Promise) {
-      element = await getElement
-    }
+    const element = await handleElement(getElement)
 
     try {
       await prepareState(element)
@@ -104,11 +87,7 @@ module.exports = {
   },
 
   async $selectByVisibleText(getElement, value) {
-    let element = getElement
-
-    if (getElement instanceof Promise) {
-      element = await getElement
-    }
+    const element = await handleElement(getElement)
 
     try {
       await prepareState(element)
@@ -119,11 +98,7 @@ module.exports = {
   },
 
   async $moveTo(getElement) {
-    let element = getElement
-
-    if (getElement instanceof Promise) {
-      element = await getElement
-    }
+    const element = await handleElement(getElement)
 
     try {
       await element.waitForExist()
@@ -136,83 +111,60 @@ module.exports = {
   },
 
   // ---------------- действия с элементом из списка -----------------
-
   async $clickFromList(getList, index) {
-    let list = getList
-
-    if (getList instanceof Promise) {
-      list = await getList
-    }
+    const list = await handleElement(getList)
 
     try {
       await prepareState(list[index])
       await list[index].waitForClickable()
-      await list[index].click()
+      await this.$click(list[index])
     } catch (error) {
       throw new Error(`Couldn't click on ${list[index]}`)
     }
   },
 
   async $clickAnyFromList(getList) {
-    let list = getList
-
-    if (getList instanceof Promise) {
-      list = await getList
-    }
+    const list = await handleElement(getList)
 
     try {
       const element = list[Math.floor(Math.random() * list.length)]
 
       await prepareState(element)
       await element.waitForClickable()
-      await element.click()
+      await this.$click(element)
     } catch (error) {
       throw new Error(`Couldn't click on element from ${list}`)
     }
   },
 
   async $setValueFromList(getList, index, value) {
-    let list = getList
-
-    if (getList instanceof Promise) {
-      list = await getList
-    }
+    const list = await handleElement(getList)
 
     try {
       await prepareState(list[index])
-      await list[index].setValue(value)
+      await this.$setValue(list[index], value)
     } catch (error) {
       throw new Error(`Couldn't set value for ${list[index]}`)
     }
   },
 
   async $clearValueFromList(getList, index) {
-    let list = getList
-
-    if (getList instanceof Promise) {
-      list = await getList
-    }
+    const list = await handleElement(getList)
 
     try {
       await prepareState(list[index])
-      await list[index].clearValue()
+      await this.$clearValue(list[index])
     } catch (error) {
       throw new Error(`Couldn't clear value for ${list[index]}`)
     }
   },
 
   async $moveToFromList(getList, index) {
-    let list = getList
-
-    if (getList instanceof Promise) {
-      list = await getList
-    }
+    const list = await handleElement(getList)
 
     try {
       await list[index].waitForExist()
-      const location = await list[index].getLocation()
-
-      await list[index].moveTo({ ...location })
+      await this.$moveTo(list[index])
     } catch (error) {
       throw new Error(`Couldn't move to ${list[index]}`)
     }
@@ -220,11 +172,7 @@ module.exports = {
 
   // ---------------- действия со всеми элементами списка -----------------
   async $clickAll(getList) {
-    let list = getList
-
-    if (getList instanceof Promise) {
-      list = await getList
-    }
+    const list = await handleElement(getList)
 
     try {
       await list.forEach((element) => {
@@ -238,12 +186,57 @@ module.exports = {
   },
 
   // ----------------- прочее ---------------------
-  async $dragAndDrop(getElement, targetX, targetY) {
-    let element = getElement
+  // add smth to store:
+  async $addDataToStore(data, list) {
+    const storeList = await browser.sharedstore.get(list) || []
 
-    if (getElement instanceof Promise) {
-      element = await getElement
+    storeList.push(data)
+
+    await browser.sharedstore.set(list, storeList)
+  },
+
+  // update smth in store:
+  async $updateDataInStore(keyName, data, list) {
+    const storeList = await browser.sharedstore.get(list) || []
+
+    storeList.forEach(el => {
+      if (el.keyName === keyName) {
+        for (const [key, value] of Object.entries(data)) {
+          el[key] = value
+        }
+      }
+    })
+
+    await browser.sharedstore.set(list, storeList)
+  },
+
+  // get smth from store:
+  async $getDataFromStore(list, { firstParam, secondParam }) {
+    let storeList = browser.sharedStore.get(list) || []
+
+    // just for example
+    storeList = storeList
+      .filter(el => el === firstParam)
+      .filter(el => el !== secondParam)
+      .map(el => el.key)
+
+    return storeList
+  },
+
+  async $safeCookie(keyName, storeList) {
+    await this.$updateDataInStore(keyName, { cookie: await browser.getCookies() }, storeList)
+  },
+
+  async $setCookie(cookie, browserCookieName) {
+    if (browserCookieName) {
+      await browser.setCookies({ name: browserCookieName, value: cookie, path: '/' })
+    } else {
+      await browser.setCookies(cookie)
     }
+  },
+
+  async $dragAndDrop(getElement, targetX, targetY) {
+    const element = await handleElement(getElement)
 
     try {
       await prepareState(element)
@@ -326,11 +319,7 @@ module.exports = {
   },
 
   async $waitUntilGetText(getElement, text, timeout) {
-    let element = getElement
-
-    if (getElement instanceof Promise) {
-      element = await getElement
-    }
+    const element = await handleElement(getElement)
 
     await browser.waitUntil(async () => (await element.getText()) === text, {
       timeout,
@@ -339,13 +328,9 @@ module.exports = {
   },
 
   async $checkNeedRefresh(getElement, ms = 8000, tryCount = 6) {
+    const element = await handleElement(getElement)
+
     let count = tryCount
-    let element = getElement
-
-    if (getElement instanceof Promise) {
-      element = await getElement
-    }
-
     let isExist
 
     do {
@@ -405,3 +390,5 @@ module.exports = {
     })()
   },
 }
+
+export default methods
