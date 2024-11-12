@@ -21,9 +21,21 @@ class ContentSnippets extends Page {
   }
 
   async checkVocabularyPage() {
-    await assertions.$isDisplayedAll(VocabularyPage.dictionaryList)
+    // TODO: parametrize and replace to baseAssertions
+    await browser.waitUntil(async function () {
+      const list = await VocabularyPage.dictionaryList
+  
+      return (list.length) === 4
+    }, {
+      timeout: 5000,
+      timeoutMsg: 'expected length to be different after 5s'
+    })
     await assertions.$isArrayOfSize(VocabularyPage.dictionaryList, 4)
-    await assertions.$isClickableAll(VocabularyPage.dictionaryList)
+    await assertions.$isExistAll(VocabularyPage.dictionaryList)
+    await assertions.$isClickableFromList(VocabularyPage.dictionaryList, 0)
+    await assertions.$isClickableFromList(VocabularyPage.dictionaryList, 1, false)
+    await assertions.$isClickableFromList(VocabularyPage.dictionaryList, 2, false)
+    await assertions.$isClickableFromList(VocabularyPage.dictionaryList, 3)
     await assertions.$haveTextAll(VocabularyPage.dictionaryList, data.vocabularyPageDictionaries)
   }
 

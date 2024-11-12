@@ -8,7 +8,7 @@ import StudyListPage from '../pageObjects/StudyList.page.mjs'
 import assertions from '../baseModule/baseAssertions.mjs'
 import methods from '../baseModule/baseMethods.mjs'
 
-describe.skip('Check availability of training section', () => {
+describe('Check availability of training section', () => {
   before(async () => {
     await IndexPage.open()
     await assertions.$urlContaining('3000')
@@ -66,7 +66,7 @@ describe.skip('Check availability of training section', () => {
     await IndexPage.goToVocabularyPage()
     await methods.$waitExistFromList('.actionRoot > .dictionary', 1)
     await assertions.$isDisplayedAll(VocabularyPage.dictionaryList)
-    await assertions.$isEnabledFromList(VocabularyPage.dictionaryList, 1, false)
+    await assertions.$isEnabledFromList(VocabularyPage.dictionaryList, 1)
     await VocabularyPage.goToStudyListPage()
   })
 
