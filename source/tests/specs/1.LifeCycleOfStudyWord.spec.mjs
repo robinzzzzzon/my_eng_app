@@ -7,7 +7,7 @@ import StudyListPage from '../pageObjects/StudyList.page.mjs'
 import assertions from '../baseModule/baseAssertions.mjs'
 import methods from '../baseModule/baseMethods.mjs'
 
-describe.skip('Add new study word and then delete it', () => {
+describe('Add new study word and then delete it', () => {
   before(async () => {
     await IndexPage.open()
     await assertions.$urlContaining('localhost')
