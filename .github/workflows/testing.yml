@@ -23,8 +23,8 @@ jobs:
       - name: install dependencies
         run: npm ci
       - name: up api
-        run: npm run dev_api
+        run: npm run -d dev_api
       - name: up ui
-        run: npm run dev
+        run: npm run -d dev
       - name: testing application
         run: npm run ui_tests
