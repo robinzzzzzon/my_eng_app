@@ -1,14 +1,34 @@
 name: Test eng application
 on: push
 jobs:
-  test:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - name: get access to repository code
         uses: taiki-e/checkout-action@v1
-        # with:
-        #   persist-credentials: 'false'
       - name: install dependencies
-        run: npm i
-      - name: testing code
-        run: echo testing...
+        run: npm ci
+      - name: linting code
+        run: echo code linting...
+  up_stand:
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - name: get access to repository code
+        uses: taiki-e/checkout-action@v1
+      - name: install dependencies
+        run: npm ci
+      - name: up api
+        run: npm run dev_api
+      - name: up stand
+        run: npm run dev
+  test:
+    runs-on: ubuntu-latest
+    needs: up_stand
+    steps:
+      - name: get access to repository code
+        uses: taiki-e/checkout-action@v1
+      - name: install dependencies
+        run: npm ci
+      - name: testing application
+        run: npm run ui_tests
