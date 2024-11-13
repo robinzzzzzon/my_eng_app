@@ -1,0 +1,11 @@
+name: Test eng application
+on: push
+jobs:
+  runs-on: ubuntu-latest
+  steps: 
+    - name: get access to repository code
+      uses: actions/checkout@v4
+    - name: install dependencies
+      run: npm ci
+    - name: run ui-tests
+      run: echo 'Tests are running...'
