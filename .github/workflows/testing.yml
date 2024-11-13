@@ -10,17 +10,17 @@ jobs:
         run: npm ci
       - name: lint code
         run: npm run lint  
-  up_api:
-    runs-on: ubuntu-latest
-    needs: lint
-    steps: 
-      - name: get access to repository code
-        uses: actions/checkout@v4
-      - name: install dependencies
-        run: npm ci
-      - name: up api
-        run: npm run dev_api
-  up_stand:
+  # up_api:
+  #   runs-on: ubuntu-latest
+  #   needs: lint
+  #   steps: 
+  #     - name: get access to repository code
+  #       uses: actions/checkout@v4
+  #     - name: install dependencies
+  #       run: npm ci
+  #     - name: up api
+  #       run: npm run dev_api
+  # up_stand:
     runs-on: ubuntu-latest
     needs: up_api
     steps: 
