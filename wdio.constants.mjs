@@ -8,7 +8,7 @@ const wdioConstants = {
         '--no-sandbox',
         '--ignore-certificate-errors',
         '--disable-infobars',
-        // '--headless',
+        '--headless',
         '--disable-gpu',
         '--enable-features=NetworkService,NetworkServiceInProcess',
         '--disable-dev-shm-usage',
