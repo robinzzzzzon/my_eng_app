@@ -5,8 +5,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: get access to repository code
-        uses: actions/checkout@4.2.2
+        uses: actions/checkout
       - name: install dependencies
-        run: npm ci
+        run: npm i
       - name: testing code
         run: echo testing.....
