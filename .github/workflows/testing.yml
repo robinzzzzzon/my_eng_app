@@ -5,9 +5,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: get access to repository code
-        uses: actions/checkout@4
-        with:
-          persist-credentials: 'false'
+      - uses: taiki-e/checkout-action@v1
+        # with:
+        #   persist-credentials: 'false'
       - name: install dependencies
         run: npm i
       - name: testing code
