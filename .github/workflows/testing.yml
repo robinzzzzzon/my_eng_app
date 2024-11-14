@@ -23,6 +23,6 @@ jobs:
       - name: install dependencies
         run: npm ci
       - name: up stand
-      run: npm run dev_api
-      run: npm run dev
-      run: npm run ui_tests
+        run: npm run dev_api
+        run: npm run dev
+        run: npm run ui_tests
