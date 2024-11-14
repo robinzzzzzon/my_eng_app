@@ -28,4 +28,5 @@ jobs:
     needs: lint
     runs-on: ubuntu-latest
     steps:
+        run: cd ./source
       - run: npm run ui_tests
