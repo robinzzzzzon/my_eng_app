@@ -14,9 +14,9 @@ jobs:
         run: npm ci
       - name: linting code
         run: echo code linting...
-  test:
-    runs-on: ubuntu-latest
+  build:
     needs: lint
+    runs-on: ubuntu-latest
     steps:
       - name: get access to repository code
         uses: taiki-e/checkout-action@v1
@@ -24,4 +24,8 @@ jobs:
         run: npm ci
       # - run: echo ${{ toJSON(github.event) }}
       - run: npm run up_stand
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
       - run: npm run ui_tests
