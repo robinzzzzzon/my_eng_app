@@ -10,9 +10,9 @@
     "javascript"
   ],
   "scripts": {
-    "dev_api": "nodemon source/api/index.js",
+    "api": "nodemon source/api/index.js",
     "dev": "webpack-dev-server --mode development --open",
-    "up_stand": "npm-run-all --parallel dev_api dev",
+    "up_stand": "npm-run-all --parallel api dev",
     "prod": "webpack --mode production",
     "lint": "echo Its linting project!",
     "ui_tests": "wdio run ./wdio.conf.mjs"
