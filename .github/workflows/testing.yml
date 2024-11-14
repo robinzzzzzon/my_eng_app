@@ -5,6 +5,9 @@ on:
   pull_request:
     types: [opened, edited, reopened]
 jobs:
+  defaults:
+      run:
+        working-directory: ./source
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -28,5 +31,4 @@ jobs:
     needs: lint
     runs-on: ubuntu-latest
     steps:
-      working-directory: ./source
       - run: npm run ui_tests
