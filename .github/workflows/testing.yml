@@ -17,18 +17,14 @@ jobs:
   build:
     needs: lint
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: /home/runner/work/my_eng_app/source
     steps:
       - name: get access to repository code
         uses: taiki-e/checkout-action@v1
       - name: install dependencies
         run: npm ci
       # - run: echo ${{ toJSON(github.event) }}
-      - run: npm run up_stand
-  test:
-    needs: lint
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: /home/runner/work/my_eng_app/source
-    steps:
-      - run: npm run ui_tests
+      # - run: npm run up_stand
+      - run: npm run ui_tests 
