@@ -29,6 +29,6 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: source
+        working-directory: /home/runner/work/my_eng_app/source
     steps:
       - run: npm run ui_tests
