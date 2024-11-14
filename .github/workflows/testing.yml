@@ -29,4 +29,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       working-directory: ./source
-      run: npm run ui_tests
+      - run: npm run ui_tests
