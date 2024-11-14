@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: /home/runner/work/my_eng_app/source
+        working-directory: ./source
     steps:
       - name: get access to repository code
         uses: taiki-e/checkout-action@v1
