@@ -21,11 +21,11 @@ jobs:
       run:
         working-directory: ./source
     steps:
-        name: get access to repository code
+      - name: get access to repository code
         uses: taiki-e/checkout-action@v1
-        name: install dependencies
+      - name: install dependencies
         run: npm ci
-        run: |
+      - run: |
           npm run api
           npm run dev
           npm run test
