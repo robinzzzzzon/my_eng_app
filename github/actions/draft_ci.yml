@@ -1,0 +1,31 @@
+name: draft ci action
+on: 
+  workflow_dispatch:
+  pull_request:
+    types: [opened, edited, reopened]
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: get access to repository code
+        uses: taiki-e/checkout-action@v1
+      - name: install dependencies
+        run: npm ci
+      - name: linting code
+        run: echo code is linting...
+  build:
+    needs: lint
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./source
+    steps:
+      - name: get access to repository code
+        uses: taiki-e/checkout-action@v1
+      - name: install dependencies
+        run: npm ci
+      # - run: |
+      #     npm run api
+      #     npm run dev
+      #     npm run test
+      - run: echo code is tested by AT
