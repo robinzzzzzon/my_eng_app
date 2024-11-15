@@ -10,12 +10,12 @@
     "javascript"
   ],
   "scripts": {
-    "api": "nodemon source/api/index.js",
+    "api": "nodemon -q source/api/index.js",
     "dev": "webpack-dev-server --mode development --open",
     "up_stand": "npm-run-all --parallel api dev",
     "prod": "webpack --mode production",
     "lint": "echo Its linting project!",
-    "ui_tests": "wdio run ./wdio.conf.mjs"
+    "test": "wdio run ./wdio.conf.mjs"
   },
   "devDependencies": {
     "@eslint/eslintrc": "3.1.0",

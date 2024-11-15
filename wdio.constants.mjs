@@ -1,5 +1,5 @@
 const wdioConstants = {
-  basePath: '/home/runner/work/my_eng_app/source/tests/specs',
+  basePath: './source/tests/specs',
   moonChromeVrsnList: ['128.0', '129.0', '130.0'],
   baseCaps: {
     browserName: 'chrome',

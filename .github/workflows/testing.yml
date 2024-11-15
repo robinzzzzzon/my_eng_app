@@ -1,4 +1,4 @@
-name: Test eng application
+name: CI
 on:
   workflow_dispatch:
   push:
@@ -21,10 +21,13 @@ jobs:
       run:
         working-directory: ./source
     steps:
-      - name: get access to repository code
+      - id: s1
+        name: get access to repository code
         uses: taiki-e/checkout-action@v1
-      - name: install dependencies
+      - id: s2
+        name: install dependencies
         run: npm ci
-      # - run: echo ${{ toJSON(github.event) }}
-      # - run: npm run up_stand
-      - run: npm run ui_tests 
+      - id: s3
+        run: npm run api
+        if: steps.s3.conclusion == 'success'
+        run: npm run test
