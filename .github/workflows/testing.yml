@@ -30,4 +30,5 @@ jobs:
       - id: s3
         run: npm run api
         if: steps.s3.conclusion == 'success'
+      - id: s4
         run: npm run test
