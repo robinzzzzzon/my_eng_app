@@ -1,5 +1,6 @@
 name: api testing workflow
-on: [push, workflow_dispatch]
+on: 
+  push:
   pull_request:
     types: [opened, edited, reopened]
 jobs:
