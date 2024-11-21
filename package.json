@@ -14,7 +14,8 @@
     "dev": "webpack-dev-server --mode development --open",
     "up_stand": "npm-run-all --parallel api dev",
     "prod": "webpack --mode production",
-    "test": "wdio run ./wdio.conf.mjs"
+    "api-test": "mocha ./source/tests/api/specs/*.spec.js --timeout 10000 --exit",
+    "ui-test": "wdio run ./wdio.conf.mjs"
   },
   "devDependencies": {
     "@wdio/allure-reporter": "8.2.0",

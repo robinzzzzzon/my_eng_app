@@ -1,5 +1,5 @@
 const wdioConstants = {
-  basePath: './source/tests/specs',
+  basePath: './source/tests/e2e/specs',
   moonChromeVrsnList: ['128.0', '129.0', '130.0'],
   baseCaps: {
     browserName: 'chrome',
@@ -8,7 +8,7 @@ const wdioConstants = {
         '--no-sandbox',
         '--ignore-certificate-errors',
         '--disable-infobars',
-        // '--headless',
+        '--headless',
         '--disable-gpu',
         '--enable-features=NetworkService,NetworkServiceInProcess',
         '--disable-dev-shm-usage',
