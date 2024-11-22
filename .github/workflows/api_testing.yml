@@ -10,6 +10,11 @@ jobs:
     steps:
       - name: get access to repository code
         uses: taiki-e/checkout-action@v1
+      - name: cache dependencies
+        uses: actions/cache@v4
+          with:
+            path: ~/.npm
+            key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: install dependencies
         run: npm ci
       - name: linting code
@@ -23,6 +28,11 @@ jobs:
     steps:
       - name: get access to repository code
         uses: taiki-e/checkout-action@v1
+      - name: cache dependencies
+        uses: actions/cache@v4
+          with:
+            path: ~/.npm
+            key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: install dependencies
         run: npm ci
       - name: run api tests
