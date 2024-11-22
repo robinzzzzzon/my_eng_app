@@ -12,9 +12,9 @@ jobs:
         uses: taiki-e/checkout-action@v1
       - name: cache dependencies
         uses: actions/cache@v4
-          with:
-            path: ~/.npm
-            key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: install dependencies
         run: npm ci
       - name: linting code
@@ -30,9 +30,9 @@ jobs:
         uses: taiki-e/checkout-action@v1
       - name: cache dependencies
         uses: actions/cache@v4
-          with:
-            path: ~/.npm
-            key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: install dependencies
         run: npm ci
       - name: run api tests
