@@ -44,11 +44,11 @@ jobs:
         run: npm run api-test
   reporting:
     needs: api-tests
-    if: steps.api-tests.outcome == 'failure'
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./source
     steps:
       - name: report test-results
+        if: steps.api-tests.outcome == 'failure'
         run: echo reporting results to allure...
