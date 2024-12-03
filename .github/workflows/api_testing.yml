@@ -63,7 +63,8 @@ jobs:
         run: npm ci
       - name: report test-results
         run: |
-          echo "Branch name: $GITHUB_REF"
-          echo "Branch name2: $GITHUB_REF_NAME"
-        # run: echo "Reporting results to allure..."
+          if [$GITHUB_REF_NAME == "task-059-modify-ci"];
+          then echo "$GITHUB_REF_NAME"
+          else
+            echo "This branch doesn't fit..."
         # run: echo ${{ toJSON(github) }}
