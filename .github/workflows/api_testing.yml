@@ -21,7 +21,7 @@ jobs:
         run: npm ci
       - name: linting code
         run: echo code is linting...
-  api-test:
+  api-tests:
     needs: lint
     runs-on: ubuntu-latest
     defaults:
@@ -39,5 +39,16 @@ jobs:
       - name: install dependencies
         if: steps.cache.outputs.cache-hit != true
         run: npm ci
-      - name: run api tests
+      - name: run api-tests
+        id: api-tests
         run: npm run api-test
+  reporting:
+    needs: api-tests
+    if: steps.api-tests.outcome == 'failure'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./source
+    steps:
+      - name: report test-results
+        run: echo reporting results to allure...
