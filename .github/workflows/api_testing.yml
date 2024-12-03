@@ -11,11 +11,13 @@ jobs:
       - name: get access to repository code
         uses: taiki-e/checkout-action@v1
       - name: cache dependencies
+        id: cache
         uses: actions/cache@v4
         with:
-          path: ~/.npm
+          path: node-modules
           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: install dependencies
+        if: steps.cache.outputs.cache-hit != true
         run: npm ci
       - name: linting code
         run: echo code is linting...
@@ -29,11 +31,13 @@ jobs:
       - name: get access to repository code
         uses: taiki-e/checkout-action@v1
       - name: cache dependencies
+        id: cache
         uses: actions/cache@v4
         with:
-          path: ~/.npm
+          path: node-modules
           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: install dependencies
+        if: steps.cache.outputs.cache-hit != true
         run: npm ci
       - name: run api tests
         run: npm run api-test
