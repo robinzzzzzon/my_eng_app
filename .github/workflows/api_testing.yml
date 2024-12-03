@@ -62,5 +62,8 @@ jobs:
         if: steps.cache.outputs.cache-hit != true
         run: npm ci
       - name: report test-results
+        run: |
+          echo "Branch name: $GITHUB_REF"
+          echo "Branch name2: $GITHUB_REF_NAME"
         # run: echo "Reporting results to allure..."
-        run: echo ${{ toJSON(github) }}
+        # run: echo ${{ toJSON(github) }}
