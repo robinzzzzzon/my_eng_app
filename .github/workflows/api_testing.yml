@@ -49,6 +49,17 @@ jobs:
       run:
         working-directory: ./source
     steps:
-      - name: report test-results
         if: steps.api-tests.outcome == 'failure'
+      - name: get access to repository code
+        uses: taiki-e/checkout-action@v1
+      - name: cache dependencies
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: node-modules
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: install dependencies
+        if: steps.cache.outputs.cache-hit != true
+        run: npm ci
+      - name: report test-results
         run: echo reporting results to allure...
