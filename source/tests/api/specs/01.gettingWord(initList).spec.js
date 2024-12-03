@@ -14,6 +14,6 @@ describe('Test of init word list', function () {
             .get('/words/init')
 
         expect(response).to.have.status(200)
-        expect(response.body[0].word).equals('climatee')
+        expect(response.body[0].word).equals('climate')
     });
 });
