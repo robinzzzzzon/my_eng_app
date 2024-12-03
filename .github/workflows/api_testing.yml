@@ -20,7 +20,7 @@ jobs:
         if: steps.cache.outputs.cache-hit != true
         run: npm ci
       - name: linting code
-        run: echo code is linting...
+        run: echo "Code is linting..."
   api-tests:
     needs: lint
     runs-on: ubuntu-latest
@@ -62,4 +62,5 @@ jobs:
         if: steps.cache.outputs.cache-hit != true
         run: npm ci
       - name: report test-results
-        run: echo reporting results to allure...
+        # run: echo "Reporting results to allure..."
+        run: echo ${{ toJSON(github) }}
