@@ -49,7 +49,7 @@ jobs:
         run: npm run api-regress
   reporting:
     # if: failure()
-    needs: api-smoke-id || api-regress-id
+    needs: api-tests
     runs-on: ubuntu-latest
     defaults:
       run:
