@@ -45,8 +45,10 @@ jobs:
         run: npm run api-smoke
       - run: |
           echo "$GITHUB_REF_NAME"
+          echo "'$GITHUB_REF_NAME' == 'task-061-yml-conditions'"
+          echo ${{ '$GITHUB_REF_NAME' == 'task-061-yml-conditions' }}
           echo ${{ github.ref }}
-          echo ${{ github.ref == 'refs/heads/main' }} || ${{ github.ref == 'refs/heads/master' }}
+          echo ${{ github.ref == 'refs/heads/master' }}
       - name: run api-regress-tests
         id: api-regress-id
         if: "contains('$GITHUB_REF_NAME', 'master')"
