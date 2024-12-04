@@ -41,11 +41,11 @@ jobs:
         run: npm ci
       - name: run api-smoke-tests
         id: api-smoke-id
-        if: "!contains($GITHUB_REF_NAME, 'master')"
+        if: "!contains('$GITHUB_REF_NAME', 'master')"
         run: npm run api-smoke
       - name: run api-regress-tests
         id: api-regress-id
-        if: "contains($GITHUB_REF_NAME, 'master')"
+        if: "contains('$GITHUB_REF_NAME', 'master')"
         run: npm run api-regress
   reporting:
     # if: failure()
