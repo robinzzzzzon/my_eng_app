@@ -67,7 +67,7 @@ jobs:
         if: steps.cache.outputs.cache-hit != true
         run: npm ci
       - name: report test-results
-        run: echo ${{ toJSON(github) }}
+        run: echo "Creating a report..."
         # run: |
         #   if ["$GITHUB_REF_NAME" == "task-059-modify-ci"]; then
         #     echo "$GITHUB_REF_NAME"
