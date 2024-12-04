@@ -43,6 +43,7 @@ jobs:
         id: api-smoke-id
         if: "!contains('$GITHUB_REF_NAME', 'master')"
         run: npm run api-smoke
+      - run: echo "$GITHUB_REF_NAME"
       - name: run api-regress-tests
         id: api-regress-id
         if: "contains('$GITHUB_REF_NAME', 'master')"
