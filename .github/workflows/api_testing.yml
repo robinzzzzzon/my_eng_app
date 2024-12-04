@@ -39,12 +39,17 @@ jobs:
       - name: install dependencies
         if: steps.cache.outputs.cache-hit != true
         run: npm ci
-      - name: run api-tests
-        id: api-tests
-        run: npm run api-test
+      - name: run api-smoke-tests
+        id: api-smoke-id
+        if: "!contains($GITHUB_REF_NAME, 'master')"
+        run: npm run api-smoke
+      - name: run api-regress-tests
+        id: api-regress-id
+        if: "contains($GITHUB_REF_NAME, 'master')"
+        run: npm run api-regress
   reporting:
     # if: failure()
-    needs: api-tests
+    needs: api-smoke-id || api-regress-id
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -62,10 +67,10 @@ jobs:
         if: steps.cache.outputs.cache-hit != true
         run: npm ci
       - name: report test-results
-        run: |
-          if ["$GITHUB_REF_NAME" == "task-059-modify-ci"]; then
-            echo "$GITHUB_REF_NAME"
-          else
-            echo "This branch doesn't fit..."
-          fi 
-        # run: echo ${{ toJSON(github) }}
+        run: echo ${{ toJSON(github) }}
+        # run: |
+        #   if ["$GITHUB_REF_NAME" == "task-059-modify-ci"]; then
+        #     echo "$GITHUB_REF_NAME"
+        #   else
+        #     echo "This branch doesn't fit..."
+        #   fi 
