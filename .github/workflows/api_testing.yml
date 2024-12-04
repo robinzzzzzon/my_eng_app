@@ -47,6 +47,7 @@ jobs:
           echo "$GITHUB_REF_NAME"
           echo "'$GITHUB_REF_NAME' == 'task-061-yml-conditions'"
           echo ${{ '$GITHUB_REF_NAME' == 'task-061-yml-conditions' }}
+          echo ${{ toJSON($GITHUB_REF_NAME) == 'task-061-yml-conditions' }}
           echo ${{ github.ref }}
           echo ${{ github.ref == 'refs/heads/master' }}
       - name: run api-regress-tests
