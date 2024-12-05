@@ -49,7 +49,7 @@ jobs:
         if: ${{ github.ref == 'refs/heads/master' }}
         run: npm run api-regress
   ui-tests:
-    # needs: api-tests
+    needs: api-tests
     runs-on: ubuntu-latest
     defaults:
       run:
