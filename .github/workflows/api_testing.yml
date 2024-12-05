@@ -53,7 +53,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        workflow-directory: ./source
+        working-directory: ./source
     steps:
       - name: get access to repository code
         uses: taiki-e/checkout-action@v1
