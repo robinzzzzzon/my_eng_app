@@ -22,6 +22,7 @@ jobs:
       - name: linting code
         run: echo "Code is linting..."
   api-tests:
+    if: failure()
     needs: lint
     runs-on: ubuntu-latest
     defaults:
@@ -47,8 +48,32 @@ jobs:
         id: api-regress-id
         if: ${{ github.ref == 'refs/heads/master' }}
         run: npm run api-regress
+  ui-tests:
+    needs: api-tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        workflow-directory: ./source
+    steps:
+      - name: get access to repository code
+        uses: taiki-e/checkout-action@v1
+      - name: cache dependencies
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: node-modules
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: install dependencies
+        if: steps.cache.outputs.cache-hit != true
+        run: npm ci
+      - name: run ui-tests
+        id: ui-test-id
+        run: |
+          npm run api
+          npm run dev
+          npm run ui-test
   reporting:
-    # if: failure()
+    if: success()
     needs: api-tests
     runs-on: ubuntu-latest
     defaults:
