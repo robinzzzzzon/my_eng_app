@@ -83,9 +83,3 @@ jobs:
         uses: ./.github/actions/cache-actions
       - name: Report test-results
         run: echo "Creating a report..."
-        # run: |
-        #   if ["$GITHUB_REF_NAME" == "task-059-modify-ci"]; then
-        #     echo "$GITHUB_REF_NAME"
-        #   else
-        #     echo "This branch doesn't fit..."
-        #   fi 
