@@ -1,5 +1,16 @@
 name: 'Deploy to AWS bucket'
 decryption: 'Just deploy source to the AWS server'
+inputs:
+  bucket:
+    descryption: 'S3 name of Bucket'
+    required: true
+  bucket-region:
+    descryption: 'S3 bucket region'
+    required: false
+    default: 'eu-north-1'
+  dist-folder:
+    descryption: 'The root of the app'
+    required: true
 runs:
   using: 'node20'
   main: 'main.js'
