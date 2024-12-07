@@ -3,13 +3,13 @@ description: 'Get the dependencies (via npm) and cache them'
 runs:
   using: 'composite'
   steps:
-    - name: cache dependencies
+    - name: Cache dependencies
       id: cache
       uses: actions/cache@v4
       with:
         path: node-modules
         key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
-    - name: install dependencies
+    - name: Install dependencies
       if: steps.cache.outputs.cache-hit != true
       run: npm ci
       shell: bash
