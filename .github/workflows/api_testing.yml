@@ -40,7 +40,7 @@ jobs:
       - name: Get access to repository code
         uses: taiki-e/checkout-action@v1
       - name: Load & cache deps
-        uses: ./.github/actions/cache-actions
+        uses: ./.github/actions/cache-actions/action.yml
       - name: Build an app
         uses: npm run prod
       - name: Upload artifacts
