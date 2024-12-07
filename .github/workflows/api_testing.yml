@@ -36,14 +36,9 @@ jobs:
   deploying:
     needs: api-tests
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./.github/actions/deploy-actions
     steps:
       - name: Get code
         uses: taiki-e/checkout-action@v1
-      - name: Install dependencies
-        uses: npm ci
       - name: Run custom deploy action
         uses: ./.github/actions/deploy-actions
   reporting:
