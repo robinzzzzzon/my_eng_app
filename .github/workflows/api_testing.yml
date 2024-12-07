@@ -33,6 +33,14 @@ jobs:
         id: api-regress-id
         if: ${{ github.ref == 'refs/heads/master' }}
         run: npm run api-regress
+  deploying:
+    needs: api-tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: taiki-e/checkout-action@v1
+      - name: Run custom deploy action
+        uses: ./.github/actions/deploy-actions
   reporting:
     # if: failure()
     needs: api-tests
