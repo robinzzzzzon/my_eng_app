@@ -1,6 +1,6 @@
 .rootArea {
   height: 400px;
-  width: 700px;
+  width: 1200px;
   background: lightblue;
   border: 1px solid lightslategray;
   border-radius: 7px;
@@ -59,20 +59,10 @@
 
 .accessChar {
   background: #75ffa3;
-  border: 1px solid lightslategray;
-  border-radius: 15px;
-  text-align: center;
-  font-size: 25px;
-  font-weight: 600;
 }
 
 .wrongChar {
   background: #ff8080;
-  border: 1px solid lightslategray;
-  border-radius: 15px;
-  text-align: center;
-  font-size: 25px;
-  font-weight: 600;
 }
 
 .char:hover {
