@@ -3,6 +3,7 @@ import NewDictionary from'./NewDictionary'
 import { fillArray, fillProgressBar, optimizeCharacters, modifyStudyLevel, checkAvailableStudyWords } from '../../utils/utils'
 import { spinner } from '../../utils/constants'
 
+// TODO: implement centring chars into wordDiv parent
 const content = document.querySelector('.content')
 
 let speechPart = null
@@ -78,7 +79,6 @@ function genCharacters(getWord) {
   for (let index = 0; index < optimizeChars.length; index++) {
     const charDiv = document.createElement('div')
     charDiv.classList.add('char')
-    charDiv.style.position = 'relative'
 
     if (optimizeChars[index].count > 1) {
       charDiv.innerHTML = `
@@ -134,19 +134,17 @@ function showAnswer(event) {
 function moveCharToWordArea(event) {
   event.preventDefault()
 
-  let key = event.key
   const target = event.target
+  const key = event.key === ' ' ? '_' : event.key
   const charArea = document.querySelector('#charArea')
   const charsList = document.querySelectorAll('#charArea > .char')
   const wordDiv = document.querySelector('#wordDiv')
-  wordDiv.style.gridTemplateColumns = `repeat(${currentDictionary.data[0].word.length}, 1fr)`
   const checkBtn = document.querySelector('#checkBtn')
   const clearBtn = document.querySelector('#clearBtn')
   const answerBtn = document.querySelector('#answerBtn')
+  wordDiv.style.gridTemplateColumns = `repeat(${currentDictionary.data[0].word.length}, 1fr)`
 
   if (key) {
-    if (key === ' ') key = '-'
-
     for (let i = 0; i < charsList.length; i++) {
       if (charsList[i].textContent.trim().split(' ').join('').includes(key)) {
         handleKeyboardEvent(charsList[i], key)
@@ -173,12 +171,13 @@ function moveCharToWordArea(event) {
 function handleKeyboardEvent(getChar, getKey) {
   let content = getChar.textContent.trim().split(' ').join('')
   let key = getKey
+  let count
 
   if (!key) {
     key = content.substring(0, 1)
   }
 
-  let count = content.substring(1, 2)
+  Number.isInteger(+content.substring(2, 3)) ? count = content.substring(1, 3) : count = content.substring(1, 2)
 
   if (count > 1) {
     const charDiv = document.createElement('div')
@@ -206,7 +205,7 @@ async function checkEnterWord(event) {
   let resultWord = ''
 
   for (let index = 0; index < currentDictionary.data[0].word.length; index++) {
-    if (resultChars[index].textContent === '-') resultChars[index].textContent = ' '
+    if (resultChars[index].textContent === '_') resultChars[index].textContent = ' '
     resultWord = resultWord.concat(resultChars[index].textContent)
   }
 

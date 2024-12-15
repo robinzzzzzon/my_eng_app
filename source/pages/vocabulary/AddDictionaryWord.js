@@ -34,6 +34,7 @@ class AddDictionaryWord {
                 <option>other parts</option>
                 <option>idioms</option>
                 <option>useful phrases</option>
+                <option>it phrases</option>
               </select>
             </div>
             <div id="studyCb">
@@ -66,9 +67,9 @@ class AddDictionaryWord {
       wordType: select.options[select.selectedIndex].text,
     }
 
-    const dublicate = await makeRequest({ methodType: 'GET', getUrl: `${domain}/words/init/`, getParams: { word: newWord.word }})
+    const duplicate = await makeRequest({ methodType: 'GET', getUrl: `${domain}/words/init/`, getParams: { word: newWord.word }})
 
-    if (!dublicate.data.length) {
+    if (!duplicate.data.length) {
       await makeRequest({ methodType: 'POST', getUrl: `${domain}/words/init/`, getBody: newWord })
   
       if (studyCb.checked) {

@@ -112,28 +112,27 @@ export function getRandomListBySpeechPart(dictionary, speechPart, size) {
 }
 
 export function optimizeCharacters(chars) {
-  let temporaryChars = []
   let finalChars = []
 
-  finalChars = chars.reduce((total, el) => {
-    if (!temporaryChars.includes(el)) {
-      temporaryChars.push(el)
-      total.push({ element: el, count: 1 })
-    } else {
-      let findElement = total.find((obj) => obj.element === el)
-      findElement.count++
-    }
+    finalChars = chars.reduce((total, el) => {
 
-    return total
-  }, [])
+      el === ' ' ? el = '_' : el
 
-  finalChars = finalChars.map((el) => {
-    el.element === ' ' ? (el.element = '-') : el
-
-    return el
-  })
-
-  return finalChars
+      if (!finalChars.includes(el)) {
+        finalChars.push(el)
+        total.push({ element: el, count: 1 })
+      } else {
+        total.forEach(obj => {
+           if (obj.element === el) {
+            obj.count++
+           }
+        });
+      }
+  
+      return total
+    }, [])
+  
+    return finalChars
 }
 
 export function getRandomTopic(topicList) {
