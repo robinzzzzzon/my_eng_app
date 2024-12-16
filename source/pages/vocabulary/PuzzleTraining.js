@@ -182,12 +182,12 @@ function handleKeyboardEvent(getChar, getKey) {
   if (count > 1) {
     const charDiv = document.createElement('div')
     charDiv.classList.add('char')
-    charDiv.innerHTML = `${key}`
+    charDiv.innerHTML = key
     wordDiv.append(charDiv)
 
-    getChar.innerHTML = `${key} <span class="${badgeSpanClassList}">${--count}</span>`
+    count > 2 ? getChar.innerHTML = `${key} <span class="${badgeSpanClassList}">${--count}</span>` : getChar.innerHTML = key
   } else {
-    getChar.innerHTML = `${key}`
+    getChar.innerHTML = key
     wordDiv.append(getChar)
   }
 }
