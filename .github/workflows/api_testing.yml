@@ -17,11 +17,12 @@ jobs:
   api-tests:
     needs: lint
     runs-on: ubuntu-latest
-    # container: node:22
+    container: node:22
     services:
       monolite:
         image: 'feelmax/free-eng-app'
         ports:
+          - 3000:3000
           - 3001:3001
     defaults:
       run:
