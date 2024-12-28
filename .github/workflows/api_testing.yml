@@ -18,9 +18,13 @@ jobs:
     needs: lint
     runs-on: ubuntu-latest
     container: node:22
+    env:
+      PORT: 3001
     services:
       monolite:
         image: 'feelmax/free-eng-app'
+        ports:
+          - 3001:3001
     defaults:
       run:
         working-directory: ./source
