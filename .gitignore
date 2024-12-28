@@ -3,3 +3,4 @@
 /docker-compose
 /.dockerignore
 reports
+driver-logs

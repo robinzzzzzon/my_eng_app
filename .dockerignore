@@ -1,2 +1,8 @@
 node_modules
 .git
+docker-compose.yml
+.github
+driver-logs
+selenoid_bin
+.prettierrc
+wdio.*

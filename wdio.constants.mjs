@@ -17,10 +17,10 @@ const wdioConstants = {
       ],
     },
   },
-  moonOpts: {
-    enableVNC: false,
+  selenoidOpts: {
+    enableVNC: true,
     enableVideo: false,
-    sessionTimeout: '7m',
+    sessionTimeout: '5m',
     logLevel: 'WARNING'
   },
   giveCapsList: function(specPath, localCount, moonCount) {
@@ -33,14 +33,14 @@ const wdioConstants = {
           specs: specPath,
         }
       ),
-      moonCaps: Object.assign(
+      selenoidCaps: Object.assign(
         {},
         this.baseCaps,
         {
           maxInstances: moonCount,
           browserVersion: this.moonChromeVrsnList[Math.floor(Math.random() * this.moonChromeVrsnList.length)],
-          'moon:options': this.moonOpts,
-          specs: this.specPath
+          'selenoid:options': this.selenoidOpts,
+          specs: specPath
         }
       )
     }

@@ -43,7 +43,7 @@ class ContentSnippets extends Page {
     await assertions.$isDisplayed(NewDictionariesPage.dictionaryRoot)
     await assertions.$isDisplayedAll(NewDictionariesPage.dictionaryList)
     await assertions.$isClickableAll(NewDictionariesPage.dictionaryList)
-    await assertions.$isArrayOfSize(NewDictionariesPage.dictionaryList, 10)
+    await assertions.$isArrayOfSize(NewDictionariesPage.dictionaryList, 11)
     await assertions.$haveTextAll(NewDictionariesPage.dictionaryList, data.newDictPageDictionaries)
   }
 

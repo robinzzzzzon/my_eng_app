@@ -21,19 +21,23 @@ if (process.env.CI) {
   ]
 } else {
   dynamicConfig.services = [
-    // [
-    //   'chromedriver',
-    //   {
-    //     logFileName: 'wdio-chromedriver.log',
-    //     outputDir: 'driver-logs',
-    //     args: ['--silent'],
-    //   }
-    // ],
+    [
+      'chromedriver',
+      {
+        logFileName: 'wdio-chromedriver.log',
+        outputDir: 'driver-logs',
+        args: ['--silent'],
+      }
+    ],
     ['intercept'], 
     ['shared-store']
   ]
   dynamicConfig.reporters = ['spec']
-  dynamicConfig.capabilities = [concurrentConfig.localCaps, parallelConfig.localCaps]
+  dynamicConfig.capabilities = [concurrentConfig.selenoidCaps, parallelConfig.selenoidCaps]
+  dynamicConfig.protocol = 'http',
+  dynamicConfig.hostname = 'localhost',
+  dynamicConfig.path = '/wd/hub',
+  dynamicConfig.port = 4444
 }
 
 export const config = Object.assign(

@@ -42,7 +42,5 @@ describe('Test of study wordlist', function () {
 
         expect(response).to.have.status(200)
         expect(response.body.word).equals('TEST-STUDY-WORD')
-
-        await db.disconnectDb()
     })
 });
