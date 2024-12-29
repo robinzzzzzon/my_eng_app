@@ -60,7 +60,7 @@ jobs:
       - name: Load & cache deps
         uses: ./.github/actions/cache-actions
       - name: Check workspace
-        run: echo {{ fromJSON(GITHUB_WORKSPACE) }}
+        run: echo {{ toJSON(GITHUB_WORKSPACE) }}
       - name: Run ui-tests
         run: npm run ui-tests
   
