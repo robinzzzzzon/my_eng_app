@@ -1,5 +1,5 @@
 const wdioConstants = {
-  basePath: '../source/tests/e2e/specs',
+  basePath: './tests/e2e/specs',
   moonChromeVrsnList: ['128.0', '129.0', '130.0'],
   baseCaps: {
     browserName: 'chrome',
