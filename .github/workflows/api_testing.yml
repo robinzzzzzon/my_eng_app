@@ -59,8 +59,10 @@ jobs:
         uses: taiki-e/checkout-action@v1
       - name: Load & cache deps
         uses: ./.github/actions/cache-actions
-      - name: Check workspace
-        run: echo {{ toJSON(GITHUB_WORKSPACE) }}
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
       - name: Run ui-tests
         run: npm run ui-tests
   
