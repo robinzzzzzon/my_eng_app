@@ -14,16 +14,43 @@ jobs:
         uses: ./.github/actions/cache-actions
       - name: linting code
         run: echo "Code is linting..."
-  api-tests:
+  # api-tests:
+  #   needs: lint
+  #   runs-on: ubuntu-latest
+  #   container: node:22
+  #   services:
+  #     monolite:
+  #       image: 'feelmax/free-eng-app'
+  #       # ports:
+  #       #   - 3000:3000
+  #       #   - 3001:3001
+  #   defaults:
+  #     run:
+  #       working-directory: ./source
+    # steps:
+    #   - name: Get access to repository code
+    #     uses: taiki-e/checkout-action@v1
+    #   - name: Load & cache deps
+    #     uses: ./.github/actions/cache-actions
+    #   - name: Run api-smoke-tests
+    #     id: api-smoke-id
+    #     if: ${{ github.ref != 'refs/heads/master' }}
+    #     run: npm run api-smoke
+    #   - name: Run api-regress-tests
+    #     id: api-regress-id
+    #     if: ${{ github.ref == 'refs/heads/master' }}
+    #     run: npm run api-regress
+  ui-tests:
     needs: lint
     runs-on: ubuntu-latest
-    container: node:22
+    container: node
     services:
-      monolite:
+      eng-app:
         image: 'feelmax/free-eng-app'
-        ports:
-          - 3000:3000
-          - 3001:3001
+
+      selenoid:
+        image: 'selenoid/chrome'
+
     defaults:
       run:
         working-directory: ./source
@@ -32,14 +59,9 @@ jobs:
         uses: taiki-e/checkout-action@v1
       - name: Load & cache deps
         uses: ./.github/actions/cache-actions
-      - name: Run api-smoke-tests
-        id: api-smoke-id
-        if: ${{ github.ref != 'refs/heads/master' }}
-        run: npm run api-smoke
-      - name: Run api-regress-tests
-        id: api-regress-id
-        if: ${{ github.ref == 'refs/heads/master' }}
-        run: npm run api-regress
+      - name: Run ui-tests
+        run: npm run ui-tests
+  
   # build:
   #   needs: api-tests
   #   runs-on: ubuntu-latest
