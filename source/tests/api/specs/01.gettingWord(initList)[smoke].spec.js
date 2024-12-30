@@ -7,7 +7,6 @@ const chai = chaiModule.use(chaiHttp);
 
 describe('Test of init word list', function () {
     it('Should get a word from initial wordlist of Mongo DB', async () => {
-        await db.connectDb()
 
         const response = await chai
             .request(domain) 

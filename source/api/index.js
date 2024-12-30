@@ -28,7 +28,7 @@ async function disconnectDb() {
 }
 
 // for local nodemon launch
-// connectDb()
+connectDb()
 
 module.exports = {
   connectDb,
