@@ -16,7 +16,7 @@
     "prod": "webpack --mode production",
     "api-smoke": "mocha ./source/tests/api/specs/*smoke*.spec.js --timeout 10000 --exit",
     "api-regress": "mocha ./source/tests/api/specs/*.spec.js --timeout 10000 --exit",
-    "ui-tests": "wdio run ./wdio.conf.mjs"
+    "ui-tests": "npx wdio ./wdio.conf.mjs"
   },
   "devDependencies": {
     "@wdio/allure-reporter": "8.2.0",
