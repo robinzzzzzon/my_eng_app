@@ -36,7 +36,7 @@ jobs:
   ui-tests:
     # needs: api-tests
     runs-on: ubuntu-latest
-    container: 'feelmax/ci-clean-eng-app'
+    container: node:18
     defaults:
       run:
         working-directory: ./source
