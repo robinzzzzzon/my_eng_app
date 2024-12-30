@@ -16,7 +16,7 @@
     "prod": "webpack --mode production",
     "api-smoke": "mocha ./source/tests/api/specs/*smoke*.spec.js --timeout 10000 --exit",
     "api-regress": "mocha ./source/tests/api/specs/*.spec.js --timeout 10000 --exit",
-    "wdio": "wdio run wdio.conf.js --spec /home/runner/work/my_eng_app/my_eng_app/source/tests/e2e/specs/1.LifeCycleOfStudyWord.spec.js"
+    "wdio": "wdio run wdio.conf.js --spec home/runner/work/my_eng_app/my_eng_app/source/tests/e2e/specs/1.LifeCycleOfStudyWord.spec.js"
   },
   "devDependencies": {
     "@wdio/allure-reporter": "8.2.0",

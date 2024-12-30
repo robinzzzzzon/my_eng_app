@@ -5,15 +5,15 @@ on:
   pull_request:
     types: [opened, edited, reopened]
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get access to repository code
-        uses: taiki-e/checkout-action@v1
-      - name: Load & cache deps
-        uses: ./.github/actions/cache-actions
-      - name: linting code
-        run: echo "Code is linting..."
+  # lint:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Get access to repository code
+  #       uses: taiki-e/checkout-action@v1
+  #     - name: Load & cache deps
+  #       uses: ./.github/actions/cache-actions
+  #     - name: linting code
+  #       run: echo "Code is linting..."
   # api-tests:
   #   needs: lint
   #   runs-on: ubuntu-latest
@@ -41,7 +41,7 @@ jobs:
     #     if: ${{ github.ref == 'refs/heads/master' }}
     #     run: npm run api-regress
   ui-tests:
-    needs: lint
+    # needs: lint
     runs-on: ubuntu-latest
     # container: node
     services:
@@ -62,8 +62,8 @@ jobs:
     steps:
       - name: Get access to repository code
         uses: taiki-e/checkout-action@v1
-      - name: Load & cache deps
-        uses: ./.github/actions/cache-actions
+      # - name: Load & cache deps
+      #   uses: ./.github/actions/cache-actions
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
