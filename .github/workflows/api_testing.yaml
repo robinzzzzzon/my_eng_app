@@ -42,8 +42,8 @@ jobs:
     steps:
       - name: Get access to repository code
         uses: taiki-e/checkout-action@v1
-      - name: Load & cache deps
-        uses: ../.github/actions/cache-actions
+      - name: Install
+        run: npm ci
       - name: Show the environment
         run: ls
       - name: Run ui-tests
