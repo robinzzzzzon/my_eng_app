@@ -5,17 +5,36 @@ on:
   pull_request:
     types: [opened, edited, reopened]
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get access to repository code
-        uses: taiki-e/checkout-action@v1
-      - name: Load & cache deps
-        uses: ./.github/actions/cache-actions
-      - name: linting code
-        run: echo "Code is linting..."
-  api-tests:
-    needs: lint
+  # lint:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Get access to repository code
+  #       uses: taiki-e/checkout-action@v1
+  #     - name: Load & cache deps
+  #       uses: ./.github/actions/cache-actions
+  #     - name: linting code
+  #       run: echo "Code is linting..."
+  # api-tests:
+  #   needs: lint
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run:
+  #       working-directory: ./source
+  #   steps:
+  #     - name: Get access to repository code
+  #       uses: taiki-e/checkout-action@v1
+  #     - name: Load & cache deps
+  #       uses: ./.github/actions/cache-actions
+  #     - name: Run api-smoke-tests
+  #       id: api-smoke-id
+  #       if: ${{ github.ref != 'refs/heads/master' }}
+  #       run: npm run api-smoke
+  #     - name: Run api-regress-tests
+  #       id: api-regress-id
+  #       if: ${{ github.ref == 'refs/heads/master' }}
+  #       run: npm run api-regress
+  ui-tests:
+    # needs: api-tests
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -25,61 +44,57 @@ jobs:
         uses: taiki-e/checkout-action@v1
       - name: Load & cache deps
         uses: ./.github/actions/cache-actions
-      - name: Run api-smoke-tests
-        id: api-smoke-id
-        if: ${{ github.ref != 'refs/heads/master' }}
-        run: npm run api-smoke
-      - name: Run api-regress-tests
-        id: api-regress-id
-        if: ${{ github.ref == 'refs/heads/master' }}
-        run: npm run api-regress
-  build:
-    needs: api-tests
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get access to repository code
-        uses: taiki-e/checkout-action@v1
-      - name: Load & cache deps
-        uses: ./.github/actions/cache-actions
-      - name: Build an app
-        run: npm run prod
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: prod-dist
-          path: public
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get code
-        uses: taiki-e/checkout-action@v1
-      - name: Get artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: prod-dist
-          path: ./public
-      - name: Output contents
+      - name: Show the environment
         run: ls
-      - name: Run custom deploy action
-        uses: ./.github/actions/deploy-actions
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        with:
-          bucket: ${{ secrets.APP_BUCKET }}
-          dist-folder: ./public
-  reporting:
-    # if: failure()
-    needs: deploy
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./source
-    steps:
-      - name: Get access to repository code
-        uses: taiki-e/checkout-action@v1
-      - name: Load & cache deps
-        uses: ./.github/actions/cache-actions
-      - name: Report test-results
-        run: echo "Creating a report..."
+      - name: Run ui-tests
+        uses: npm run wdio
+  # build:
+  #   needs: api-tests
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Get access to repository code
+  #       uses: taiki-e/checkout-action@v1
+  #     - name: Load & cache deps
+  #       uses: ./.github/actions/cache-actions
+  #     - name: Build an app
+  #       run: npm run prod
+  #     - name: Upload artifacts
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: prod-dist
+  #         path: public
+  # deploy:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Get code
+  #       uses: taiki-e/checkout-action@v1
+  #     - name: Get artifacts
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: prod-dist
+  #         path: ./public
+  #     - name: Output contents
+  #       run: ls
+  #     - name: Run custom deploy action
+  #       uses: ./.github/actions/deploy-actions
+  #       env:
+  #         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #       with:
+  #         bucket: ${{ secrets.APP_BUCKET }}
+  #         dist-folder: ./public
+  # reporting:
+  #   # if: failure()
+  #   needs: deploy
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run:
+  #       working-directory: ./source
+  #   steps:
+  #     - name: Get access to repository code
+  #       uses: taiki-e/checkout-action@v1
+  #     - name: Load & cache deps
+  #       uses: ./.github/actions/cache-actions
+  #     - name: Report test-results
+  #       run: echo "Creating a report..."

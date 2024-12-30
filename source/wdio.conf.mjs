@@ -68,7 +68,7 @@ if (process.env.CI) {
 export const config = Object.assign(
   {},
   {
-    specs: ['./tests/e2e/specs/*.spec.mjs'],
+    specs: ['tests/e2e/specs/**'],
     exclude: [],
     logLevel: 'error',
     coloredLogs: true,
