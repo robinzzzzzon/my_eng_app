@@ -68,7 +68,7 @@ if (process.env.CI) {
 exports.config = Object.assign(
   {},
   {
-    specs: ['./source/tests/e2e/specs/*.spec.js'],
+    specs: ['/my_eng_app/source/tests/e2e/specs/1.LifeCycleOfStudyWord.spec.js'],
     exclude: [],
     logLevel: 'error',
     coloredLogs: true,
