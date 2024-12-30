@@ -43,7 +43,7 @@ jobs:
       - name: Get access to repository code
         uses: taiki-e/checkout-action@v1
       - name: Load & cache deps
-        uses: ./.github/actions/cache-actions
+        uses: ../.github/actions/cache-actions
       - name: Show the environment
         run: ls
       - name: Run ui-tests
