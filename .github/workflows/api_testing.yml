@@ -51,9 +51,9 @@ jobs:
       selenoid:
         image: 'selenoid/chrome'
 
-    defaults:
-      run:
-        working-directory: ./source
+    # defaults:
+    #   run:
+    #     working-directory: ./source
     steps:
       - name: Get access to repository code
         uses: taiki-e/checkout-action@v1
