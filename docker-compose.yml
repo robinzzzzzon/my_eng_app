@@ -1,11 +1,15 @@
 services:
-  # eng app:
-  monolite:
+  FEA_API:
     # build: .  -- a command for local building
-    image: 'feelmax/free-eng-app'
+    image: 'feelmax/fea_api'
+    ports:
+      - '3001:3001'
+  FEA_UI:
+    image: 'feelmax/fea_ui'
     ports:
       - '3000:3000'
-      - '3001:3001'
+    depends_on:
+      - FEA_API
   # quick selenoid-chrome solution:
   selenoid:
     image: 'selenoid/chrome'
@@ -13,7 +17,7 @@ services:
     ports:
       - '4444:4444'
     depends_on:
-      - monolite
+      - FEA_UI
   # classic mode of selenoid with selenoid-ui below
   # selenoid:
   #   network_mode: bridge

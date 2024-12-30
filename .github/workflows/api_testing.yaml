@@ -52,7 +52,7 @@ jobs:
       - name: Run ui-tests
         run: npm run ui-tests
   build:
-    needs: api-tests
+    needs: ui-tests
     runs-on: ubuntu-latest
     steps:
       - name: Get access to repository code
