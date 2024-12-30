@@ -36,6 +36,7 @@ jobs:
   ui-tests:
     # needs: api-tests
     runs-on: ubuntu-latest
+    container: 'feelmax/free-eng-app'
     defaults:
       run:
         working-directory: ./source
@@ -47,7 +48,7 @@ jobs:
       - name: Show the environment
         run: ls
       - name: Run ui-tests
-        run: npm run wdio
+        run: npm run ui-tests
   # build:
   #   needs: api-tests
   #   runs-on: ubuntu-latest
