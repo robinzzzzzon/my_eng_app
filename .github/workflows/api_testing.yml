@@ -56,9 +56,9 @@ jobs:
         ports:
           - 4444:4444
 
-    defaults:
-      run:
-        working-directory: ./source
+    # defaults:
+    #   run:
+    #     working-directory: ./source
     steps:
       - name: Get access to repository code
         uses: taiki-e/checkout-action@v1
@@ -70,7 +70,7 @@ jobs:
         run: echo "$GITHUB_CONTEXT"
       - name: Look at the context
         run: |
-          cd source/tests
+          cd source
           ls
       - name: Run ui-tests
         run: npm run wdio
