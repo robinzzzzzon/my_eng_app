@@ -4,7 +4,7 @@ const HtmlPlugin = require('html-webpack-plugin')
 
 module.exports = {
   entry: {
-    startPage: './index.js',
+    startPage: './source/index.js',
   },
   output: {
     path: path.resolve(__dirname, 'public'),
@@ -20,7 +20,7 @@ module.exports = {
   devtool: 'eval-cheap-source-map',
   plugins: [
     new HtmlPlugin({
-      template: './index.html',
+      template: './source/index.html',
     }),
     new CleanWebpackPlugin(),
   ],

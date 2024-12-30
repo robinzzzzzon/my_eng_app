@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 import chai from 'chai'
 import allure from '@wdio/allure-reporter'
-// import { concurrentConfig } from './wdio.shared_concurrent.conf.mjs'
-// import { parallelConfig } from './wdio.shared_parallel.conf.mjs'
+import { concurrentConfig } from './wdio.shared_concurrent.conf.mjs'
+import { parallelConfig } from './wdio.shared_parallel.conf.mjs'
 
 const dynamicConfig = {}
 
@@ -33,32 +33,7 @@ if (process.env.CI) {
     ['shared-store']
   ]
   dynamicConfig.reporters = ['spec']
-  // dynamicConfig.capabilities = [concurrentConfig.selenoidCaps, parallelConfig.selenoidCaps]
-  dynamicConfig.capabilities = [
-    {
-      maxInstances: 1,
-      browserName: 'chrome',
-        'goog:chromeOptions': {
-          args: [
-            '--no-sandbox',
-            '--ignore-certificate-errors',
-            '--disable-infobars',
-            '--headless',
-            '--disable-gpu',
-            '--enable-features=NetworkService,NetworkServiceInProcess',
-            '--disable-dev-shm-usage',
-            '--use-fake-ui-for-media-stream',
-            '--use-fake-device-for-media-stream',
-          ],
-        },
-        'selenoid:options' : {
-          enableVNC: true,
-          enableVideo: false,
-          sessionTimeout: '5m',
-          logLevel: 'WARNING'
-        }
-    }
-  ]
+  dynamicConfig.capabilities = [concurrentConfig.selenoidCaps, parallelConfig.selenoidCaps]
   dynamicConfig.protocol = 'http',
   dynamicConfig.hostname = 'localhost',
   dynamicConfig.path = '/wd/hub',
@@ -68,7 +43,6 @@ if (process.env.CI) {
 export const config = Object.assign(
   {},
   {
-    specs: ['tests/e2e/specs/**'],
     exclude: [],
     logLevel: 'error',
     coloredLogs: true,
