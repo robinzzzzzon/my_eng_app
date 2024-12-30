@@ -60,10 +60,13 @@ jobs:
     #   run:
     #     working-directory: ./source
     steps:
-      - name: Get access to repository code
-        uses: taiki-e/checkout-action@v1
-      - name: Load & cache deps
-        uses: ./.github/actions/cache-actions
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+          with:
+            node-version: 18
+      - name: Install
+        run: npm install
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
