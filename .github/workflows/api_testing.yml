@@ -63,6 +63,8 @@ jobs:
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
+      - name: Look at the context
+        run: ls
       - name: Run ui-tests
         run: npm run ui-tests
   
