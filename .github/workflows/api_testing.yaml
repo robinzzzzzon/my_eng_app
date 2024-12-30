@@ -47,7 +47,7 @@ jobs:
       - name: Show the environment
         run: ls
       - name: Run ui-tests
-        uses: npm run wdio
+        run: npm run wdio
   # build:
   #   needs: api-tests
   #   runs-on: ubuntu-latest
