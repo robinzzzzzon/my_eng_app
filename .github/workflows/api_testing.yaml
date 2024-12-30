@@ -37,6 +37,11 @@ jobs:
     # needs: api-tests
     runs-on: ubuntu-latest
     container: node:18
+    services:
+      monolite:
+        image: 'feelmax/free-eng-app'
+      selenoid:
+        image: 'selenoid/chrome'
     steps:
       - name: Get access to repository code
         uses: taiki-e/checkout-action@v1
