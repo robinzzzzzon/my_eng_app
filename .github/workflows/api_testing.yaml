@@ -41,6 +41,8 @@ jobs:
       run:
         working-directory: ./source
     steps:
+      - name: Get access to repository code
+        uses: taiki-e/checkout-action@v1
       - name: Installing
         run: npm ci
       - name: Show the environment
