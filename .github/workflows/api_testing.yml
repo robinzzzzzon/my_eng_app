@@ -70,7 +70,7 @@ jobs:
         run: echo "$GITHUB_CONTEXT"
       - name: Look at the context
         run: |
-          cd source
+          cd source/tests/
           ls
       - name: Run ui-tests
         run: npm run wdio
