@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
-const chai = require('chai')
-// import allure from '@wdio/allure-reporter'
-// import { concurrentConfig } from './wdio.shared_concurrent.conf.js'
-// import { parallelConfig } from './wdio.shared_parallel.conf.js'
+import chai from 'chai'
+import allure from '@wdio/allure-reporter'
+// import { concurrentConfig } from './wdio.shared_concurrent.conf.mjs'
+// import { parallelConfig } from './wdio.shared_parallel.conf.mjs'
 
 const dynamicConfig = {}
 
@@ -65,10 +65,10 @@ if (process.env.CI) {
   dynamicConfig.port = 4444
 }
 
-exports.config = Object.assign(
+export const config = Object.assign(
   {},
   {
-    // specs: ['source/tests/e2e/specs/1.LifeCycleOfStudyWord.spec.js'],
+    specs: ['./tests/e2e/specs/*.spec.mjs'],
     exclude: [],
     logLevel: 'error',
     coloredLogs: true,

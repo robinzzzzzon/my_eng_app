@@ -10,13 +10,13 @@
     "javascript"
   ],
   "scripts": {
-    "api": "nodemon -q source/api/index.js",
+    "api": "nodemon -q ./api/index.js",
     "dev": "webpack-dev-server --mode development --open",
     "up_stand": "npm-run-all --parallel api dev",
     "prod": "webpack --mode production",
-    "api-smoke": "mocha ./source/tests/api/specs/*smoke*.spec.js --timeout 10000 --exit",
-    "api-regress": "mocha ./source/tests/api/specs/*.spec.js --timeout 10000 --exit",
-    "wdio": "wdio run wdio.conf.js --spec ./source/tests/e2e/specs/*"
+    "api-smoke": "mocha ./tests/api/specs/*smoke*.spec.js --timeout 10000 --exit",
+    "api-regress": "mocha ./tests/api/specs/*.spec.js --timeout 10000 --exit",
+    "wdio": "wdio run wdio.conf.mjs"
   },
   "devDependencies": {
     "@wdio/allure-reporter": "8.2.0",

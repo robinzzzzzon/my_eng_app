@@ -1,4 +1,4 @@
-import wdioConstants from './wdio.constants.js'
+import wdioConstants from './wdio.constants.mjs'
 
 const specPath = process.env.CI_MERGE_REQUEST_TITLE 
 ? [`${wdioConstants.basePath}/parallel/*smoke*.spec.mjs`] 
